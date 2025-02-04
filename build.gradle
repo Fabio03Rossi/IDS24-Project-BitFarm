@@ -1,17 +1,61 @@
 plugins {
     id 'java'
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.1.0'
 }
 
-group = 'org.example'
+group = 'com.github.fabio03rossi'
 version = '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
 }
 
+ext {
+    junitVersion = '5.10.0'
+}
+
+javafx {
+    version = '23'
+    modules = ['javafx.controls', 'javafx.fxml', 'javafx.web', 'javafx.swing', 'javafx.media']
+}
+
+application {
+    mainClass = "com.github.fabio03rossi.bitfarm.Launcher"
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': "com.github.fabio03rossi.bitfarm.Launcher"
+    }
+}
+
 dependencies {
-    testImplementation platform('org.junit:junit-bom:5.10.0')
-    testImplementation 'org.junit.jupiter:junit-jupiter'
+    implementation 'org.apache.jena:apache-jena-libs:5.1.0'
+    implementation 'org.apache.xmlgraphics:batik-transcoder:1.17'
+
+    implementation('org.controlsfx:controlsfx:11.1.2')
+    implementation('com.dlsc.formsfx:formsfx-core:11.6.0') {
+        exclude(group: 'org.openjfx')
+    }
+    implementation('net.synedra:validatorfx:0.4.0') {
+        exclude(group: 'org.openjfx')
+    }
+    implementation('org.kordamp.ikonli:ikonli-javafx:12.3.1')
+    implementation('org.kordamp.bootstrapfx:bootstrapfx-core:0.4.0')
+    implementation('eu.hansolo:tilesfx:11.48') {
+        exclude(group: 'org.openjfx')
+    }
+    implementation('com.github.almasb:fxgl:17.3') {
+        exclude(group: 'org.openjfx')
+    }
+
+    testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
 }
 
 test {
