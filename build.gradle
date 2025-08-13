@@ -34,6 +34,8 @@ dependencies {
     implementation 'org.apache.jena:apache-jena-libs:5.1.0'
     implementation 'org.apache.xmlgraphics:batik-transcoder:1.17'
 
+    implementation 'org.xerial:sqlite-jdbc:3.45.1.0'
+
     implementation('org.controlsfx:controlsfx:11.1.2')
     implementation('com.dlsc.formsfx:formsfx-core:11.6.0') {
         exclude(group: 'org.openjfx')
