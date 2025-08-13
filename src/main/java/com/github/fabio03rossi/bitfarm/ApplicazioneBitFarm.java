@@ -1,7 +1,12 @@
 package com.github.fabio03rossi.bitfarm;
 
+import com.github.fabio03rossi.bitfarm.account.Azienda;
+import com.github.fabio03rossi.bitfarm.account.AziendaBuilder;
+import com.github.fabio03rossi.bitfarm.account.TipologiaAzienda;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
@@ -21,10 +26,28 @@ public class ApplicazioneBitFarm extends Application {
     public void start(Stage stage) {
         stage.setTitle("BitFarm");
 
-        Scene scene = new Scene(new BorderPane(), WIDTH, HEIGHT, Paint.valueOf("142345"));
+        var borderPane = new BorderPane();
+        Scene scene = new Scene(borderPane, WIDTH, HEIGHT, Paint.valueOf("142345"));
 
         stage.setScene(scene);
-        stage.setFullScreen(true);
+        stage.setFullScreen(false);
         stage.show();
+
+        AziendaBuilder builder = new AziendaBuilder();
+        var azienda = builder
+                .partitaIVA("")
+                .email("")
+                .password("")
+                .nome("")
+                .descrizione("")
+                .indirizzo("")
+                .telefono("")
+                .tipologia(TipologiaAzienda.TRASFORMATORE)
+                .getResult();
+
+        borderPane = new BorderPane();
+        borderPane.setCenter(new TextArea(azienda.toString()));
+        scene = new Scene(borderPane, WIDTH, HEIGHT, Paint.valueOf("142345"));
+        stage.setScene(scene);
     }
 }
