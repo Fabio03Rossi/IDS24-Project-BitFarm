@@ -1,56 +1,55 @@
 package com.github.fabio03rossi.bitfarm.post;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Prodotto implements IArticolo {
     private final int id;
-    private String nome;
-    private String descrizione;
-    private Double prezzo;
-    private List<String> certificazioni;
+    private String name;
+    private String description;
+    private Double price;
+    private String certifications;
 
-public Prodotto(int id, String nome, String descrizione, Double prezzo, List<String> certificazioni) {
+public Prodotto(int id, String nome, String descrizione, Double prezzo, String certificazioni) {
     this.id = id;
-    this.nome = nome;
-    this.descrizione = descrizione;
-    this.prezzo = prezzo;
-    this.certificazioni = certificazioni;
+    this.name = nome;
+    this.description = descrizione;
+    this.price = prezzo;
+    this.certifications = certificazioni;
 }
 
     public int getId() {
         return id;
     }
 
-    public String getNome() {
-        return nome;
+    public String getName() {
+        return name;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getDescrizione() {
-        return descrizione;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDescrizione(String descrizione) {
-        this.descrizione = descrizione;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public Double getPrezzo() {
-        return prezzo;
+    public Double getPrice() {
+        return price;
     }
 
-    public void setPrezzo(Double prezzo) {
-        this.prezzo = prezzo;
+    public void setPrice(Double price) {
+        this.price = price;
     }
 
-    public List<String> getCertificazioni() {
-        return certificazioni;
+    public String getCertifications() {
+        return certifications;
     }
 
-    public void setCertificazioni(List<String> certificazioni) {
-        this.certificazioni = certificazioni;
+    public void setCertifications(String certifications) {
+        this.certifications = certifications;
     }
 }
