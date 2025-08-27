@@ -41,6 +41,16 @@ public class Pacchetto implements IArticoloComposto{
         }
 
         @Override
+        public double getPrice() {
+                return 0;
+        }
+
+        @Override
+        public void setPrice(double price) {
+
+        }
+
+        @Override
         public String getDescription() {
                 return this.description;
         }
@@ -51,7 +61,32 @@ public class Pacchetto implements IArticoloComposto{
         }
 
         @Override
+        public String getCertificates() {
+                return "";
+        }
+
+        @Override
+        public void setCertificates(String certificates) {
+
+        }
+
+        @Override
+        public int getIdSeller() {
+                return 0;
+        }
+
+        @Override
+        public void setIdSeller(int idSeller) {
+
+        }
+
+        @Override
         public int getId() {
                 return this.id;
+        }
+
+        @Override
+        public HashMap<Prodotto, Integer> getProductList() {
+                return listaProdotti;
         }
 }

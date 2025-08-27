@@ -37,19 +37,38 @@ public Prodotto(int id, String nome, String descrizione, Double prezzo, String c
         this.description = description;
     }
 
-    public Double getPrice() {
+    @Override
+    public String getCertificates() {
+        return "";
+    }
+
+    @Override
+    public void setCertificates(String certificates) {
+
+    }
+
+    @Override
+    public int getIdSeller() {
+        return 0;
+    }
+
+    @Override
+    public void setIdSeller(int idSeller) {
+
+    }
+
+    public double getPrice() {
         return price;
+    }
+
+    @Override
+    public void setPrice(double price) {
+
     }
 
     public void setPrice(Double price) {
         this.price = price;
     }
 
-    public String getCertifications() {
-        return certifications;
-    }
 
-    public void setCertifications(String certifications) {
-        this.certifications = certifications;
-    }
 }
