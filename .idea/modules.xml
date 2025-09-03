@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/IDS24-Project-BitFarm.iml" filepath="$PROJECT_DIR$/.idea/IDS24-Project-BitFarm.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/IDS24-Project-BitFarm.iml" filepath="$PROJECT_DIR$/.idea/modules/IDS24-Project-BitFarm.iml" />
     </modules>
   </component>
 </project>
