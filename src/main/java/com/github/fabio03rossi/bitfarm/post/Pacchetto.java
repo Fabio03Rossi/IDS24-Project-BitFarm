@@ -2,7 +2,7 @@ package com.github.fabio03rossi.bitfarm.post;
 
 import java.util.HashMap;
 
-public class Pacchetto implements IArticoloComposto{
+public class Pacchetto implements IArticoloComposto {
         // Coppie Prodotto - quantità
         private HashMap<Prodotto, Integer> listaProdotti;
         private String name;

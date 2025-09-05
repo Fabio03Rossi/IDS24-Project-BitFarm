@@ -1,5 +1,7 @@
 package com.github.fabio03rossi.bitfarm.account;
 
+import com.github.fabio03rossi.bitfarm.misc.Posizione;
+
 public class Azienda extends Account {
     private String partitaIVA;
     private String nome;
@@ -7,6 +9,7 @@ public class Azienda extends Account {
     private String indirizzo;
     private String telefono;
     private TipologiaAzienda tipologia;
+    private Posizione posizione;
 
     public String getPartitaIVA() {
         return partitaIVA;
@@ -54,6 +57,14 @@ public class Azienda extends Account {
 
     public void setTipologia(TipologiaAzienda tipologia) {
         this.tipologia = tipologia;
+    }
+
+    public Posizione getPosizione() {
+        return posizione;
+    }
+
+    public void setPosizione(Posizione posizione) {
+        this.posizione = posizione;
     }
 
     @Override

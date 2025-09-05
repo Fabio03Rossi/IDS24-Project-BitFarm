@@ -1,21 +1,19 @@
 package com.github.fabio03rossi.bitfarm.post;
 
-import java.util.List;
-
 public class Prodotto implements IArticolo {
     private final int id;
     private String name;
     private String description;
     private Double price;
-    private String certifications;
+    private String certs;
 
-public Prodotto(int id, String nome, String descrizione, Double prezzo, String certificazioni) {
-    this.id = id;
-    this.name = nome;
-    this.description = descrizione;
-    this.price = prezzo;
-    this.certifications = certificazioni;
-}
+    public Prodotto(int id, String nome, String descrizione, Double prezzo, String certs) {
+        this.id = id;
+        this.name = nome;
+        this.description = descrizione;
+        this.price = prezzo;
+        this.certs = certs;
+    }
 
     public int getId() {
         return id;
@@ -43,7 +41,7 @@ public Prodotto(int id, String nome, String descrizione, Double prezzo, String c
     }
 
     @Override
-    public void setCertificates(String certificates) {
+    public void setCertificates(String certs) {
 
     }
 
