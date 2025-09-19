@@ -1,7 +1,5 @@
 package com.github.fabio03rossi.bitfarm.contenuto;
 
-import com.github.fabio03rossi.bitfarm.misc.Posizione;
-
 import java.util.Date;
 
 public class Evento {
@@ -9,15 +7,15 @@ public class Evento {
     private String nome;
     private String descrizione;
     private Date data;
-    private String numeroPartecipanti;
-    private Posizione posizione;
+    private int numeroPartecipanti;
+    private String indirizzo;
 
-    public Evento(int id, String nome, String descrizione, Date data, Posizione posizione) {
+    public Evento(int id, String nome, String descrizione, Date data, String posizione) {
         this.id = id;
         this.nome = nome;
         this.descrizione = descrizione;
         this.data = data;
-        this.posizione = posizione;
+        this.indirizzo = posizione;
     }
 
     public int getId() {
@@ -52,19 +50,19 @@ public class Evento {
         this.data = data;
     }
 
-    public String getNuemroPartecipanti() {
-        return nuemroPartecipanti;
+    public int getNumeroPartecipanti() {
+        return numeroPartecipanti;
     }
 
-    public void setNuemroPartecipanti(String nuemroPartecipanti) {
-        this.nuemroPartecipanti = nuemroPartecipanti;
+    public void setNumeroPartecipanti(int nuemroPartecipanti) {
+        this.numeroPartecipanti = nuemroPartecipanti;
     }
 
-    public Posizione getPosizione() {
-        return posizione;
+    public String getIndirizzo() {
+        return indirizzo;
     }
 
-    public void setPosizione(Posizione posizione) {
-        this.posizione = posizione;
+    public void setIndirizzo(String indirizzo) {
+        this.indirizzo = indirizzo;
     }
 }

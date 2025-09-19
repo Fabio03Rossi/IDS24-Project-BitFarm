@@ -6,12 +6,14 @@ import com.github.fabio03rossi.bitfarm.contenuto.Evento;
 import com.github.fabio03rossi.bitfarm.contenuto.articolo.IArticolo;
 import com.github.fabio03rossi.bitfarm.contenuto.articolo.Pacchetto;
 import com.github.fabio03rossi.bitfarm.contenuto.articolo.Prodotto;
+import com.github.fabio03rossi.bitfarm.misc.Posizione;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
 
 import java.sql.*;
+import java.util.Date;
 import java.util.HashMap;
 
 public class DBManager
@@ -85,6 +87,7 @@ public class DBManager
                 "indirizzo TEXT NOT NULL," +
                 "tipologia TEXT NOT NULL" +
                 "telefono TEXT NOT NULL," +
+                "iva, TEXT NOT NULL," +
                 "certificazione TEXT,)";
 
         String ordiniTableQuery = "CREATE TABLE IF NOT EXISTS ordini(" +
@@ -107,12 +110,18 @@ public class DBManager
             stmt.execute(articoliTableQuery);
             stmt.execute(pacchettiTableQuery);
             stmt.execute(utentiTableQuery);
+            stmt.execute(aziendeTableQuery);
+            stmt.execute(ordiniTableQuery);
+            stmt.execute(eventiTableQuery);
+
             conn.commit();
-            System.out.println("Tabella articoli creata correttamente");
 
         } catch (SQLException e) {
             System.err.println("DbManager: errore nella creazione delle tabelle, tipo errore: " + e.getMessage());
         }
+
+        System.out.println("Tabelle create correttamente");
+
     }
 
 // ==============================================================================
@@ -238,38 +247,168 @@ public class DBManager
 
     // Eventi
 
-    public Evento getEvento(){
+    public Evento getEvento(int id) throws SQLException {
+        /**
+         *
+         */
 
+        String sql = "SELECT * FROM eventi WHERE id = ?";
         Evento evento = null;
+
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, id);
+
+            // Esegue la query e ottiene il set di risultati
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+
+                    String nome = rs.getString("nome");
+                    String descrizione = rs.getString("descrizione");
+                    Date data = rs.getDate("data");
+                    String numeroPartecipanti = rs.getString("numero_partecipanti");
+                    String posizione = rs.getString("posizione");
+
+                    evento = new Evento(id, nome, descrizione, data , posizione);
+                }
+            }
+        } catch (SQLException ex) {
+            throw new RuntimeException("DbManager: Errore durante l'accesso al database: " + ex.getMessage(), ex);
+        }
         return evento;
     }
 
     public void setEvento(Evento evento){
+        /**
+         *
+         */
+        String sql = "INSERT INTO eventi (id, nome, descrizione, data_creazione, numero_partecipanti, posizione) VALUES (?, ?, ?, ?, ?, ?)";
+        try (PreparedStatement pstmt = this.conn.prepareStatement(sql)) {
+            // Imposta i valori per i segnaposto in base al loro tipo
+            pstmt.setInt(1, evento.getId());
+            pstmt.setString(2, evento.getNome());
+            pstmt.setString(3, evento.getDescrizione());
 
+            java.sql.Date sqlDate = new java.sql.Date(evento.getData().getTime());
+            pstmt.setDate(4, sqlDate);
+
+            pstmt.setInt(5, evento.getNumeroPartecipanti());
+            pstmt.setString(6, evento.getIndirizzo());
+            // Eseguo la query
+            pstmt.executeUpdate();
+
+            System.out.println("Evento " + evento.getNome() + " aggiunto!");
+        } catch (SQLException ex) {
+            throw new RuntimeException("DbManager: Errore durante l'accesso al database: " + ex.getMessage());
+        }
     }
 
     // Utenti
 
-    public Utente getUtente(){
+    public Utente getUtente(int id) throws SQLException {
 
+        String sql = "SELECT * FROM utenti WHERE id = ?";
         Utente utente = null;
+
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, id);
+
+            // Esegue la query e ottiene il set di risultati
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+
+                    String nickname = rs.getString("nickname");
+                    String email = rs.getString("email");
+                    String password = rs.getString("password");
+
+                    utente = new Utente(id, nickname, email, password);
+                }
+            }
+        } catch (SQLException ex) {
+            throw new RuntimeException("DbManager: Errore durante l'accesso al database: " + ex.getMessage(), ex);
+        }
         return utente;
     }
 
-    public void setUtente(Utente utente){
+    public void setUtente(Utente utente) {
+        String sql = "INSERT INTO utenti(id, nickname, data_creazione, email, password) VALUES (?, ?, ?, ?, ?)";
 
+        try (PreparedStatement pstmt = this.conn.prepareStatement(sql)) {
+            // Set values for placeholders
+            pstmt.setInt(1, utente.getId());
+            pstmt.setString(2, utente.getNickname());
+
+            java.sql.Date sqlDate = new java.sql.Date(utente.getDataCreazione().getTime());
+            pstmt.setDate(4, sqlDate);
+
+            pstmt.setString(4, utente.getEmail());
+            pstmt.setString(5, utente.getPassword());
+
+            // Execute the query
+            pstmt.executeUpdate();
+
+        } catch (SQLException ex) {
+            throw new RuntimeException("DbManager: Errore durante l'accesso al database: " + ex.getMessage());
+        }
+
+        System.out.println("Utente " + utente.getNickname() + " aggiunto!");
     }
 
     // Account Aziendali
 
-    public Azienda getAzienda(){
+    public Azienda getAzienda(int id) throws SQLException {
+        /**
+         *
+         */
+        String sql = "SELECT * FROM utenti WHERE id = ?";
         Azienda azienda = null;
+
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, id);
+
+            // Esegue la query e ottiene il set di risultati
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+
+                    String partitaIVA = rs.getString("partita_iva");
+                    String nome = rs.getString("nome");
+                    String descrizione = rs.getString("descrizione");
+                    String indirizzo = rs.getString("indirizzo");
+                    Date data = rs.getDate("data");
+                    String telefono = rs.getString("telefono");
+                    String tipologia = rs.getString("tipologia");
+                    String certificazioni = rs.getString("certificazioni");
+
+                    azienda = new Azienda(id, partitaIVA, nome, descrizione, indirizzo, telefono, tipologia, certificazioni);
+                }
+            }
+        } catch (SQLException ex) {
+            throw new RuntimeException("DbManager: Errore durante l'accesso al database: " + ex.getMessage(), ex);
+        }
         return azienda;
     }
 
+    public void setAzienda(Azienda azienda) {
+        String sql = "INSERT INTO aziende (id, partitaIVA, nome, descrizione, indirizzo, telefono, tipologia, certificazioni) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
-    public void setAzienda(Azienda azienda){
+        try (PreparedStatement pstmt = this.conn.prepareStatement(sql)) {
+            // Imposta i valori per i segnaposto (?) in base ai dati dell'oggetto Azienda
+            pstmt.setInt(1, azienda.getId());
+            pstmt.setString(2, azienda.getPartitaIVA());
+            pstmt.setString(3, azienda.getNome());
+            pstmt.setString(4, azienda.getDescrizione());
+            pstmt.setString(5, azienda.getIndirizzo());
+            pstmt.setString(6, azienda.getTelefono());
+            pstmt.setString(7, azienda.getTipologia());
+            pstmt.setString(8, azienda.getCertificazioni());
 
+            // Esegue la query di inserimento
+            pstmt.executeUpdate();
+
+        } catch (SQLException ex) {
+            throw new RuntimeException("DbManager: Errore durante l'inserimento dell'azienda: " + ex.getMessage(), ex);
+        }
+
+        System.out.println("Azienda " + azienda.getNome() + " aggiunta con successo!");
     }
 }
 

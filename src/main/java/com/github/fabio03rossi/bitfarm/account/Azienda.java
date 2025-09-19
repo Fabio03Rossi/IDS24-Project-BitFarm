@@ -1,15 +1,39 @@
 package com.github.fabio03rossi.bitfarm.account;
 
-import com.github.fabio03rossi.bitfarm.misc.Posizione;
-
 public class Azienda extends Account {
+    private int id;
     private String partitaIVA;
     private String nome;
     private String descrizione;
     private String indirizzo;
     private String telefono;
-    private TipologiaAzienda tipologia;
-    private Posizione posizione;
+    private String tipologia;
+    private String certificazioni;
+
+    public Azienda(int id, String partitaIVA, String nome, String descrizione, String indirizzo, String telefono, String tipologia, String certificazioni) {
+        this.partitaIVA = partitaIVA;
+        this.nome = nome;
+        this.descrizione = descrizione;
+        this.indirizzo = indirizzo;
+        this.telefono = telefono;
+        this.tipologia = tipologia;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getCertificazioni() {
+        return certificazioni;
+    }
+
+    public void setCertificazioni(String certificazioni) {
+        this.certificazioni = certificazioni;
+    }
 
     public String getPartitaIVA() {
         return partitaIVA;
@@ -51,20 +75,12 @@ public class Azienda extends Account {
         this.telefono = telefono;
     }
 
-    public TipologiaAzienda getTipologia() {
+    public String getTipologia() {
         return tipologia;
     }
 
-    public void setTipologia(TipologiaAzienda tipologia) {
+    public void setTipologia(String tipologia) {
         this.tipologia = tipologia;
-    }
-
-    public Posizione getPosizione() {
-        return posizione;
-    }
-
-    public void setPosizione(Posizione posizione) {
-        this.posizione = posizione;
     }
 
     @Override

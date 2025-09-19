@@ -2,9 +2,9 @@ package com.github.fabio03rossi.bitfarm.account;
 
 public class Utente extends Account {
     private String nickname;
-    private String id;
+    private int id;
 
-    public Utente(String id, String nickname, String email, String password) {
+    public Utente(int id, String nickname, String email, String password) {
         this.id = id;
         this.nickname = nickname;
         this.setEmail(email);
@@ -19,11 +19,11 @@ public class Utente extends Account {
         this.nickname = nickname;
     }
 
-    public String getId(){
+    public int getId(){
         return this.id;
     }
 
-    public void setId(String id){
+    public void setId(int id){
         this.id = id;
     }
 }
