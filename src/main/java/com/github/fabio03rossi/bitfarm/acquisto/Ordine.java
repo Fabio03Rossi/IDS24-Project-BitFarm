@@ -1,12 +1,13 @@
 package com.github.fabio03rossi.bitfarm.acquisto;
 
 import com.github.fabio03rossi.bitfarm.contenuto.articolo.IArticolo;
+import com.github.fabio03rossi.bitfarm.services.IAccettazioneService;
 
 import java.util.List;
 
 public class Ordine {
     private String indirizzo;
-    private IPagamentoService IPagamentoService;
+    private IAccettazioneService.IPagamentoService IPagamentoService;
     private double totale;
     private List<IArticolo> listaArticoli;
     private int idUtente;
@@ -31,7 +32,7 @@ public class Ordine {
         return idUtente;
     }
 
-    public IPagamentoService getMetodoDiPagamento() {
+    public IAccettazioneService.IPagamentoService getMetodoDiPagamento() {
         return IPagamentoService;
     }
 }

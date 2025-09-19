@@ -1,5 +1,8 @@
 package com.github.fabio03rossi.bitfarm.database;
 
+import com.github.fabio03rossi.bitfarm.account.Azienda;
+import com.github.fabio03rossi.bitfarm.account.Utente;
+import com.github.fabio03rossi.bitfarm.contenuto.Evento;
 import com.github.fabio03rossi.bitfarm.contenuto.articolo.IArticolo;
 import com.github.fabio03rossi.bitfarm.contenuto.articolo.Pacchetto;
 import com.github.fabio03rossi.bitfarm.contenuto.articolo.Prodotto;
@@ -47,10 +50,76 @@ public class DBManager
         }
     }
 
+    private void createTables (Connection conn, Statement stmt){
+        /**
+         * Genera le tabelle articoli, pacchetti e utenti
+         */
+
+        String articoliTableQuery = "CREATE TABLE IF NOT EXISTS articoli (" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "nome TEXT NOT NULL," +
+                "descrizione TEXT NOT NULL)," +
+                "prezzo DOUBLE NOT NULL)," +
+                "certificazioni TEXT NOT NULL)," +
+                "id_venditore INTEGER NOT NULL," +
+                "tipologia TEXT NOT NULL)";
+
+
+        String pacchettiTableQuery = "CREATE TABLE IF NOT EXISTS pacchetti (" +
+                "id_pacchetto INTEGER NOT NULL," +
+                "id_articolo INTEGER NOT NULL," +
+                "quantita INTEGER DEFAULT 1," +
+                "FOREIGN KEY (id_articolo) REFERENCES articoli (id_articolo))";
+
+        String utentiTableQuery = "CREATE TABLE IF NOT EXISTS utenti(" +
+                "id_utente INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "nickname TEXT NOT NULL," +
+                "data_creazione DATETIME NOT NULL," +
+                "email TEXT NOT NULL," +
+                "password TEXT NOT NULL,)";
+
+        String aziendeTableQuery = "CREATE TABLE IF NOT EXISTS aziende(" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "nome TEXT NOT NULL," +
+                "descrizione TEXT," +
+                "indirizzo TEXT NOT NULL," +
+                "tipologia TEXT NOT NULL" +
+                "telefono TEXT NOT NULL," +
+                "certificazione TEXT,)";
+
+        String ordiniTableQuery = "CREATE TABLE IF NOT EXISTS ordini(" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "indirizzo TEXT NOT NULL," +
+                "metodo_di_pagamento TEXT NOT NULL" +
+                "id_utente INTEGER NOT NULL,)";
+
+        String eventiTableQuery = "CREATE TABLE IF NOT EXISTS eventi(" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "nome TEXT NOT NULL" +
+                "descrizione TEXT," +
+                "data_creazione DATETIME NOT NULL," +
+                "numero_partecipanti INTEGER" +
+                "posizione TEXT NOT NULL,)";
+
+
+
+        try {
+            stmt.execute(articoliTableQuery);
+            stmt.execute(pacchettiTableQuery);
+            stmt.execute(utentiTableQuery);
+            conn.commit();
+            System.out.println("Tabella articoli creata correttamente");
+
+        } catch (SQLException e) {
+            System.err.println("DbManager: errore nella creazione delle tabelle, tipo errore: " + e.getMessage());
+        }
+    }
+
 // ==============================================================================
 //         --- Metodi per la gestione dei dati ---
 // ==============================================================================
 
+    // Articoli
 
     private IArticolo getProdotto(int id) throws SQLException {
         IArticolo articolo = null;
@@ -133,6 +202,7 @@ public class DBManager
         System.out.println("Articolo " + articolo.getName() + " aggiunto!");
 
     }
+
     public IArticolo getArticolo(int id) throws SQLException {
 
         IArticolo articolo = null;
@@ -166,46 +236,40 @@ public class DBManager
         return articolo;
     }
 
-    private void createTables (Connection conn, Statement stmt){
-        /**
-         * Genera le tabelle articoli, pacchetti e utenti
-         */
+    // Eventi
 
-        String articoliTableQuery = "CREATE TABLE IF NOT EXISTS articoli (" +
-                "id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                "nome TEXT NOT NULL," +
-                "descrizione TEXT NOT NULL)," +
-                "prezzo DOUBLE NOT NULL)," +
-                "certificazioni TEXT NOT NULL)," +
-                "id_venditore INTEGER NOT NULL," +
-                "tipologia TEXT NOT NULL)";
+    public Evento getEvento(){
 
+        Evento evento = null;
+        return evento;
+    }
 
-        String pacchettiTableQuery = "CREATE TABLE IF NOT EXISTS pacchetti (" +
-                "id_pacchetto INTEGER NOT NULL," +
-                "id_articolo INTEGER NOT NULL," +
-                "quantita INTEGER DEFAULT 1," +
-                "FOREIGN KEY (id_articolo) REFERENCES articoli (id_articolo))";
+    public void setEvento(Evento evento){
 
-        String utentiTableQuery = "CREATE TABLE ID NOT EXISTS utenti(" +
-                "id_utente INTEGER PRIMARY KEY AUTOINCREMENT," +
-                "nickname TEXT NOT NULL," +
-                "data_creazione DATETIME NOT NULL," +
-                "email TEXT NOT NULL," +
-                "password TEXT NOT NULL,)";
+    }
 
-        try {
-            stmt.execute(articoliTableQuery);
-            stmt.execute(pacchettiTableQuery);
-            stmt.execute(utentiTableQuery);
-            conn.commit();
-            System.out.println("Tabella articoli creata correttamente");
+    // Utenti
 
-        } catch (SQLException e) {
-            System.err.println("DbManager: errore nella creazione delle tabelle, tipo errore: " + e.getMessage());
-        }
+    public Utente getUtente(){
+
+        Utente utente = null;
+        return utente;
+    }
+
+    public void setUtente(Utente utente){
+
+    }
+
+    // Account Aziendali
+
+    public Azienda getAzienda(){
+        Azienda azienda = null;
+        return azienda;
     }
 
 
+    public void setAzienda(Azienda azienda){
+
+    }
 }
 
