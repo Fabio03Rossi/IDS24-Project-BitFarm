@@ -1,4 +1,4 @@
-package com.github.fabio03rossi.bitfarm.post;
+package com.github.fabio03rossi.bitfarm.contenuto.articolo;
 
 public class Prodotto implements IArticolo {
     private final int id;

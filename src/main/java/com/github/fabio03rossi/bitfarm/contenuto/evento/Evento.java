@@ -1,8 +1,9 @@
-package com.github.fabio03rossi.bitfarm.post;
+package com.github.fabio03rossi.bitfarm.contenuto.evento;
 
+import com.github.fabio03rossi.bitfarm.contenuto.Contenuto;
 import com.github.fabio03rossi.bitfarm.misc.Posizione;
 
-public class Evento extends Post {
+public class Evento extends Contenuto {
     private String titolo;
     private String descrizione;
     private Posizione posizione;

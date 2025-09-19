@@ -1,8 +1,8 @@
 package com.github.fabio03rossi.bitfarm.database;
 
-import com.github.fabio03rossi.bitfarm.post.IArticolo;
-import com.github.fabio03rossi.bitfarm.post.Pacchetto;
-import com.github.fabio03rossi.bitfarm.post.Prodotto;
+import com.github.fabio03rossi.bitfarm.contenuto.articolo.IArticolo;
+import com.github.fabio03rossi.bitfarm.contenuto.articolo.Pacchetto;
+import com.github.fabio03rossi.bitfarm.contenuto.articolo.Prodotto;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,7 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.*;
 import java.util.HashMap;
 
-public class DbManager
+public class DBManager
 {
     /**
      * La classe si occupa di gestire il database

@@ -1,4 +1,4 @@
-package com.github.fabio03rossi.bitfarm.post;
+package com.github.fabio03rossi.bitfarm.contenuto.articolo;
 
 public interface IArticolo {
     public String getName();

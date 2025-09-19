@@ -1,4 +1,4 @@
-package com.github.fabio03rossi.bitfarm.post;
+package com.github.fabio03rossi.bitfarm.contenuto.articolo;
 
 import java.util.HashMap;
 
