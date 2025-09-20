@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="Gradle: org.apache.jena:jena-tdb1:5.1.0" type="java-imported" external-system-id="GRADLE">
+    <properties groupId="org.apache.jena" artifactId="jena-tdb1" version="5.1.0" baseVersion="5.1.0" />
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.jena/jena-tdb1/5.1.0/347c6d16bcf42c71502003c94a8afd211dcf4d43/jena-tdb1-5.1.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

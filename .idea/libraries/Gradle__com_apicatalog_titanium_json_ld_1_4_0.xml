@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="Gradle: com.apicatalog:titanium-json-ld:1.4.0" type="java-imported" external-system-id="GRADLE">
+    <properties groupId="com.apicatalog" artifactId="titanium-json-ld" version="1.4.0" baseVersion="1.4.0" />
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.apicatalog/titanium-json-ld/1.4.0/57b0f09b4ac30e08480f4fd05fff70ddb342563b/titanium-json-ld-1.4.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

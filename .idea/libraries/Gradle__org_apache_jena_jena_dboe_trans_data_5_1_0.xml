@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="Gradle: org.apache.jena:jena-dboe-trans-data:5.1.0" type="java-imported" external-system-id="GRADLE">
+    <properties groupId="org.apache.jena" artifactId="jena-dboe-trans-data" version="5.1.0" baseVersion="5.1.0" />
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.jena/jena-dboe-trans-data/5.1.0/5bbf92e2a5b5f4a0f7334b68e67ccae828f4cc71/jena-dboe-trans-data-5.1.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

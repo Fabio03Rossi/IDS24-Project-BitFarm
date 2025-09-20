@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="Gradle: org.apache.jena:jena-rdfpatch:5.1.0" type="java-imported" external-system-id="GRADLE">
+    <properties groupId="org.apache.jena" artifactId="jena-rdfpatch" version="5.1.0" baseVersion="5.1.0" />
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.jena/jena-rdfpatch/5.1.0/c81d618d75edd021d7f5be8fb5a8f79c25ab0234/jena-rdfpatch-5.1.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
