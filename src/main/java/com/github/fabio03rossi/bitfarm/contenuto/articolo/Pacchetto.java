@@ -5,14 +5,14 @@ import java.util.HashMap;
 public class Pacchetto implements IArticoloComposto {
         // Coppie Prodotto - quantità
         private HashMap<Prodotto, Integer> listaProdotti;
-        private String name;
+        private String nome;
         private String description;
         private double price;
         private int id;
         private String Certificazioni;
 
         public Pacchetto( int id, String nomeProdotto, String descrizioneProdotto, double prezzoProdotto, String certificazioni) {
-                this.name = nomeProdotto;
+                this.nome = nomeProdotto;
                 this.description = descrizioneProdotto;
                 this.price = prezzoProdotto;
                 this.id = id;
@@ -20,7 +20,7 @@ public class Pacchetto implements IArticoloComposto {
 
         public Pacchetto( int id, String nomeProdotto, String descrizioneProdotto, double prezzoProdotto, String certificazioni, HashMap<Prodotto, Integer> listaProdotti) {
                 this.listaProdotti = listaProdotti;
-                this.name = nomeProdotto;
+                this.nome = nomeProdotto;
                 this.description = descrizioneProdotto;
                 this.price = prezzoProdotto;
                 this.id = id;
@@ -31,17 +31,17 @@ public class Pacchetto implements IArticoloComposto {
         }
 
         @Override
-        public String getName() {
-                return name;
+        public String getNome() {
+                return nome;
         }
 
         @Override
-        public void setName(String name) {
-                this.name = name;
+        public void setNome(String nome) {
+                this.nome = nome;
         }
 
         @Override
-        public double getPrice() {
+        public double getPrezzo() {
                 return 0;
         }
 
@@ -51,38 +51,33 @@ public class Pacchetto implements IArticoloComposto {
         }
 
         @Override
-        public String getDescription() {
+        public String getDescrizione() {
                 return this.description;
         }
 
         @Override
-        public void setDescription(String description) {
+        public void setDescrizione(String description) {
                 this.description = description;
         }
 
         @Override
-        public String getCertificates() {
+        public String getCertificati() {
                 return "";
         }
 
         @Override
-        public void setCertificates(String certificates) {
-
-        }
-
-        @Override
-        public int getIdSeller() {
-                return 0;
-        }
-
-        @Override
-        public void setIdSeller(int idSeller) {
+        public void setCertificati(String certificates) {
 
         }
 
         @Override
         public int getId() {
                 return this.id;
+        }
+
+        @Override
+        public String getTipologia() {
+                return "pacchetto";
         }
 
         @Override

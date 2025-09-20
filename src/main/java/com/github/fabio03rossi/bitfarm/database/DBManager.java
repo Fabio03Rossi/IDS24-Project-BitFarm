@@ -6,15 +6,14 @@ import com.github.fabio03rossi.bitfarm.contenuto.Evento;
 import com.github.fabio03rossi.bitfarm.contenuto.articolo.IArticolo;
 import com.github.fabio03rossi.bitfarm.contenuto.articolo.Pacchetto;
 import com.github.fabio03rossi.bitfarm.contenuto.articolo.Prodotto;
-import com.github.fabio03rossi.bitfarm.misc.Posizione;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
 
 import java.sql.*;
+import java.util.*;
 import java.util.Date;
-import java.util.HashMap;
 
 public class DBManager
 {
@@ -130,10 +129,10 @@ public class DBManager
 //         --- Metodi per la gestione dei dati ---
 // ==============================================================================
 
-    // Articoli
+    // --------------- ARTICOLI ---------------
 
-    private IArticolo getProdotto(int id) throws SQLException {
-        IArticolo articolo = null;
+    private Prodotto getProdotto(int id) throws SQLException {
+        Prodotto prodotto = null;
         String sql = "SELECT * FROM articoli WHERE id = ?";
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, id);
@@ -142,7 +141,7 @@ public class DBManager
                     // Leggi il tipo dall'attributo "tipo_articolo"
                     String tipoArticolo = rs.getString("tipologia");
 
-                    articolo = new Prodotto(
+                    prodotto = new Prodotto(
                             rs.getInt("id"),
                             rs.getString("nome"),
                             rs.getString("descrizione"),
@@ -154,29 +153,59 @@ public class DBManager
         } catch (SQLException ex) {
             throw new RuntimeException("DbManager: Errore durante l'accesso al database: " + ex.getMessage());
         }
-        return articolo;
+        return prodotto;
     }
+
+
 
     private void setProdotto(IArticolo articolo) throws SQLException {
         String sql = "INSERT INTO articoli (nome, descrizione, prezzo, certificazioni, id_venditore, tipologia) VALUES (?, ?, ?, ?)";
         try (PreparedStatement pstmt = this.conn.prepareStatement(sql)) {
             // Imposta i valori per i segnaposto in base al loro tipo
-            pstmt.setString(1, articolo.getName());
-            pstmt.setString(2, articolo.getDescription());
-            pstmt.setDouble(3, articolo.getPrice());
-            pstmt.setString(4, articolo.getCertificates());
-            pstmt.setInt(5, articolo.getIdSeller());
+            pstmt.setString(1, articolo.getNome());
+            pstmt.setString(2, articolo.getDescrizione());
+            pstmt.setDouble(3, articolo.getPrezzo());
+            pstmt.setString(4, articolo.getCertificati());
+            pstmt.setInt(5, articolo.getId());
             pstmt.setString(6, "prodotto");
             pstmt.setBoolean(7, false);
             // Eseguo la query
             pstmt.executeUpdate();
 
-            System.out.println("Prodotto " + articolo.getName() + " aggiunto!");
+            System.out.println("Prodotto " + articolo.getNome() + " aggiunto!");
         } catch (SQLException ex) {
             throw new RuntimeException("DbManager: Errore durante l'accesso al database: " + ex.getMessage());
         }
     }
 
+
+    public List<IArticolo> getArticoliNonPubblicati() throws SQLException {
+        String sql = "SELECT * FROM articoli WHERE pubblicato IS false";
+        List<IArticolo> listaArticoli = null;
+
+        try (PreparedStatement pstmt = this.conn.prepareStatement(sql)) {
+            try (ResultSet rs = pstmt.executeQuery()) {
+                listaArticoli = new ArrayList<IArticolo>();
+                while (rs.next()) {
+                    int id = rs.getInt("id");
+                    String nome = rs.getString("nome");
+                    String descrizione = rs.getString("descrizione");
+                    double prezzo = rs.getDouble("prezzo");
+                    String certificazioni = rs.getString("certificazioni");
+                    int idSeller = rs.getInt("id_utente");
+                    String tipologia = rs.getString("tipologia");
+                    if(tipologia.equals("prodotto")) {
+                        listaArticoli.add(new Prodotto(id, nome, descrizione, prezzo, certificazioni));
+                    } else if (tipologia.equals("pacchetto")) {
+
+                    }
+                }
+            }
+        } catch (SQLException ex) {
+            throw new RuntimeException("DbManager: Errore durante l'accesso al database: " + ex.getMessage());
+        }
+        return listaArticoli;
+    }
 
     public void pubblicaArticolo(IArticolo articolo) throws SQLException {
         String sql = "UPDATE articoli SET pubblicato = ? WHERE id = ?";
@@ -187,7 +216,7 @@ public class DBManager
         } catch (SQLException ex) {
             throw new RuntimeException("DbManager: Errore durante l'accesso al database: " + ex.getMessage());
         }
-        System.out.println("DBManager: Articolo " + articolo.getName() + " pubblicato!");
+        System.out.println("DBManager: Articolo " + articolo.getNome() + " pubblicato!");
     }
 
     public void cancellaArticolo(IArticolo articolo) throws SQLException {
@@ -201,8 +230,28 @@ public class DBManager
             // Gestisci l'errore, ad esempio stampando un messaggio
             System.err.println("DBManager: Errore durante la cancellazione: " + ex.getMessage());
         }
-        System.out.println("DBManager: Articolo " + articolo.getName() + " cancellato!");
+        System.out.println("DBManager: Articolo " + articolo.getNome() + " cancellato!");
 
+    }
+
+    private Pacchetto getPacchetto(int id, String nome, String descrizione, double prezzo, String certificazioni) throws SQLException {
+        Pacchetto pacchetto = new Pacchetto(id, nome, descrizione, prezzo, certificazioni);
+
+        int id_pacchetto = articolo.getId();
+
+        sql = "SELECT * FROM articoli WHERE id = ?";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, id_pacchetto);
+            try (ResultSet rsp = stmt.executeQuery()) {
+                if (rsp.next()) {
+                    Prodotto prodotto = getProdotto(rsp.getInt("id_articolo"));
+                    pacchetto.addProduct(prodotto, rsp.getInt("quantita"));
+                }
+            }
+        } catch (SQLException ex) {
+            throw new RuntimeException("Errore durante l'accesso al database: " + ex.getMessage());
+        }
+        articolo = pacchetto;
     }
 
     public void setArticolo(IArticolo articolo) throws SQLException {
@@ -239,7 +288,7 @@ public class DBManager
             }
         }
 
-        System.out.println("Articolo " + articolo.getName() + " aggiunto!");
+        System.out.println("Articolo " + articolo.getNome() + " aggiunto!");
 
     }
 
@@ -247,36 +296,61 @@ public class DBManager
 
         IArticolo articolo = null;
         articolo = getProdotto(id);
+        String nome = null;
+        String descrizione = null;
+        double prezzo = 0;
+        String certificazioni = null;
+        String tipologia = null;
 
-        if (articolo instanceof Pacchetto) {
+        // Estraggo i valori del record
+        String sql = "SELECT * FROM articoli WHERE id = ?";
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, id);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    // Leggi il tipo dall'attributo "tipo_articolo"
+                    String tipoArticolo = rs.getString("tipologia");
+
+                        nome = rs.getString("nome");
+                        descrizione = rs.getString("descrizione");
+                        prezzo = rs.getDouble("prezzo");
+                        certificazioni = rs.getString("certificazioni");
+                        tipologia = rs.getString("tipologia");
+                }
+            }
+        } catch (SQLException ex) {
+            throw new RuntimeException("DbManager: Errore durante l'accesso al database: " + ex.getMessage());
+        }
+
+
+        // Controllo se il record è un pacchetto o un prodotto
+        if (Objects.equals(tipologia, "pacchetto")) {
             // Se è un PACCHETTO, istanzia la classe Pacchetto
-            // Nota: Dovrai anche recuperare i prodotti che compongono il pacchetto
-            // Questo richiederà un'altra query o una join
+            Pacchetto pacchetto = new Pacchetto(id, nome, descrizione, prezzo, certificazioni);
 
             int id_pacchetto = articolo.getId();
 
-            HashMap<Prodotto, Integer> listaProdotti = new HashMap<>();
-
-            String sql = "SELECT * FROM articoli WHERE id = ?";
+            sql = "SELECT * FROM articoli WHERE id = ?";
             try (PreparedStatement stmt = conn.prepareStatement(sql)) {
                 stmt.setInt(1, id_pacchetto);
                 try (ResultSet rsp = stmt.executeQuery()) {
                     if (rsp.next()) {
-                        Prodotto prodotto = (Prodotto) getProdotto(rsp.getInt("id_articolo"));
-                        listaProdotti.put(prodotto, rsp.getInt("quantita"));
+                        Prodotto prodotto = getProdotto(rsp.getInt("id_articolo"));
+                        pacchetto.addProduct(prodotto, rsp.getInt("quantita"));
                     }
-                    // Aggiungi logica per popolare la lista dei prodotti del pacchetto
-                    // Esempio: recupera i prodotti e li aggiunge al pacchetto
-                    // this.popolaPacchetto(pacchetto);
                 }
             } catch (SQLException ex) {
                 throw new RuntimeException("Errore durante l'accesso al database: " + ex.getMessage());
             }
+            articolo = pacchetto;
+        }
+        if(tipologia.equals("prodotto")){
+            articolo = getProdotto(id);
         }
         return articolo;
     }
 
-    // Eventi
+    // // --------------- EVENTI ---------------
 
     public Evento getEvento(int id) throws SQLException {
         /**
@@ -359,7 +433,7 @@ public class DBManager
         System.out.println("DBManager: Articolo " + evento.getNome() + " cancellato!");
     }
 
-    // Utenti
+    // // --------------- UTENTI ---------------
 
     public Utente getUtente(int id) throws SQLException {
 
@@ -410,7 +484,7 @@ public class DBManager
         System.out.println("Utente " + utente.getNickname() + " aggiunto!");
     }
 
-    // Account Aziendali
+    // --------------- ACCOUNT AZIENDALI ---------------
 
     public Azienda getAzienda(int id) throws SQLException {
         /**
@@ -467,5 +541,7 @@ public class DBManager
 
         System.out.println("Azienda " + azienda.getNome() + " aggiunta con successo!");
     }
+
+
 }
 

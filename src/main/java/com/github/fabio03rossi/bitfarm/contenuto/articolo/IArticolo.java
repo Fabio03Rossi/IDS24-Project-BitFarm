@@ -1,16 +1,14 @@
 package com.github.fabio03rossi.bitfarm.contenuto.articolo;
 
 public interface IArticolo {
-    public String getName();
-    public void setName(String name);
-    public double getPrice();
-    public void setPrice(double price);
-    public String getDescription();
-    public void setDescription(String description);
-    public String getCertificates();
-    public void setCertificates(String certificates);
-    public int getIdSeller();
-    public void setIdSeller(int idSeller);
+    public String getNome();
+    public void setNome(String nome);
+    public double getPrezzo();
+    public void setPrice(double prezzo);
+    public String getDescrizione();
+    public void setDescrizione(String description);
+    public String getCertificati();
+    public void setCertificati(String certificates);
     public int getId();
-
+    public String getTipologia();
 }

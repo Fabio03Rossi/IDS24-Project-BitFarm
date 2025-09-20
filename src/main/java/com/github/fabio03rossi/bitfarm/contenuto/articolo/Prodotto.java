@@ -19,29 +19,34 @@ public class Prodotto implements IArticolo {
         return id;
     }
 
-    public String getName() {
+    @Override
+    public String getTipologia() {
+        return "prodotto";
+    }
+
+    public String getNome() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setNome(String nome) {
+        this.name = nome;
     }
 
-    public String getDescription() {
+    public String getDescrizione() {
         return description;
     }
 
-    public void setDescription(String description) {
+    public void setDescrizione(String description) {
         this.description = description;
     }
 
     @Override
-    public String getCertificates() {
+    public String getCertificati() {
         return "";
     }
 
     @Override
-    public void setCertificates(String certs) {
+    public void setCertificati(String certs) {
 
     }
 
@@ -55,7 +60,7 @@ public class Prodotto implements IArticolo {
 
     }
 
-    public double getPrice() {
+    public double getPrezzo() {
         return price;
     }
 
