@@ -23,7 +23,16 @@ public class DBManager
     private Connection conn;
     private Statement stmt;
 
+    private static DBManager instance;
+    private DBManager() {}
 
+    public static DBManager getInstance() {
+        if (instance == null) {
+            instance = new DBManager();
+            instance.startConnection();
+        }
+        return instance;
+    }
 
 // ==============================================================================
 //         --- Metodi per la connessione al server SQLite ---
@@ -397,7 +406,7 @@ public class DBManager
             pstmt.setDate(4, sqlDate);
 
             pstmt.setInt(5, evento.getNumeroPartecipanti());
-            pstmt.setString(6, evento.getIndirizzo());
+            pstmt.setString(6, evento.getPosizione().toString());
             // Eseguo la query
             pstmt.executeUpdate();
 

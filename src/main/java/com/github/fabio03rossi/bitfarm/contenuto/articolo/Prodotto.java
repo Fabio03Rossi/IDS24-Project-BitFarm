@@ -50,12 +50,10 @@ public class Prodotto extends AbstractArticolo {
 
     }
 
-    @Override
     public int getIdSeller() {
         return 0;
     }
 
-    @Override
     public void setIdSeller(int idSeller) {
 
     }

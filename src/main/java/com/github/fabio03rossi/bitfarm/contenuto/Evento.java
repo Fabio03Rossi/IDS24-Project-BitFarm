@@ -8,14 +8,14 @@ public class Evento extends Contenuto {
     private String descrizione;
     private Date data;
     private int numeroPartecipanti;
-    private String indirizzo;
+    private String posizione;
 
     public Evento(int id, String nome, String descrizione, Date data, String posizione) {
         this.id = id;
         this.nome = nome;
         this.descrizione = descrizione;
         this.data = data;
-        this.indirizzo = posizione;
+        this.posizione = posizione;
     }
 
     public int getId() {
@@ -58,12 +58,12 @@ public class Evento extends Contenuto {
         this.numeroPartecipanti = nuemroPartecipanti;
     }
 
-    public String getIndirizzo() {
-        return indirizzo;
+    public String getPosizione() {
+        return posizione;
     }
 
-    public void setIndirizzo(String indirizzo) {
-        this.indirizzo = indirizzo;
+    public void setPosizione(String posizione) {
+        this.posizione = posizione;
     }
 
     @Override

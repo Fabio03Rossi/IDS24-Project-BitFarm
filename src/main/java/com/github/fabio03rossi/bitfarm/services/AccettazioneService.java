@@ -1,35 +1,29 @@
 package com.github.fabio03rossi.bitfarm.services;
 
+import com.github.fabio03rossi.bitfarm.contenuto.Contenuto;
 import com.github.fabio03rossi.bitfarm.contenuto.Evento;
-import com.github.fabio03rossi.bitfarm.contenuto.RichiestaAccettazione;
-import com.github.fabio03rossi.bitfarm.contenuto.articolo.AbstractArticolo;
 import com.github.fabio03rossi.bitfarm.contenuto.articolo.IArticolo;
-import com.github.fabio03rossi.bitfarm.database.DBSingleton;
+import com.github.fabio03rossi.bitfarm.database.DBManager;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Stream;
 
 public class AccettazioneService implements IAccettazioneService {
-    private static final Logger LOGGER = Logger.getLogger( AccettazioneService.class.getName() );
+    private static final Logger LOGGER = Logger.getLogger(AccettazioneService.class.getName());
 
     @Override
-    public List<RichiestaAccettazione> getAllRichieste() {
-        List<RichiestaAccettazione> result = new ArrayList<>();
+    public List<Contenuto> getAllRichieste() {
+        List<? extends Contenuto> articoli = List.of();
+        List<? extends Contenuto> eventi = List.of();
 
-        List<AbstractArticolo> articoli = List.of();
-        List<Evento> eventi = List.of();
-
-        articoli.forEach(element -> result.add(new RichiestaAccettazione(element)));
-        eventi.forEach(element -> result.add(new RichiestaAccettazione(element)));
-
-        return result;
+        return Stream.concat(articoli.stream(), eventi.stream()).toList();
     }
 
     @Override
-    public void accettaContenuto(RichiestaAccettazione r) {
+    public void accettaContenuto(Contenuto r) {
         try{
             handleContenuto(r, true);
         } catch (SQLException e) {
@@ -39,7 +33,7 @@ public class AccettazioneService implements IAccettazioneService {
     }
 
     @Override
-    public void rifiutaContenuto(RichiestaAccettazione r) {
+    public void rifiutaContenuto(Contenuto r) {
         try{
             handleContenuto(r, false);
         } catch (SQLException e) {
@@ -48,14 +42,14 @@ public class AccettazioneService implements IAccettazioneService {
         }
     }
 
-    private void handleContenuto(RichiestaAccettazione r, boolean b) throws SQLException {
-        var db = DBSingleton.getInstance();
+    private void handleContenuto(Contenuto r, boolean b) throws SQLException {
+        var db = DBManager.getInstance();
 
-        if(r.contenuto() instanceof IArticolo articolo) {
+        if(r instanceof IArticolo articolo) {
             if (b) db.pubblicaArticolo(articolo);
             else db.cancellaArticolo(articolo);
 
-        } else if(r.contenuto() instanceof Evento evento)
+        } else if(r instanceof Evento evento)
             if (b) db.pubblicaEvento(evento);
             else db.cancellaEvento(evento);
     }
