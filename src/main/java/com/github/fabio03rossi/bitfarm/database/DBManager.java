@@ -65,7 +65,7 @@ public class DBManager
                 "certificazioni TEXT NOT NULL)," +
                 "id_venditore INTEGER NOT NULL," +
                 "tipologia TEXT NOT NULL" +
-                "pubblicato BOOLEAN NOT NULL)";
+                "pubblicato BOOLEAN DEFAULT false)";
 
 
         String pacchettiTableQuery = "CREATE TABLE IF NOT EXISTS pacchetti (" +
@@ -103,7 +103,8 @@ public class DBManager
                 "descrizione TEXT," +
                 "data_creazione DATETIME NOT NULL," +
                 "numero_partecipanti INTEGER" +
-                "posizione TEXT NOT NULL,)";
+                "posizione TEXT NOT NULL," +
+                "pubblicato BOOLEAN DEFAULT false)";
 
 
 
@@ -186,7 +187,7 @@ public class DBManager
         } catch (SQLException ex) {
             throw new RuntimeException("DbManager: Errore durante l'accesso al database: " + ex.getMessage());
         }
-        System.out.println("Prodotto " + articolo.getName() + " pubblicato!");
+        System.out.println("DBManager: Articolo " + articolo.getName() + " pubblicato!");
     }
 
     public void cancellaArticolo(IArticolo articolo) throws SQLException {
@@ -330,6 +331,32 @@ public class DBManager
         } catch (SQLException ex) {
             throw new RuntimeException("DbManager: Errore durante l'accesso al database: " + ex.getMessage());
         }
+    }
+
+    public void pubblicaEvento(Evento evento){
+        String sql = "UPDATE eventi SET pubblicato = ? WHERE id = ?";
+        try (PreparedStatement pstmt = this.conn.prepareStatement(sql)) {
+            pstmt.setBoolean(1, true);
+            pstmt.setInt(2, evento.getId());
+            pstmt.executeUpdate();
+        } catch (SQLException ex) {
+            throw new RuntimeException("DbManager: Errore durante l'accesso al database: " + ex.getMessage());
+        }
+        System.out.println("DBManager: Evento " + evento.getNome() + " pubblicato!");
+    }
+
+    public void cancellaEvento(Evento evento){
+        String sql = "DELETE FROM eventi WHERE id = ?";
+        try (PreparedStatement pstmt = this.conn.prepareStatement(sql)) {
+            pstmt.setInt(1, evento.getId());
+            pstmt.executeUpdate();
+        }
+        catch (SQLException ex)
+        {
+            // Gestisci l'errore, ad esempio stampando un messaggio
+            System.err.println("DBManager: Errore durante la cancellazione: " + ex.getMessage());
+        }
+        System.out.println("DBManager: Articolo " + evento.getNome() + " cancellato!");
     }
 
     // Utenti
