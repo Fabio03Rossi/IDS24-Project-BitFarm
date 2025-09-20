@@ -1,6 +1,6 @@
 package com.github.fabio03rossi.bitfarm.contenuto.articolo;
 
-public class Prodotto implements IArticolo {
+public class Prodotto extends AbstractArticolo {
     private final int id;
     private String name;
     private String description;
