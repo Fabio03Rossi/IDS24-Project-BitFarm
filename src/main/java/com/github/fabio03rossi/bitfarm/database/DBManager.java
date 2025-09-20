@@ -64,7 +64,8 @@ public class DBManager
                 "prezzo DOUBLE NOT NULL)," +
                 "certificazioni TEXT NOT NULL)," +
                 "id_venditore INTEGER NOT NULL," +
-                "tipologia TEXT NOT NULL)";
+                "tipologia TEXT NOT NULL" +
+                "pubblicato BOOLEAN NOT NULL)";
 
 
         String pacchettiTableQuery = "CREATE TABLE IF NOT EXISTS pacchetti (" +
@@ -165,6 +166,7 @@ public class DBManager
             pstmt.setString(4, articolo.getCertificates());
             pstmt.setInt(5, articolo.getIdSeller());
             pstmt.setString(6, "prodotto");
+            pstmt.setBoolean(7, false);
             // Eseguo la query
             pstmt.executeUpdate();
 
@@ -172,6 +174,34 @@ public class DBManager
         } catch (SQLException ex) {
             throw new RuntimeException("DbManager: Errore durante l'accesso al database: " + ex.getMessage());
         }
+    }
+
+
+    public void pubblicaArticolo(IArticolo articolo) throws SQLException {
+        String sql = "UPDATE articoli SET pubblicato = ? WHERE id = ?";
+        try (PreparedStatement pstmt = this.conn.prepareStatement(sql)) {
+            pstmt.setBoolean(1, true);
+            pstmt.setInt(2, articolo.getId());
+            pstmt.executeUpdate();
+        } catch (SQLException ex) {
+            throw new RuntimeException("DbManager: Errore durante l'accesso al database: " + ex.getMessage());
+        }
+        System.out.println("Prodotto " + articolo.getName() + " pubblicato!");
+    }
+
+    public void cancellaArticolo(IArticolo articolo) throws SQLException {
+        String sql = "DELETE FROM articoli WHERE id = ?";
+        try (PreparedStatement pstmt = this.conn.prepareStatement(sql)) {
+            pstmt.setInt(1, articolo.getId());
+            pstmt.executeUpdate();
+        }
+        catch (SQLException ex)
+        {
+            // Gestisci l'errore, ad esempio stampando un messaggio
+            System.err.println("DBManager: Errore durante la cancellazione: " + ex.getMessage());
+        }
+        System.out.println("DBManager: Articolo " + articolo.getName() + " cancellato!");
+
     }
 
     public void setArticolo(IArticolo articolo) throws SQLException {
