@@ -2,7 +2,7 @@ package com.github.fabio03rossi.bitfarm.contenuto;
 
 import java.util.Date;
 
-public class Evento {
+public class Evento extends Contenuto {
     private int id;
     private String nome;
     private String descrizione;
@@ -64,5 +64,15 @@ public class Evento {
 
     public void setIndirizzo(String indirizzo) {
         this.indirizzo = indirizzo;
+    }
+
+    @Override
+    public IStatoContenuto getStato() {
+        return null;
+    }
+
+    @Override
+    public void setStato(IStatoContenuto stato) {
+
     }
 }

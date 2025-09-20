@@ -30,7 +30,7 @@ public class DBManager
 //         --- Metodi per la connessione al server SQLite ---
 // ==============================================================================
 
-    public void startConnection(){
+    public void startConnection() {
         /**
          * Avvia la connessione al database e genera le tabelle chiamando i metodi responsabili
          */
