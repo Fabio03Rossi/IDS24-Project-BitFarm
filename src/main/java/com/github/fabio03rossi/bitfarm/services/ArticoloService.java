@@ -16,7 +16,7 @@ public class ArticoloService implements IArticoloService {
             var articolo = new Prodotto(id, nome, descrizione, prezzo, certs);
             articolo.setStato(new StatoValidazione());
 
-            this.db.setArticolo(articolo);
+            this.db.addArticolo(articolo);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -28,7 +28,7 @@ public class ArticoloService implements IArticoloService {
             var pacchetto = new Pacchetto(id, nome, descrizione, prezzo, certs);
             pacchetto.setStato(new StatoValidazione());
 
-            this.db.setArticolo(pacchetto);
+            this.db.addArticolo(pacchetto);
         } catch (SQLException e) {
             e.printStackTrace();
         }

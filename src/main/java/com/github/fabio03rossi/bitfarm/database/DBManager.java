@@ -87,7 +87,7 @@ public class DBManager
                 "nickname TEXT NOT NULL," +
                 "data_creazione DATETIME NOT NULL," +
                 "email TEXT NOT NULL," +
-                "password TEXT NOT NULL,)";
+                "password TEXT NOT NULL)";
 
         String aziendeTableQuery = "CREATE TABLE IF NOT EXISTS aziende(" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -97,13 +97,13 @@ public class DBManager
                 "tipologia TEXT NOT NULL" +
                 "telefono TEXT NOT NULL," +
                 "iva, TEXT NOT NULL," +
-                "certificazione TEXT,)";
+                "certificazione TEXT)";
 
         String ordiniTableQuery = "CREATE TABLE IF NOT EXISTS ordini(" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "indirizzo TEXT NOT NULL," +
                 "metodo_di_pagamento TEXT NOT NULL" +
-                "id_utente INTEGER NOT NULL,)";
+                "id_utente INTEGER NOT NULL)";
 
         String eventiTableQuery = "CREATE TABLE IF NOT EXISTS eventi(" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -140,8 +140,55 @@ public class DBManager
 
     // --------------- ARTICOLI ---------------
 
-    private Prodotto getProdotto(int id) throws SQLException {
-        Prodotto prodotto = null;
+    public void addArticolo(IArticolo articolo) throws SQLException {
+        /**
+         * Metodo per la scrittura in database di un articolo, sia esso un pacchetto che un prodotto (accetta oggetti IArticle)
+         */
+
+        // Se si tratta di un prodotto semplice, aggiungo solamente i dati relativi al prodotto
+        addProdotto(articolo);
+
+        // Se si tratta di un pacchetto, allora aggiungo anche i dati relativi ai prodotti contenuti
+        if (articolo instanceof Pacchetto) {
+            int idArticolo = articolo.getId();
+            HashMap<Prodotto, Integer> listaProdotti = ((Pacchetto) articolo).getProductList();
+            // Itero la lista e salvo ogni prodotto correlato nel database
+            for (HashMap.Entry<Prodotto, Integer> coppia : listaProdotti.entrySet()) {
+
+                Prodotto prodotto = coppia.getKey();
+                int quantita = coppia.getValue();
+
+                String sql = "INSERT INTO pacchetto (id_prodotto, quantita) VALUES (?, ?, ?)";
+
+                try (PreparedStatement pstmt = this.conn.prepareStatement(sql)) {
+                    // Assegno i valori ai segnaposto
+                    pstmt.setInt(1, articolo.getId());
+                    pstmt.setInt(2, prodotto.getId());
+                    pstmt.setInt(3, quantita);
+                    // Eseguo la query
+                    pstmt.executeUpdate();
+
+                } catch (SQLException ex) {
+                    throw new RuntimeException("DbManager: Errore durante l'accesso al database: " + ex.getMessage());
+                }
+            }
+        }
+
+        System.out.println("Articolo " + articolo.getNome() + " aggiunto!");
+
+    }
+
+    public IArticolo getArticolo(int id) throws SQLException {
+
+        IArticolo articolo = null;
+        articolo = getProdotto(id);
+        String nome = null;
+        String descrizione = null;
+        double prezzo = 0;
+        String certificazioni = null;
+        String tipologia = null;
+
+        // Estraggo i valori del record
         String sql = "SELECT * FROM articoli WHERE id = ?";
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, id);
@@ -150,43 +197,47 @@ public class DBManager
                     // Leggi il tipo dall'attributo "tipo_articolo"
                     String tipoArticolo = rs.getString("tipologia");
 
-                    prodotto = new Prodotto(
-                            rs.getInt("id"),
-                            rs.getString("nome"),
-                            rs.getString("descrizione"),
-                            rs.getDouble("prezzo"),
-                            rs.getString("certificazioni")
-                    );
+                    nome = rs.getString("nome");
+                    descrizione = rs.getString("descrizione");
+                    prezzo = rs.getDouble("prezzo");
+                    certificazioni = rs.getString("certificazioni");
+                    tipologia = rs.getString("tipologia");
                 }
             }
         } catch (SQLException ex) {
             throw new RuntimeException("DbManager: Errore durante l'accesso al database: " + ex.getMessage());
         }
-        return prodotto;
+
+
+        // Controllo se il record è un pacchetto o un prodotto
+        if (Objects.equals(tipologia, "pacchetto")) {
+            // Se è un PACCHETTO, istanzia la classe Pacchetto
+            articolo = getPacchetto(id, nome, descrizione, prezzo, certificazioni);
+        }
+        if(tipologia.equals("prodotto")){
+            articolo = getProdotto(id);
+        }
+        return articolo;
     }
 
-
-
-    private void setProdotto(IArticolo articolo) throws SQLException {
-        String sql = "INSERT INTO articoli (nome, descrizione, prezzo, certificazioni, id_venditore, tipologia) VALUES (?, ?, ?, ?)";
+    public void updateArticolo(IArticolo articolo) throws SQLException {
+        String sql = "UPDATE articoli SET nome = ?, descrizione = ?, prezzo = ?, certificazioni = ? WHERE id = ?";
         try (PreparedStatement pstmt = this.conn.prepareStatement(sql)) {
-            // Imposta i valori per i segnaposto in base al loro tipo
             pstmt.setString(1, articolo.getNome());
             pstmt.setString(2, articolo.getDescrizione());
             pstmt.setDouble(3, articolo.getPrezzo());
             pstmt.setString(4, articolo.getCertificati());
             pstmt.setInt(5, articolo.getId());
-            pstmt.setString(6, "prodotto");
-            pstmt.setBoolean(7, false);
-            // Eseguo la query
-            pstmt.executeUpdate();
-
-            System.out.println("Prodotto " + articolo.getNome() + " aggiunto!");
+            int rowsAffected = pstmt.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Articolo " + articolo.getNome() + " aggiornato correttamente!");
+            } else {
+                System.out.println("Nessun articolo trovato con ID " + articolo.getId() + " da aggiornare.");
+            }
         } catch (SQLException ex) {
-            throw new RuntimeException("DbManager: Errore durante l'accesso al database: " + ex.getMessage());
+            throw new RuntimeException("DbManager: Errore durante l'aggiornamento dell'articolo: " + ex.getMessage());
         }
     }
-
 
     public List<IArticolo> getArticoliNonPubblicati() throws SQLException {
         String sql = "SELECT * FROM articoli WHERE pubblicato IS false";
@@ -243,12 +294,37 @@ public class DBManager
 
     }
 
+    private Prodotto getProdotto(int id) throws SQLException {
+        Prodotto prodotto = null;
+        String sql = "SELECT * FROM articoli WHERE id = ?";
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, id);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    // Leggi il tipo dall'attributo "tipo_articolo"
+                    String tipoArticolo = rs.getString("tipologia");
+
+                    prodotto = new Prodotto(
+                            rs.getInt("id"),
+                            rs.getString("nome"),
+                            rs.getString("descrizione"),
+                            rs.getDouble("prezzo"),
+                            rs.getString("certificazioni")
+                    );
+                }
+            }
+        } catch (SQLException ex) {
+            throw new RuntimeException("DbManager: Errore durante l'accesso al database: " + ex.getMessage());
+        }
+        return prodotto;
+    }
+
     private Pacchetto getPacchetto(int id, String nome, String descrizione, double prezzo, String certificazioni) throws SQLException {
         Pacchetto pacchetto = new Pacchetto(id, nome, descrizione, prezzo, certificazioni);
 
-        int id_pacchetto = articolo.getId();
+        int id_pacchetto = id;
 
-        sql = "SELECT * FROM articoli WHERE id = ?";
+        String sql = "SELECT * FROM articoli WHERE id = ?";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, id_pacchetto);
             try (ResultSet rsp = stmt.executeQuery()) {
@@ -260,104 +336,30 @@ public class DBManager
         } catch (SQLException ex) {
             throw new RuntimeException("Errore durante l'accesso al database: " + ex.getMessage());
         }
-        articolo = pacchetto;
+
+        return pacchetto;
     }
 
-    public void setArticolo(IArticolo articolo) throws SQLException {
-        /**
-         * Metodo per la scrittura in database di un articolo, sia esso un pacchetto che un prodotto (accetta oggetti IArticle)
-         */
+    private void addProdotto(IArticolo articolo) throws SQLException {
+        String sql = "INSERT INTO articoli (nome, descrizione, prezzo, certificazioni, id_venditore, tipologia) VALUES (?, ?, ?, ?)";
+        try (PreparedStatement pstmt = this.conn.prepareStatement(sql)) {
+            // Imposta i valori per i segnaposto in base al loro tipo
+            pstmt.setString(1, articolo.getNome());
+            pstmt.setString(2, articolo.getDescrizione());
+            pstmt.setDouble(3, articolo.getPrezzo());
+            pstmt.setString(4, articolo.getCertificati());
+            pstmt.setInt(5, articolo.getId());
+            pstmt.setString(6, "prodotto");
+            pstmt.setBoolean(7, false);
+            // Eseguo la query
+            pstmt.executeUpdate();
 
-        // Se si tratta di un prodotto semplice, aggiungo solamente i dati relativi al prodotto
-        setProdotto(articolo);
-
-        // Se si tratta di un pacchetto, allora aggiungo anche i dati relativi ai prodotti contenuti
-        if (articolo instanceof Pacchetto) {
-            int idArticolo = articolo.getId();
-            HashMap<Prodotto, Integer> listaProdotti = ((Pacchetto) articolo).getProductList();
-            // Itero la lista e salvo ogni prodotto correlato nel database
-            for (HashMap.Entry<Prodotto, Integer> coppia : listaProdotti.entrySet()) {
-
-                Prodotto prodotto = coppia.getKey();
-                int quantita = coppia.getValue();
-
-                String sql = "INSERT INTO pacchetto (id_prodotto, quantita) VALUES (?, ?, ?)";
-
-                try (PreparedStatement pstmt = this.conn.prepareStatement(sql)) {
-                    // Assegno i valori ai segnaposto
-                    pstmt.setInt(1, articolo.getId());
-                    pstmt.setInt(2, prodotto.getId());
-                    pstmt.setInt(3, quantita);
-                    // Eseguo la query
-                    pstmt.executeUpdate();
-
-                } catch (SQLException ex) {
-                    throw new RuntimeException("DbManager: Errore durante l'accesso al database: " + ex.getMessage());
-                }
-            }
-        }
-
-        System.out.println("Articolo " + articolo.getNome() + " aggiunto!");
-
-    }
-
-    public IArticolo getArticolo(int id) throws SQLException {
-
-        IArticolo articolo = null;
-        articolo = getProdotto(id);
-        String nome = null;
-        String descrizione = null;
-        double prezzo = 0;
-        String certificazioni = null;
-        String tipologia = null;
-
-        // Estraggo i valori del record
-        String sql = "SELECT * FROM articoli WHERE id = ?";
-        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1, id);
-            try (ResultSet rs = pstmt.executeQuery()) {
-                if (rs.next()) {
-                    // Leggi il tipo dall'attributo "tipo_articolo"
-                    String tipoArticolo = rs.getString("tipologia");
-
-                        nome = rs.getString("nome");
-                        descrizione = rs.getString("descrizione");
-                        prezzo = rs.getDouble("prezzo");
-                        certificazioni = rs.getString("certificazioni");
-                        tipologia = rs.getString("tipologia");
-                }
-            }
+            System.out.println("Prodotto " + articolo.getNome() + " aggiunto!");
         } catch (SQLException ex) {
             throw new RuntimeException("DbManager: Errore durante l'accesso al database: " + ex.getMessage());
         }
-
-
-        // Controllo se il record è un pacchetto o un prodotto
-        if (Objects.equals(tipologia, "pacchetto")) {
-            // Se è un PACCHETTO, istanzia la classe Pacchetto
-            Pacchetto pacchetto = new Pacchetto(id, nome, descrizione, prezzo, certificazioni);
-
-            int id_pacchetto = articolo.getId();
-
-            sql = "SELECT * FROM articoli WHERE id = ?";
-            try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-                stmt.setInt(1, id_pacchetto);
-                try (ResultSet rsp = stmt.executeQuery()) {
-                    if (rsp.next()) {
-                        Prodotto prodotto = getProdotto(rsp.getInt("id_articolo"));
-                        pacchetto.addProduct(prodotto, rsp.getInt("quantita"));
-                    }
-                }
-            } catch (SQLException ex) {
-                throw new RuntimeException("Errore durante l'accesso al database: " + ex.getMessage());
-            }
-            articolo = pacchetto;
-        }
-        if(tipologia.equals("prodotto")){
-            articolo = getProdotto(id);
-        }
-        return articolo;
     }
+
 
     // // --------------- EVENTI ---------------
 
@@ -391,7 +393,7 @@ public class DBManager
         return evento;
     }
 
-    public void setEvento(Evento evento){
+    public void addEvento(Evento evento){
         /**
          *
          */
@@ -442,6 +444,24 @@ public class DBManager
         System.out.println("DBManager: Articolo " + evento.getNome() + " cancellato!");
     }
 
+    public void updateEvento(Evento evento) throws SQLException {
+        String sql = "UPDATE eventi SET nome = ?, descrizione = ?, posizione = ? WHERE id = ?";
+        try (PreparedStatement pstmt = this.conn.prepareStatement(sql)) {
+            pstmt.setString(1, evento.getNome());
+            pstmt.setString(2, evento.getDescrizione());
+            pstmt.setString(3, evento.getPosizione().toString());
+            pstmt.setInt(4, evento.getId());
+            int rowsAffected = pstmt.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Evento " + evento.getNome() + " aggiornato correttamente!");
+            } else {
+                System.out.println("Nessun evento trovato con ID " + evento.getId() + " da aggiornare.");
+            }
+        } catch (SQLException ex) {
+            throw new RuntimeException("DbManager: Errore durante l'aggiornamento dell'evento: " + ex.getMessage());
+        }
+    }
+
     // // --------------- UTENTI ---------------
 
     public Utente getUtente(int id) throws SQLException {
@@ -469,7 +489,7 @@ public class DBManager
         return utente;
     }
 
-    public void setUtente(Utente utente) {
+    public void addUtente(Utente utente) {
         String sql = "INSERT INTO utenti(id, nickname, data_creazione, email, password) VALUES (?, ?, ?, ?, ?)";
 
         try (PreparedStatement pstmt = this.conn.prepareStatement(sql)) {
@@ -491,6 +511,24 @@ public class DBManager
         }
 
         System.out.println("Utente " + utente.getNickname() + " aggiunto!");
+    }
+
+    public void updateUtente(Utente utente) throws SQLException {
+        String sql = "UPDATE utenti SET nickname = ?, email = ?, password = ? WHERE id_utente = ?";
+        try (PreparedStatement pstmt = this.conn.prepareStatement(sql)) {
+            pstmt.setString(1, utente.getNickname());
+            pstmt.setString(2, utente.getEmail());
+            pstmt.setString(3, utente.getPassword());
+            pstmt.setInt(4, utente.getId());
+            int rowsAffected = pstmt.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("DBManager: Utente " + utente.getNickname() + " aggiornato correttamente!");
+            } else {
+                System.out.println("DBManager: Nessun utente trovato con ID " + utente.getId() + " da aggiornare.");
+            }
+        } catch (SQLException ex) {
+            throw new RuntimeException("DbManager: Errore durante l'aggiornamento dell'utente: " + ex.getMessage());
+        }
     }
 
     // --------------- ACCOUNT AZIENDALI ---------------
@@ -527,7 +565,7 @@ public class DBManager
         return azienda;
     }
 
-    public void setAzienda(Azienda azienda) {
+    public void addAzienda(Azienda azienda) {
         String sql = "INSERT INTO aziende (id, partitaIVA, nome, descrizione, indirizzo, telefono, tipologia, certificazioni) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (PreparedStatement pstmt = this.conn.prepareStatement(sql)) {
@@ -551,6 +589,26 @@ public class DBManager
         System.out.println("Azienda " + azienda.getNome() + " aggiunta con successo!");
     }
 
+    public void updateAzienda(Azienda azienda) throws SQLException {
+        String sql = "UPDATE aziende SET nome = ?, descrizione = ?, indirizzo = ?, telefono = ?, tipologia = ?, certificazione = ? WHERE id = ?";
+        try (PreparedStatement pstmt = this.conn.prepareStatement(sql)) {
+            pstmt.setString(1, azienda.getNome());
+            pstmt.setString(2, azienda.getDescrizione());
+            pstmt.setString(3, azienda.getIndirizzo());
+            pstmt.setString(4, azienda.getTelefono());
+            pstmt.setString(5, azienda.getTipologia());
+            pstmt.setString(6, azienda.getCertificazioni());
+            pstmt.setInt(7, azienda.getId());
+            int rowsAffected = pstmt.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("DBManager: Azienda " + azienda.getNome() + " aggiornata correttamente!");
+            } else {
+                System.out.println("DBManager: Nessuna azienda trovata con ID " + azienda.getId() + " da aggiornare.");
+            }
+        } catch (SQLException ex) {
+            throw new RuntimeException("DbManager: Errore durante l'aggiornamento dell'azienda: " + ex.getMessage());
+        }
+    }
 
 }
 

@@ -2,10 +2,8 @@ package com.github.fabio03rossi.bitfarm.services;
 
 import com.github.fabio03rossi.bitfarm.contenuto.Evento;
 import com.github.fabio03rossi.bitfarm.contenuto.StatoValidazione;
-import com.github.fabio03rossi.bitfarm.contenuto.articolo.Prodotto;
 import com.github.fabio03rossi.bitfarm.database.DBManager;
 
-import java.sql.SQLException;
 import java.util.Date;
 
 public class EventoService implements IEventoService {
@@ -17,7 +15,7 @@ public class EventoService implements IEventoService {
             var evento = new Evento(id, nome, descrizione, data, posizione);
             evento.setStato(new StatoValidazione());
 
-            this.db.setEvento(evento);
+            this.db.addEvento(evento);
         } catch (Exception e) {
             e.printStackTrace();
         }
