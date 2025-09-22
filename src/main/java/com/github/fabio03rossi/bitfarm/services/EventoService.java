@@ -7,8 +7,6 @@ import com.github.fabio03rossi.bitfarm.database.DBManager;
 import org.slf4j.LoggerFactory;
 
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class EventoService implements IEventoService {
     private static final org.slf4j.Logger log = LoggerFactory.getLogger(EventoService.class);
@@ -29,14 +27,11 @@ public class EventoService implements IEventoService {
     @Override
     public void modificaEvento(int id, String nome, String descrizione, Date data, String posizione) {
         try {
-            Evento ev = this.db.getEvento(id);
-            ev.setNome(nome);
-            ev.setDescrizione(descrizione);
-            ev.setData(data);
-            ev.setPosizione(posizione);
+            Evento ev = new Evento(nome, descrizione, data, posizione);
+            ev.setId(id);
             this.db.updateEvento(ev);
         } catch (Exception ex) {
-            Logger.getLogger(AccountService.class.getName()).log(Level.SEVERE, null, ex);
+            log.error("EventoService: Errore nella modificare la evento", ex);
         }
     }
 }

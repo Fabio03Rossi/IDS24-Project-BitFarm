@@ -95,13 +95,7 @@ class ArticoloServiceTest {
         int id = 1;
 
         assertAll(
-                () -> articoloService.modificaPacchetto(
-                        id,
-                        dto.nome(),
-                        dto.descrizione(),
-                        dto.prezzo(),
-                        dto.certificazioni()
-                )
+                () -> articoloService.modificaArticolo(dto, id)
         );
     }
 }

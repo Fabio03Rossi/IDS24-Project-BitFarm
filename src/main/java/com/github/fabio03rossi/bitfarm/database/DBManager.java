@@ -55,7 +55,7 @@ public class DBManager
     private void connect(){
         try
         {
-            this.conn = DriverManager.getConnection("jdbc:sqlite:dbArticoli");
+            this.conn = DriverManager.getConnection("jdbc:sqlite:bitfarmDatabase");
             this.stmt = conn.createStatement();
             this.conn.setAutoCommit(false); // Disabilito l'auto-commit
             log.info("Connessione al database stabilita");
@@ -109,7 +109,9 @@ public class DBManager
                 "tipologia TEXT NOT NULL," +
                 "telefono TEXT NOT NULL," +
                 "partita_iva TEXT NOT NULL," +
-                "certificazione TEXT)";
+                "certificazioni TEXT," +
+                "email TEXT," +
+                "password TEXT NOT NULL)";
 
         String ordiniTableQuery = "CREATE TABLE IF NOT EXISTS ordini(" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -351,7 +353,7 @@ public class DBManager
     }
 
     private void addProdotto(IArticolo articolo) {
-        String sql = "INSERT INTO articoli (nome, descrizione, prezzo, certificazioni, id_venditore, tipologia) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO articoli (nome, descrizione, prezzo, certificazioni, id_venditore, tipologia, pubblicato) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement pstmt = this.conn.prepareStatement(sql)) {
             // Imposta i valori per i segnaposto in base al loro tipo
             pstmt.setString(1, articolo.getNome());
@@ -407,18 +409,18 @@ public class DBManager
         /**
          *
          */
-        String sql = "INSERT INTO eventi (id, nome, descrizione, data_creazione, numero_partecipanti, posizione) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO eventi (nome, descrizione, data_creazione, numero_partecipanti, posizione) VALUES (?, ?, ?, ?, ?)";
         try (PreparedStatement pstmt = this.conn.prepareStatement(sql)) {
             // Imposta i valori per i segnaposto in base al loro tipo
-            pstmt.setInt(1, evento.getId());
-            pstmt.setString(2, evento.getNome());
-            pstmt.setString(3, evento.getDescrizione());
+
+            pstmt.setString(1, evento.getNome());
+            pstmt.setString(2, evento.getDescrizione());
 
             java.sql.Date sqlDate = new java.sql.Date(evento.getData().getTime());
-            pstmt.setDate(4, sqlDate);
+            pstmt.setDate(3, sqlDate);
 
-            pstmt.setInt(5, evento.getNumeroPartecipanti());
-            pstmt.setString(6, evento.getPosizione().toString());
+            pstmt.setInt(4, evento.getNumeroPartecipanti());
+            pstmt.setString(5, evento.getPosizione().toString());
             // Eseguo la query
             pstmt.executeUpdate();
 
@@ -523,12 +525,12 @@ public class DBManager
     }
 
     public void updateUtente(Utente utente) {
-        String sql = "UPDATE utenti SET nickname = ?, email = ?, password = ? WHERE id_utente = ?";
+        String sql = "UPDATE utenti SET nickname = ?, email = ?, password = ? WHERE id = ?";
         try (PreparedStatement pstmt = this.conn.prepareStatement(sql)) {
             pstmt.setString(1, utente.getNickname());
             pstmt.setString(2, utente.getEmail());
             pstmt.setString(3, utente.getPassword());
-            pstmt.setInt(4, utente.getId());
+
             int rowsAffected = pstmt.executeUpdate();
             if (rowsAffected > 0) {
                 log.info("DBManager: Utente " + utente.getNickname() + " aggiornato correttamente!");
@@ -546,7 +548,7 @@ public class DBManager
         /**
          *
          */
-        String sql = "SELECT * FROM utenti WHERE id = ?";
+        String sql = "SELECT * FROM aziende WHERE id = ?";
         Azienda azienda = null;
 
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -560,7 +562,6 @@ public class DBManager
                     String nome = rs.getString("nome");
                     String descrizione = rs.getString("descrizione");
                     String indirizzo = rs.getString("indirizzo");
-                    Date data = rs.getDate("data");
                     String telefono = rs.getString("telefono");
                     String tipologia = rs.getString("tipologia");
                     String certificazioni = rs.getString("certificazioni");
@@ -577,18 +578,19 @@ public class DBManager
     }
 
     public void addAzienda(Azienda azienda) {
-        String sql = "INSERT INTO aziende (id, partitaIVA, nome, descrizione, indirizzo, telefono, tipologia, certificazioni) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO aziende (partita_iva, nome, descrizione, indirizzo, telefono, tipologia, certificazioni, password) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (PreparedStatement pstmt = this.conn.prepareStatement(sql)) {
             // Imposta i valori per i segnaposto (?) in base ai dati dell'oggetto Azienda
-            pstmt.setInt(1, azienda.getId());
-            pstmt.setString(2, azienda.getPartitaIVA());
-            pstmt.setString(3, azienda.getNome());
-            pstmt.setString(4, azienda.getDescrizione());
-            pstmt.setString(5, azienda.getIndirizzo());
-            pstmt.setString(6, azienda.getTelefono());
-            pstmt.setString(7, azienda.getTipologia());
-            pstmt.setString(8, azienda.getCertificazioni());
+
+            pstmt.setString(1, azienda.getPartitaIVA());
+            pstmt.setString(2, azienda.getNome());
+            pstmt.setString(3, azienda.getDescrizione());
+            pstmt.setString(4, azienda.getIndirizzo());
+            pstmt.setString(5, azienda.getTelefono());
+            pstmt.setString(6, azienda.getTipologia());
+            pstmt.setString(7, azienda.getCertificazioni());
+            pstmt.setString(8, azienda.getPassword());
 
             // Esegue la query di inserimento
             pstmt.executeUpdate();
@@ -601,7 +603,7 @@ public class DBManager
     }
 
     public void updateAzienda(Azienda azienda) {
-        String sql = "UPDATE aziende SET nome = ?, descrizione = ?, indirizzo = ?, telefono = ?, tipologia = ?, certificazione = ? WHERE id = ?";
+        String sql = "UPDATE aziende SET nome = ?, descrizione = ?, indirizzo = ?, telefono = ?, tipologia = ?, certificazioni = ? WHERE id = ?";
         try (PreparedStatement pstmt = this.conn.prepareStatement(sql)) {
             pstmt.setString(1, azienda.getNome());
             pstmt.setString(2, azienda.getDescrizione());
