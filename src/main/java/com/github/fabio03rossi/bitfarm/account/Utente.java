@@ -5,10 +5,12 @@ public class Utente extends Account {
     private int id = -1;
     private String indirizzo;
 
+
     public Utente(String nickname, String email, String password) {
         super(email, password);
         this.nickname = nickname;
     }
+
 
     public Utente(int id, String nickname, String email, String password) {
         this(nickname, email, password);
