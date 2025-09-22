@@ -384,7 +384,7 @@ public class DBManager
                     String numeroPartecipanti = rs.getString("numero_partecipanti");
                     String posizione = rs.getString("posizione");
 
-                    evento = new Evento(id, nome, descrizione, data , posizione);
+                    evento = new Evento(nome, descrizione, data , posizione);
                 }
             }
         } catch (SQLException ex) {

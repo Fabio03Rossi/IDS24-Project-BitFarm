@@ -8,22 +8,20 @@ public class Pacchetto extends AbstractArticolo implements IArticoloComposto {
         private String nome;
         private String description;
         private double price;
-        private int id;
+        private int id = -1;
         private String Certificazioni;
 
-        public Pacchetto( int id, String nomeProdotto, String descrizioneProdotto, double prezzoProdotto, String certificazioni) {
+        public Pacchetto(String nomeProdotto, String descrizioneProdotto, double prezzoProdotto, String certificazioni) {
                 this.nome = nomeProdotto;
                 this.description = descrizioneProdotto;
                 this.price = prezzoProdotto;
-                this.id = id;
         }
 
-        public Pacchetto( int id, String nomeProdotto, String descrizioneProdotto, double prezzoProdotto, String certificazioni, HashMap<Prodotto, Integer> listaProdotti) {
+        public Pacchetto(String nomeProdotto, String descrizioneProdotto, double prezzoProdotto, String certificazioni, HashMap<Prodotto, Integer> listaProdotti) {
                 this.listaProdotti = listaProdotti;
                 this.nome = nomeProdotto;
                 this.description = descrizioneProdotto;
                 this.price = prezzoProdotto;
-                this.id = id;
         }
 
         public void addProduct(Prodotto product, int quantity) {

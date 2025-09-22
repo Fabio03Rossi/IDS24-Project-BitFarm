@@ -1,14 +1,13 @@
 package com.github.fabio03rossi.bitfarm.contenuto.articolo;
 
 public class Prodotto extends AbstractArticolo {
-    private final int id;
+    private int id = -1;
     private String name;
     private String description;
     private Double price;
     private String certs;
 
-    public Prodotto(int id, String nome, String descrizione, Double prezzo, String certs) {
-        this.id = id;
+    public Prodotto(String nome, String descrizione, Double prezzo, String certs) {
         this.name = nome;
         this.description = descrizione;
         this.price = prezzo;
@@ -16,6 +15,10 @@ public class Prodotto extends AbstractArticolo {
     }
 
     public int getId() {
+        return id;
+    }
+
+    public int setId() {
         return id;
     }
 

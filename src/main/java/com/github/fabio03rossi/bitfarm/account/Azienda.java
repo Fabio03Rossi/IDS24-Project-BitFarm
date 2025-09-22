@@ -1,7 +1,7 @@
 package com.github.fabio03rossi.bitfarm.account;
 
 public class Azienda extends Account {
-    private int id;
+    private int id = -1;
     private String partitaIVA;
     private String nome;
     private String descrizione;
@@ -10,7 +10,8 @@ public class Azienda extends Account {
     private String tipologia;
     private String certificazioni;
 
-    public Azienda(int id, String partitaIVA, String nome, String descrizione, String indirizzo, String telefono, String tipologia, String certificazioni) {
+    public Azienda(String partitaIVA, String nome, String email, String password, String descrizione, String indirizzo, String telefono, String tipologia, String certificazioni) {
+        super(email, password);
         this.partitaIVA = partitaIVA;
         this.nome = nome;
         this.descrizione = descrizione;

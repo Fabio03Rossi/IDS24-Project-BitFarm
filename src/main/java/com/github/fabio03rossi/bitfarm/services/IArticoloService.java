@@ -1,14 +1,15 @@
 package com.github.fabio03rossi.bitfarm.services;
 
-public interface IArticoloService {
-    void creaArticolo(int id, String nome, String descrizione, Double prezzo, String certs);
+import java.sql.SQLException;
 
-    void creaPacchetto(int id, String nome, String descrizione, Double prezzo, String certs);
+public interface IArticoloService {
+
+    void creaArticolo(String nome, String descrizione, Double prezzo, String certs);
+    void creaPacchetto(String nome, String descrizione, Double prezzo, String certs);
 
     void eliminaArticolo();
-    void modificaArticolo();
+    void modificaArticolo(int id);
 
     void eliminaPacchetto();
-
-    void modificaPacchetto();
+    void modificaPacchetto(int id);
 }
