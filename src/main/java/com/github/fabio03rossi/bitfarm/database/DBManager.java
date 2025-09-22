@@ -57,10 +57,11 @@ public class DBManager
         {
             this.conn = DriverManager.getConnection("jdbc:sqlite:dbArticoli");
             this.stmt = conn.createStatement();
-            System.out.println("Connessione al database stabilita");
+            this.conn.setAutoCommit(false); // Disabilito l'auto-commit
+            log.info("Connessione al database stabilita");
 
         } catch (SQLException e) {
-            System.err.println("DbManager: errore nella connessione al server SQLite, tipo errore: " + e.getMessage());
+            log.error("DbManager: errore nella connessione al server SQLite, tipo errore: " + e.getMessage());
         }
     }
 
@@ -72,11 +73,11 @@ public class DBManager
         String articoliTableQuery = "CREATE TABLE IF NOT EXISTS articoli (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "nome TEXT NOT NULL," +
-                "descrizione TEXT NOT NULL)," +
-                "prezzo DOUBLE NOT NULL)," +
-                "certificazioni TEXT NOT NULL)," +
+                "descrizione TEXT NOT NULL," +
+                "prezzo DOUBLE NOT NULL," +
+                "certificazioni TEXT NOT NULL," +
                 "id_venditore INTEGER NOT NULL," +
-                "tipologia TEXT NOT NULL" +
+                "tipologia TEXT NOT NULL," +
                 "pubblicato BOOLEAN DEFAULT false)";
 
         String ordiniArticoliTableQuery = "CREATE TABLE IF NOT EXISTS ordini_articoli (" +
@@ -94,7 +95,7 @@ public class DBManager
                 "FOREIGN KEY (id_articolo) REFERENCES articoli (id_articolo))";
 
         String utentiTableQuery = "CREATE TABLE IF NOT EXISTS utenti(" +
-                "id_utente INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "nickname TEXT NOT NULL," +
                 "data_creazione DATETIME NOT NULL," +
                 "email TEXT NOT NULL," +
@@ -105,23 +106,23 @@ public class DBManager
                 "nome TEXT NOT NULL," +
                 "descrizione TEXT," +
                 "indirizzo TEXT NOT NULL," +
-                "tipologia TEXT NOT NULL" +
+                "tipologia TEXT NOT NULL," +
                 "telefono TEXT NOT NULL," +
-                "iva, TEXT NOT NULL," +
+                "iva TEXT NOT NULL," +
                 "certificazione TEXT)";
 
         String ordiniTableQuery = "CREATE TABLE IF NOT EXISTS ordini(" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "indirizzo TEXT NOT NULL," +
-                "metodo_di_pagamento TEXT NOT NULL" +
+                "metodo_di_pagamento TEXT NOT NULL," +
                 "id_utente INTEGER NOT NULL)";
 
         String eventiTableQuery = "CREATE TABLE IF NOT EXISTS eventi(" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                "nome TEXT NOT NULL" +
+                "nome TEXT NOT NULL," +
                 "descrizione TEXT," +
                 "data_creazione DATETIME NOT NULL," +
-                "numero_partecipanti INTEGER" +
+                "numero_partecipanti INTEGER," +
                 "posizione TEXT NOT NULL," +
                 "pubblicato BOOLEAN DEFAULT false)";
 
@@ -139,10 +140,10 @@ public class DBManager
             conn.commit();
 
         } catch (SQLException e) {
-            System.err.println("DbManager: errore nella creazione delle tabelle, tipo errore: " + e.getMessage());
+            log.error("DbManager: errore nella creazione delle tabelle, tipo errore: " + e.getMessage());
         }
 
-        System.out.println("Tabelle create correttamente");
+        log.info("Tabelle create correttamente");
 
     }
 
@@ -186,7 +187,7 @@ public class DBManager
             }
         }
 
-        System.out.println("Articolo " + articolo.getNome() + " aggiunto!");
+        log.info("Articolo " + articolo.getNome() + " aggiunto!");
 
     }
 
@@ -242,9 +243,9 @@ public class DBManager
             pstmt.setInt(5, articolo.getId());
             int rowsAffected = pstmt.executeUpdate();
             if (rowsAffected > 0) {
-                System.out.println("Articolo " + articolo.getNome() + " aggiornato correttamente!");
+                log.info("Articolo " + articolo.getNome() + " aggiornato correttamente!");
             } else {
-                System.out.println("Nessun articolo trovato con ID " + articolo.getId() + " da aggiornare.");
+                log.info("Nessun articolo trovato con ID " + articolo.getId() + " da aggiornare.");
             }
         } catch (SQLException ex) {
             throw new RuntimeException("DbManager: Errore durante l'aggiornamento dell'articolo: " + ex.getMessage());
@@ -279,30 +280,30 @@ public class DBManager
         return listaArticoli;
     }
 
-    public void pubblicaArticolo(IArticolo articolo) throws SQLException {
+    public void pubblicaArticolo(int id) throws SQLException {
         String sql = "UPDATE articoli SET pubblicato = ? WHERE id = ?";
         try (PreparedStatement pstmt = this.conn.prepareStatement(sql)) {
             pstmt.setBoolean(1, true);
-            pstmt.setInt(2, articolo.getId());
+            pstmt.setInt(2, id);
             pstmt.executeUpdate();
         } catch (SQLException ex) {
             throw new RuntimeException("DbManager: Errore durante l'accesso al database: " + ex.getMessage());
         }
-        System.out.println("DBManager: Articolo " + articolo.getNome() + " pubblicato!");
+        log.info("DBManager: Articolo con id " + id + " pubblicato!");
     }
 
-    public void cancellaArticolo(IArticolo articolo) throws SQLException {
+    public void rifiutaArticolo(int id) throws SQLException {
         String sql = "DELETE FROM articoli WHERE id = ?";
         try (PreparedStatement pstmt = this.conn.prepareStatement(sql)) {
-            pstmt.setInt(1, articolo.getId());
+            pstmt.setInt(1, id);
             pstmt.executeUpdate();
         }
         catch (SQLException ex)
         {
             // Gestisci l'errore, ad esempio stampando un messaggio
-            System.err.println("DBManager: Errore durante la cancellazione: " + ex.getMessage());
+            log.error("DBManager: Errore durante la cancellazione: " + ex.getMessage());
         }
-        System.out.println("DBManager: Articolo " + articolo.getNome() + " cancellato!");
+        log.info("DBManager: Proposta di articolo con id " + id + " cancellato!");
 
     }
 
@@ -365,7 +366,7 @@ public class DBManager
             // Eseguo la query
             pstmt.executeUpdate();
 
-            System.out.println("Prodotto " + articolo.getNome() + " aggiunto!");
+            log.info("Prodotto " + articolo.getNome() + " aggiunto!");
         } catch (SQLException ex) {
             throw new RuntimeException("DbManager: Errore durante l'accesso al database: " + ex.getMessage());
         }
@@ -423,36 +424,36 @@ public class DBManager
             // Eseguo la query
             pstmt.executeUpdate();
 
-            System.out.println("Evento " + evento.getNome() + " aggiunto!");
+            log.info("Evento " + evento.getNome() + " aggiunto!");
         } catch (SQLException ex) {
             throw new RuntimeException("DbManager: Errore durante l'accesso al database: " + ex.getMessage());
         }
     }
 
-    public void pubblicaEvento(Evento evento){
+    public void pubblicaEvento(int id){
         String sql = "UPDATE eventi SET pubblicato = ? WHERE id = ?";
         try (PreparedStatement pstmt = this.conn.prepareStatement(sql)) {
             pstmt.setBoolean(1, true);
-            pstmt.setInt(2, evento.getId());
+            pstmt.setInt(2, id);
             pstmt.executeUpdate();
         } catch (SQLException ex) {
             throw new RuntimeException("DbManager: Errore durante l'accesso al database: " + ex.getMessage());
         }
-        System.out.println("DBManager: Evento " + evento.getNome() + " pubblicato!");
+        log.info("DBManager: Evento con id " + id + " pubblicato!");
     }
 
-    public void cancellaEvento(Evento evento){
+    public void rifiutaEvento(int id){
         String sql = "DELETE FROM eventi WHERE id = ?";
         try (PreparedStatement pstmt = this.conn.prepareStatement(sql)) {
-            pstmt.setInt(1, evento.getId());
+            pstmt.setInt(1, id);
             pstmt.executeUpdate();
         }
         catch (SQLException ex)
         {
             // Gestisci l'errore, ad esempio stampando un messaggio
-            System.err.println("DBManager: Errore durante la cancellazione: " + ex.getMessage());
+            log.error("DBManager: Errore durante la cancellazione: " + ex.getMessage());
         }
-        System.out.println("DBManager: Articolo " + evento.getNome() + " cancellato!");
+        log.info("DBManager: Proposta di evento con id " + id + " cancellato!");
     }
 
     public void updateEvento(Evento evento) throws SQLException {
@@ -464,9 +465,9 @@ public class DBManager
             pstmt.setInt(4, evento.getId());
             int rowsAffected = pstmt.executeUpdate();
             if (rowsAffected > 0) {
-                System.out.println("Evento " + evento.getNome() + " aggiornato correttamente!");
+                log.info("Evento " + evento.getNome() + " aggiornato correttamente!");
             } else {
-                System.out.println("Nessun evento trovato con ID " + evento.getId() + " da aggiornare.");
+                log.info("Nessun evento trovato con ID " + evento.getId() + " da aggiornare.");
             }
         } catch (SQLException ex) {
             throw new RuntimeException("DbManager: Errore durante l'aggiornamento dell'evento: " + ex.getMessage());
@@ -501,18 +502,17 @@ public class DBManager
     }
 
     public void addUtente(Utente utente) {
-        String sql = "INSERT INTO utenti(id, nickname, data_creazione, email, password) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO utenti(nickname, data_creazione, email, password) VALUES (?, ?, ?, ?, ?)";
 
         try (PreparedStatement pstmt = this.conn.prepareStatement(sql)) {
             // Set values for placeholders
-            pstmt.setInt(1, utente.getId());
-            pstmt.setString(2, utente.getNickname());
+            pstmt.setString(1, utente.getNickname());
 
             java.sql.Date sqlDate = new java.sql.Date(utente.getDataCreazione().getTime());
-            pstmt.setDate(4, sqlDate);
+            pstmt.setDate(2, sqlDate);
 
-            pstmt.setString(4, utente.getEmail());
-            pstmt.setString(5, utente.getPassword());
+            pstmt.setString(3, utente.getEmail());
+            pstmt.setString(4, utente.getPassword());
 
             // Execute the query
             pstmt.executeUpdate();
@@ -521,7 +521,7 @@ public class DBManager
             throw new RuntimeException("DbManager: Errore durante l'accesso al database: " + ex.getMessage());
         }
 
-        System.out.println("Utente " + utente.getNickname() + " aggiunto!");
+        log.info("Utente " + utente.getNickname() + " aggiunto!");
     }
 
     public void updateUtente(Utente utente) throws SQLException {
@@ -533,9 +533,9 @@ public class DBManager
             pstmt.setInt(4, utente.getId());
             int rowsAffected = pstmt.executeUpdate();
             if (rowsAffected > 0) {
-                System.out.println("DBManager: Utente " + utente.getNickname() + " aggiornato correttamente!");
+                log.info("DBManager: Utente " + utente.getNickname() + " aggiornato correttamente!");
             } else {
-                System.out.println("DBManager: Nessun utente trovato con ID " + utente.getId() + " da aggiornare.");
+                log.info("DBManager: Nessun utente trovato con ID " + utente.getId() + " da aggiornare.");
             }
         } catch (SQLException ex) {
             throw new RuntimeException("DbManager: Errore durante l'aggiornamento dell'utente: " + ex.getMessage());
@@ -599,7 +599,7 @@ public class DBManager
             throw new RuntimeException("DbManager: Errore durante l'inserimento dell'azienda: " + ex.getMessage(), ex);
         }
 
-        System.out.println("Azienda " + azienda.getNome() + " aggiunta con successo!");
+        log.info("Azienda " + azienda.getNome() + " aggiunta con successo!");
     }
 
     public void updateAzienda(Azienda azienda) throws SQLException {
@@ -614,9 +614,9 @@ public class DBManager
             pstmt.setInt(7, azienda.getId());
             int rowsAffected = pstmt.executeUpdate();
             if (rowsAffected > 0) {
-                System.out.println("DBManager: Azienda " + azienda.getNome() + " aggiornata correttamente!");
+                log.info("DBManager: Azienda " + azienda.getNome() + " aggiornata correttamente!");
             } else {
-                System.out.println("DBManager: Nessuna azienda trovata con ID " + azienda.getId() + " da aggiornare.");
+                log.info("DBManager: Nessuna azienda trovata con ID " + azienda.getId() + " da aggiornare.");
             }
         } catch (SQLException ex) {
             throw new RuntimeException("DbManager: Errore durante l'aggiornamento dell'azienda: " + ex.getMessage());
@@ -708,7 +708,7 @@ public class DBManager
             throw new RuntimeException("DBManager: Errore durante l'inserimento degli articoli dell'ordine: " + ex.getMessage());
         }
 
-        System.out.println("Ordine aggiunto con successo con ID: " + idGeneratoOrdine);
+        log.info("Ordine aggiunto con successo con ID: " + idGeneratoOrdine);
     }
 
     public void deleteOrdine(Ordine ordine) throws SQLException {
@@ -718,7 +718,7 @@ public class DBManager
             pstmtArticoli.setInt(1, ordine.getId()); // Assumendo che Ordine abbia un getId()
             pstmtArticoli.setInt(1, ordine.getId()); // Assumendo che Ordine abbia un getId()
             int rowsAffected = pstmtArticoli.executeUpdate();
-            System.out.println("Cancellati " + rowsAffected + " articoli correlati all'ordine " + ordine.getId());
+            log.info("Cancellati " + rowsAffected + " articoli correlati all'ordine " + ordine.getId());
         }
 
         // 2. Cancella il record principale nella tabella ordini
@@ -727,9 +727,9 @@ public class DBManager
             pstmtOrdine.setInt(1, ordine.getId());
             int rowsAffected = pstmtOrdine.executeUpdate();
             if (rowsAffected > 0) {
-                System.out.println("Ordine " + ordine.getId() + " eliminato con successo.");
+                log.info("Ordine " + ordine.getId() + " eliminato con successo.");
             } else {
-                System.out.println("Nessun ordine trovato con ID " + ordine.getId() + " da eliminare.");
+                log.info("Nessun ordine trovato con ID " + ordine.getId() + " da eliminare.");
             }
         } catch (SQLException ex) {
             throw new RuntimeException("DBManager: Errore durante l'eliminazione dell'ordine: " + ex.getMessage());
@@ -777,16 +777,16 @@ public class DBManager
 
             // Conferma la transazione
             this.conn.commit();
-            System.out.println("Ordine " + ordine.getId() + " aggiornato correttamente, inclusi gli articoli.");
+            log.info("Ordine " + ordine.getId() + " aggiornato correttamente, inclusi gli articoli.");
 
         } catch (SQLException ex) {
             // In caso di errore, annulla la transazione per evitare modifiche parziali
             if (this.conn != null) {
                 try {
-                    System.err.println("Transazione annullata a causa di un errore.");
+                    log.error("Transazione annullata a causa di un errore.");
                     this.conn.rollback();
                 } catch (SQLException e) {
-                    System.err.println("Errore durante il rollback: " + e.getMessage());
+                    log.error("Errore durante il rollback: " + e.getMessage());
                 }
             }
             throw new RuntimeException("DBManager: Errore durante l'aggiornamento dell'ordine: " + ex.getMessage(), ex);

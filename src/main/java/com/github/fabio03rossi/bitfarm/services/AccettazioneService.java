@@ -48,10 +48,10 @@ public class AccettazioneService implements IAccettazioneService {
 
         if(r instanceof IArticolo articolo) {
             if (b) db.pubblicaArticolo(articolo);
-            else db.cancellaArticolo(articolo);
+            else db.rifiutaArticolo(articolo);
 
         } else if(r instanceof Evento evento)
             if (b) db.pubblicaEvento(evento);
-            else db.cancellaEvento(evento);
+            else db.rifiutaEvento(evento);
     }
 }

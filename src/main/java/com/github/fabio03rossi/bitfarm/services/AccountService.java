@@ -42,7 +42,7 @@ public class AccountService implements IAccountService {
             ut.setPassword(password);
             this.db.updateUtente(ut);
         } catch (Exception ex) {
-            Logger.getLogger(AccountService.class.getName()).log(Level.SEVERE, null, ex);
+            log.error("Errore nella modifica dell'account, tipo di errore: " + ex);
         }
     }
 
@@ -76,7 +76,7 @@ public class AccountService implements IAccountService {
             az.setCertificazioni(certificazioni);
             this.db.updateAzienda(az);
         } catch (Exception ex) {
-            Logger.getLogger(AccountService.class.getName()).log(Level.SEVERE, null, ex);
+            log.error("Errore nella modifica dell'azienda, tipo di errore: " + ex);
         }
     }
 }
