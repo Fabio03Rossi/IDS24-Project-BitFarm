@@ -8,7 +8,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class AccountService implements IAccountService {
-    private final DBManager db = DBManager.getInstance();
+    private final DBManager db;
+
+    public AccountService() {
+        this.db = DBManager.getInstance();;
+    }
 
     @Override
     public void registraAccount(String nickname, String email, String password) {
