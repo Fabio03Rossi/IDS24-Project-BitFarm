@@ -2,7 +2,7 @@ package com.github.fabio03rossi.bitfarm.services;
 
 public interface IAccountService {
     void registraAccount(String nickname, String email, String password);
-    void loginAccount(String email, String password);
+    boolean loginAccount(String email, String password);
     void eliminaAccount(int id);
     void modificaAccount(int id, String nickname, String email, String password);
 

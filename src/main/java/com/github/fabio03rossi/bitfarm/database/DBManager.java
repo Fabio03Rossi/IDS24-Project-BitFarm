@@ -733,7 +733,67 @@ public class DBManager
         }
     }
 
-    public void updateOrdine(Ordine ordine) throws SQLException {}
+    public void updateOrdine(Ordine ordine) throws SQLException {
+        try {
+            // Avvia una transazione per assicurare la coerenza dei dati
+            this.conn.setAutoCommit(false);
+
+            // 1. Aggiorna i dati principali dell'ordine
+            String sqlUpdateOrdine = "UPDATE ordini SET indirizzo = ?, metodo_di_pagamento = ?, id_utente = ? WHERE id = ?";
+            try (PreparedStatement pstmtOrdine = this.conn.prepareStatement(sqlUpdateOrdine)) {
+                pstmtOrdine.setString(1, ordine.getIndirizzo());
+                pstmtOrdine.setString(2, ordine.getMetodoDiPagamento());
+                pstmtOrdine.setInt(3, ordine.getIdUtente());
+                pstmtOrdine.setInt(4, ordine.getId()); // Assumendo che Ordine abbia un metodo getId()
+                pstmtOrdine.executeUpdate();
+            }
+
+            // 2. Cancella i vecchi articoli correlati
+            String sqlDeleteArticoli = "DELETE FROM ordini_articoli WHERE id_ordine = ?";
+            try (PreparedStatement pstmtDelete = this.conn.prepareStatement(sqlDeleteArticoli)) {
+                pstmtDelete.setInt(1, ordine.getId());
+                pstmtDelete.executeUpdate();
+            }
+
+            // 3. Inserisci i nuovi articoli aggiornati
+            String sqlInsertArticoli = "INSERT INTO ordini_articoli(id_ordine, id_articolo, quantita) VALUES (?, ?, ?)";
+            try (PreparedStatement pstmtInsert = this.conn.prepareStatement(sqlInsertArticoli)) {
+                // Assumendo che Carrello abbia un metodo getArticoli()
+                HashMap<IArticolo, Integer> articoliNelCarrello = ordine.getCarrello().getListaArticolo();
+
+                for (Map.Entry<IArticolo, Integer> entry : articoliNelCarrello.entrySet()) {
+                    IArticolo articolo = entry.getKey();
+                    int quantita = entry.getValue();
+
+                    pstmtInsert.setInt(1, ordine.getId());
+                    pstmtInsert.setInt(2, articolo.getId());
+                    pstmtInsert.setInt(3, quantita);
+                    pstmtInsert.executeUpdate();
+                }
+            }
+
+            // Conferma la transazione
+            this.conn.commit();
+            System.out.println("Ordine " + ordine.getId() + " aggiornato correttamente, inclusi gli articoli.");
+
+        } catch (SQLException ex) {
+            // In caso di errore, annulla la transazione per evitare modifiche parziali
+            if (this.conn != null) {
+                try {
+                    System.err.println("Transazione annullata a causa di un errore.");
+                    this.conn.rollback();
+                } catch (SQLException e) {
+                    System.err.println("Errore durante il rollback: " + e.getMessage());
+                }
+            }
+            throw new RuntimeException("DBManager: Errore durante l'aggiornamento dell'ordine: " + ex.getMessage(), ex);
+        } finally {
+            // Ripristina l'auto-commit
+            if (this.conn != null) {
+                this.conn.setAutoCommit(true);
+            }
+        }
+    }
 
 }
 

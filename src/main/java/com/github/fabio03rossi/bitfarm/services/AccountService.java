@@ -16,9 +16,15 @@ public class AccountService implements IAccountService {
         this.db.addUtente(utente);
     }
 
-    @Override
-    public void loginAccount(String email, String password) {
+    public void registraAccount(int id, String nickname, String email, String password) {
+        var utente = new Utente(id, nickname, email, password);
+        this.db.addUtente(utente);
+    }
 
+    @Override
+    public boolean loginAccount(String email, String password) {
+
+        return false;
     }
 
     @Override
