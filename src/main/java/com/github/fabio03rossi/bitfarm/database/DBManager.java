@@ -264,7 +264,7 @@ public class DBManager
                     int idSeller = rs.getInt("id_utente");
                     String tipologia = rs.getString("tipologia");
                     if(tipologia.equals("prodotto")) {
-                        listaArticoli.add(new Prodotto(id, nome, descrizione, prezzo, certificazioni));
+                        listaArticoli.add(new Prodotto(nome, descrizione, prezzo, certificazioni));
                     } else if (tipologia.equals("pacchetto")) {
 
                     }
@@ -314,7 +314,6 @@ public class DBManager
                     String tipoArticolo = rs.getString("tipologia");
 
                     prodotto = new Prodotto(
-                            rs.getInt("id"),
                             rs.getString("nome"),
                             rs.getString("descrizione"),
                             rs.getDouble("prezzo"),
@@ -329,7 +328,7 @@ public class DBManager
     }
 
     private Pacchetto getPacchetto(int id, String nome, String descrizione, double prezzo, String certificazioni) throws SQLException {
-        Pacchetto pacchetto = new Pacchetto(id, nome, descrizione, prezzo, certificazioni);
+        Pacchetto pacchetto = new Pacchetto(nome, descrizione, prezzo, certificazioni);
 
         int id_pacchetto = id;
 
@@ -564,8 +563,10 @@ public class DBManager
                     String telefono = rs.getString("telefono");
                     String tipologia = rs.getString("tipologia");
                     String certificazioni = rs.getString("certificazioni");
+                    String email = rs.getString("email");
+                    String password = rs.getString("password");
 
-                    azienda = new Azienda(id, partitaIVA, nome, descrizione, indirizzo, telefono, tipologia, certificazioni);
+                    azienda = new Azienda(partitaIVA, nome, email, password, descrizione, indirizzo, telefono, tipologia, certificazioni);
                 }
             }
         } catch (SQLException ex) {
