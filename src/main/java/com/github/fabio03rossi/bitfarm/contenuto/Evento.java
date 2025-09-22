@@ -1,5 +1,7 @@
 package com.github.fabio03rossi.bitfarm.contenuto;
 
+import com.github.fabio03rossi.bitfarm.enums.EStatoContenuto;
+
 import java.util.Date;
 
 public class Evento extends Contenuto {
@@ -66,7 +68,7 @@ public class Evento extends Contenuto {
     }
 
     @Override
-    public IStatoContenuto getStato() {
+    public EStatoContenuto getStato() {
         return null;
     }
 

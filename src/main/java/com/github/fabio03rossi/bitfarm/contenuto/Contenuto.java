@@ -10,7 +10,7 @@ public abstract class Contenuto {
 
     private IStatoContenuto stato = new StatoBozza();
 
-    public IStatoContenuto getStato() {
+    public EStatoContenuto getStato() {
         return stato.getStato();
     }
 
