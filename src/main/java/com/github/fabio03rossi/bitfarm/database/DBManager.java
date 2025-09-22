@@ -108,7 +108,7 @@ public class DBManager
                 "indirizzo TEXT NOT NULL," +
                 "tipologia TEXT NOT NULL," +
                 "telefono TEXT NOT NULL," +
-                "iva TEXT NOT NULL," +
+                "partita_iva TEXT NOT NULL," +
                 "certificazione TEXT)";
 
         String ordiniTableQuery = "CREATE TABLE IF NOT EXISTS ordini(" +
@@ -153,7 +153,7 @@ public class DBManager
 
     // --------------- ARTICOLI ---------------
 
-    public void addArticolo(IArticolo articolo) throws SQLException {
+    public void addArticolo(IArticolo articolo) {
         /**
          * Metodo per la scrittura in database di un articolo, sia esso un pacchetto che un prodotto (accetta oggetti IArticle)
          */
@@ -182,7 +182,7 @@ public class DBManager
                     pstmt.executeUpdate();
 
                 } catch (SQLException ex) {
-                    throw new RuntimeException("DbManager: Errore durante l'accesso al database: " + ex.getMessage());
+                    log.error("DbManager: Errore durante l'accesso al database: " + ex.getMessage());
                 }
             }
         }
@@ -191,7 +191,7 @@ public class DBManager
 
     }
 
-    public IArticolo getArticolo(int id) throws SQLException {
+    public IArticolo getArticolo(int id) {
 
         IArticolo articolo = null;
         articolo = getProdotto(id);
@@ -218,7 +218,7 @@ public class DBManager
                 }
             }
         } catch (SQLException ex) {
-            throw new RuntimeException("DbManager: Errore durante l'accesso al database: " + ex.getMessage());
+            log.error("DbManager: Errore durante l'accesso al database: " + ex.getMessage());
         }
 
 
@@ -233,7 +233,7 @@ public class DBManager
         return articolo;
     }
 
-    public void updateArticolo(IArticolo articolo) throws SQLException {
+    public void updateArticolo(IArticolo articolo) {
         String sql = "UPDATE articoli SET nome = ?, descrizione = ?, prezzo = ?, certificazioni = ? WHERE id = ?";
         try (PreparedStatement pstmt = this.conn.prepareStatement(sql)) {
             pstmt.setString(1, articolo.getNome());
@@ -248,11 +248,11 @@ public class DBManager
                 log.info("Nessun articolo trovato con ID " + articolo.getId() + " da aggiornare.");
             }
         } catch (SQLException ex) {
-            throw new RuntimeException("DbManager: Errore durante l'aggiornamento dell'articolo: " + ex.getMessage());
+            log.error("DbManager: Errore durante l'aggiornamento dell'articolo: " + ex.getMessage());
         }
     }
 
-    public List<IArticolo> getArticoliNonPubblicati() throws SQLException {
+    public List<IArticolo> getArticoliNonPubblicati() {
         String sql = "SELECT * FROM articoli WHERE pubblicato IS false";
         List<IArticolo> listaArticoli = null;
 
@@ -275,24 +275,24 @@ public class DBManager
                 }
             }
         } catch (SQLException ex) {
-            throw new RuntimeException("DbManager: Errore durante l'accesso al database: " + ex.getMessage());
+            log.error("DbManager: Errore durante l'accesso al database: " + ex.getMessage());
         }
         return listaArticoli;
     }
 
-    public void pubblicaArticolo(int id) throws SQLException {
+    public void pubblicaArticolo(int id){
         String sql = "UPDATE articoli SET pubblicato = ? WHERE id = ?";
         try (PreparedStatement pstmt = this.conn.prepareStatement(sql)) {
             pstmt.setBoolean(1, true);
             pstmt.setInt(2, id);
             pstmt.executeUpdate();
         } catch (SQLException ex) {
-            throw new RuntimeException("DbManager: Errore durante l'accesso al database: " + ex.getMessage());
+            log.error("DbManager: Errore durante l'accesso al database: " + ex.getMessage());
         }
         log.info("DBManager: Articolo con id " + id + " pubblicato!");
     }
 
-    public void rifiutaArticolo(int id) throws SQLException {
+    public void rifiutaArticolo(int id){
         String sql = "DELETE FROM articoli WHERE id = ?";
         try (PreparedStatement pstmt = this.conn.prepareStatement(sql)) {
             pstmt.setInt(1, id);
@@ -307,7 +307,7 @@ public class DBManager
 
     }
 
-    private Prodotto getProdotto(int id) throws SQLException {
+    private Prodotto getProdotto(int id) {
         Prodotto prodotto = null;
         String sql = "SELECT * FROM articoli WHERE id = ?";
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -326,12 +326,12 @@ public class DBManager
                 }
             }
         } catch (SQLException ex) {
-            throw new RuntimeException("DbManager: Errore durante l'accesso al database: " + ex.getMessage());
+            log.error("DbManager: Errore durante l'accesso al database: " + ex.getMessage());
         }
         return prodotto;
     }
 
-    private Pacchetto getPacchetto(int id, String nome, String descrizione, double prezzo, String certificazioni) throws SQLException {
+    private Pacchetto getPacchetto(int id, String nome, String descrizione, double prezzo, String certificazioni) {
         Pacchetto pacchetto = new Pacchetto(nome, descrizione, prezzo, certificazioni);
 
         int id_pacchetto = id;
@@ -346,13 +346,13 @@ public class DBManager
                 }
             }
         } catch (SQLException ex) {
-            throw new RuntimeException("Errore durante l'accesso al database: " + ex.getMessage());
+            log.error("Errore durante l'accesso al database: " + ex.getMessage());
         }
 
         return pacchetto;
     }
 
-    private void addProdotto(IArticolo articolo) throws SQLException {
+    private void addProdotto(IArticolo articolo) {
         String sql = "INSERT INTO articoli (nome, descrizione, prezzo, certificazioni, id_venditore, tipologia) VALUES (?, ?, ?, ?)";
         try (PreparedStatement pstmt = this.conn.prepareStatement(sql)) {
             // Imposta i valori per i segnaposto in base al loro tipo
@@ -368,14 +368,14 @@ public class DBManager
 
             log.info("Prodotto " + articolo.getNome() + " aggiunto!");
         } catch (SQLException ex) {
-            throw new RuntimeException("DbManager: Errore durante l'accesso al database: " + ex.getMessage());
+            log.error("DbManager: Errore durante l'accesso al database: " + ex.getMessage());
         }
     }
 
 
     // // --------------- EVENTI ---------------
 
-    public Evento getEvento(int id) throws SQLException {
+    public Evento getEvento(int id) {
         /**
          *
          */
@@ -400,7 +400,7 @@ public class DBManager
                 }
             }
         } catch (SQLException ex) {
-            throw new RuntimeException("DbManager: Errore durante l'accesso al database: " + ex.getMessage(), ex);
+            log.error("DbManager: Errore durante l'accesso al database: " + ex.getMessage(), ex);
         }
         return evento;
     }
@@ -426,7 +426,7 @@ public class DBManager
 
             log.info("Evento " + evento.getNome() + " aggiunto!");
         } catch (SQLException ex) {
-            throw new RuntimeException("DbManager: Errore durante l'accesso al database: " + ex.getMessage());
+            log.error("DbManager: Errore durante l'accesso al database: " + ex.getMessage());
         }
     }
 
@@ -437,7 +437,7 @@ public class DBManager
             pstmt.setInt(2, id);
             pstmt.executeUpdate();
         } catch (SQLException ex) {
-            throw new RuntimeException("DbManager: Errore durante l'accesso al database: " + ex.getMessage());
+            log.error("DbManager: Errore durante l'accesso al database: " + ex.getMessage());
         }
         log.info("DBManager: Evento con id " + id + " pubblicato!");
     }
@@ -456,7 +456,7 @@ public class DBManager
         log.info("DBManager: Proposta di evento con id " + id + " cancellato!");
     }
 
-    public void updateEvento(Evento evento) throws SQLException {
+    public void updateEvento(Evento evento) {
         String sql = "UPDATE eventi SET nome = ?, descrizione = ?, posizione = ? WHERE id = ?";
         try (PreparedStatement pstmt = this.conn.prepareStatement(sql)) {
             pstmt.setString(1, evento.getNome());
@@ -470,13 +470,13 @@ public class DBManager
                 log.info("Nessun evento trovato con ID " + evento.getId() + " da aggiornare.");
             }
         } catch (SQLException ex) {
-            throw new RuntimeException("DbManager: Errore durante l'aggiornamento dell'evento: " + ex.getMessage());
+            log.error("DbManager: Errore durante l'aggiornamento dell'evento: " + ex.getMessage());
         }
     }
 
     // // --------------- UTENTI ---------------
 
-    public Utente getUtente(int id) throws SQLException {
+    public Utente getUtente(int id) {
 
         String sql = "SELECT * FROM utenti WHERE id = ?";
         Utente utente = null;
@@ -496,13 +496,13 @@ public class DBManager
                 }
             }
         } catch (SQLException ex) {
-            throw new RuntimeException("DbManager: Errore durante l'accesso al database: " + ex.getMessage(), ex);
+            log.error("DbManager: Errore durante l'accesso al database: " + ex.getMessage(), ex);
         }
         return utente;
     }
 
     public void addUtente(Utente utente) {
-        String sql = "INSERT INTO utenti(nickname, data_creazione, email, password) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO utenti(nickname, data_creazione, email, password) VALUES (?, ?, ?, ?)";
 
         try (PreparedStatement pstmt = this.conn.prepareStatement(sql)) {
             // Set values for placeholders
@@ -518,13 +518,13 @@ public class DBManager
             pstmt.executeUpdate();
 
         } catch (SQLException ex) {
-            throw new RuntimeException("DbManager: Errore durante l'accesso al database: " + ex.getMessage());
+            log.error("DbManager: Errore durante l'accesso al database: " + ex.getMessage());
         }
 
         log.info("Utente " + utente.getNickname() + " aggiunto!");
     }
 
-    public void updateUtente(Utente utente) throws SQLException {
+    public void updateUtente(Utente utente) {
         String sql = "UPDATE utenti SET nickname = ?, email = ?, password = ? WHERE id_utente = ?";
         try (PreparedStatement pstmt = this.conn.prepareStatement(sql)) {
             pstmt.setString(1, utente.getNickname());
@@ -538,13 +538,13 @@ public class DBManager
                 log.info("DBManager: Nessun utente trovato con ID " + utente.getId() + " da aggiornare.");
             }
         } catch (SQLException ex) {
-            throw new RuntimeException("DbManager: Errore durante l'aggiornamento dell'utente: " + ex.getMessage());
+            log.error("DbManager: Errore durante l'aggiornamento dell'utente: " + ex.getMessage());
         }
     }
 
     // --------------- ACCOUNT AZIENDALI ---------------
 
-    public Azienda getAzienda(int id) throws SQLException {
+    public Azienda getAzienda(int id) {
         /**
          *
          */
@@ -573,7 +573,7 @@ public class DBManager
                 }
             }
         } catch (SQLException ex) {
-            throw new RuntimeException("DbManager: Errore durante l'accesso al database: " + ex.getMessage(), ex);
+            log.error("DbManager: Errore durante l'accesso al database: " + ex.getMessage(), ex);
         }
         return azienda;
     }
@@ -596,13 +596,13 @@ public class DBManager
             pstmt.executeUpdate();
 
         } catch (SQLException ex) {
-            throw new RuntimeException("DbManager: Errore durante l'inserimento dell'azienda: " + ex.getMessage(), ex);
+            log.error("DbManager: Errore durante l'inserimento dell'azienda: " + ex.getMessage(), ex);
         }
 
         log.info("Azienda " + azienda.getNome() + " aggiunta con successo!");
     }
 
-    public void updateAzienda(Azienda azienda) throws SQLException {
+    public void updateAzienda(Azienda azienda) {
         String sql = "UPDATE aziende SET nome = ?, descrizione = ?, indirizzo = ?, telefono = ?, tipologia = ?, certificazione = ? WHERE id = ?";
         try (PreparedStatement pstmt = this.conn.prepareStatement(sql)) {
             pstmt.setString(1, azienda.getNome());
@@ -619,13 +619,13 @@ public class DBManager
                 log.info("DBManager: Nessuna azienda trovata con ID " + azienda.getId() + " da aggiornare.");
             }
         } catch (SQLException ex) {
-            throw new RuntimeException("DbManager: Errore durante l'aggiornamento dell'azienda: " + ex.getMessage());
+            log.error("DbManager: Errore durante l'aggiornamento dell'azienda: " + ex.getMessage());
         }
     }
 
     // --------------- ORDINI ---------------
 
-    public Ordine getOrdine(int id) throws SQLException {
+    public Ordine getOrdine(int id) {
         Ordine ordine = null;
         String sqlOrdine = "SELECT * FROM ordini WHERE id = ?";
 
@@ -661,57 +661,65 @@ public class DBManager
                 }
             }
         } catch (SQLException ex) {
-            throw new RuntimeException("DBManager: Errore durante il recupero dell'ordine e dei suoi articoli: " + ex.getMessage(), ex);
+            log.error("DBManager: Errore durante il recupero dell'ordine e dei suoi articoli: " + ex.getMessage(), ex);
         }
         return ordine;
     }
 
-    public void addOrdine(Ordine ordine) throws SQLException {
+    public void addOrdine(Ordine ordine) {
         String sqlOrdine = "INSERT INTO ordini(indirizzo, metodo_di_pagamento, id_utente) VALUES (?, ?, ?)";
-        int idGeneratoOrdine;
+        String sqlArticoli = "INSERT INTO ordini_articoli(id_ordine, id_articolo, quantita) VALUES (?, ?, ?)";
 
-        // 1. Inserimento dell'ordine principale e recupero dell'ID generato
-        try (PreparedStatement pstmtOrdine = this.conn.prepareStatement(sqlOrdine, Statement.RETURN_GENERATED_KEYS)) {
-            pstmtOrdine.setString(1, ordine.getIndirizzo());
-            pstmtOrdine.setString(2, ordine.getMetodoDiPagamento());
-            pstmtOrdine.setInt(3, ordine.getIdUtente()); // Utilizza getIdUtente() del tuo oggetto Ordine
-            pstmtOrdine.executeUpdate();
+        try {
+            // Step 1: Insert the main order and get the generated ID
+            int idGeneratoOrdine = 0; // Initialize the variable
+            try (PreparedStatement pstmtOrdine = this.conn.prepareStatement(sqlOrdine, Statement.RETURN_GENERATED_KEYS)) {
+                pstmtOrdine.setString(1, ordine.getIndirizzo());
+                pstmtOrdine.setString(2, ordine.getMetodoDiPagamento());
+                pstmtOrdine.setInt(3, ordine.getIdUtente());
+                pstmtOrdine.executeUpdate();
 
-            // Puoi salvare l'ID generato se necessario
-            // ordine.setId(idGeneratoOrdine);
-            try (ResultSet rs = pstmtOrdine.getGeneratedKeys()) {
-                if (rs.next()) {
-                    idGeneratoOrdine = rs.getInt(1);
-                } else {
-                    throw new SQLException("DBManager: L'inserimento dell'ordine non ha generato un ID.");
+                try (ResultSet rs = pstmtOrdine.getGeneratedKeys()) {
+                    if (rs.next()) {
+                        idGeneratoOrdine = rs.getInt(1);
+                        ordine.setId(idGeneratoOrdine);
+                    } else {
+                        log.error("DBManager: L'inserimento dell'ordine non ha generato un ID.");
+                        this.conn.rollback(); // Rollback if no ID is generated
+                        return; // Exit the method
+                    }
                 }
             }
-        }
 
-        // Inserimento del carrello nella tabella ordini_articoli
-        // Recupera la mappa degli articoli dal carrello
-        HashMap<IArticolo, Integer> articoliNelCarrello = ordine.getCarrello().getListaArticolo(); // Assumendo esista questo metodo nel Carrello
+            // Step 2: Insert the order items, using the generated ID
+            HashMap<IArticolo, Integer> articoliNelCarrello = ordine.getCarrello().getListaArticolo();
+            try (PreparedStatement pstmtArticoli = this.conn.prepareStatement(sqlArticoli)) {
+                for (Map.Entry<IArticolo, Integer> entry : articoliNelCarrello.entrySet()) {
+                    IArticolo articolo = entry.getKey();
+                    int quantita = entry.getValue();
 
-        String sqlArticoli = "INSERT INTO ordini_articoli(id_ordine, id_articolo, quantita) VALUES (?, ?, ?)";
-        try (PreparedStatement pstmtArticoli = this.conn.prepareStatement(sqlArticoli)) {
-            for (Map.Entry<IArticolo, Integer> entry : articoliNelCarrello.entrySet()) {
-                IArticolo articolo = entry.getKey();
-                int quantita = entry.getValue();
-
-                pstmtArticoli.setInt(1, idGeneratoOrdine); // Usa l'ID dell'ordine appena creato
-                pstmtArticoli.setInt(2, articolo.getId()); // Assumendo che IArticolo abbia un getId()
-                pstmtArticoli.setInt(3, quantita);
-                pstmtArticoli.executeUpdate();
+                    pstmtArticoli.setInt(1, idGeneratoOrdine);
+                    pstmtArticoli.setInt(2, articolo.getId());
+                    pstmtArticoli.setInt(3, quantita);
+                    pstmtArticoli.executeUpdate();
+                }
             }
-        } catch (SQLException ex) {
-            // È buona prassi gestire il rollback in caso di fallimento per mantenere il database consistente
-            throw new RuntimeException("DBManager: Errore durante l'inserimento degli articoli dell'ordine: " + ex.getMessage());
-        }
 
-        log.info("Ordine aggiunto con successo con ID: " + idGeneratoOrdine);
+            // Step 3: Commit the transaction if all operations are successful
+            this.conn.commit();
+            log.info("Ordine aggiunto con successo con ID: " + idGeneratoOrdine);
+
+        } catch (SQLException e) {
+            log.error("DBManager: Errore durante l'inserimento dell'ordine: " + e.getMessage());
+            try {
+                this.conn.rollback(); // Rollback the entire transaction on failure
+            } catch (SQLException ex) {
+                log.error("DBManager: Errore durante il rollback: " + ex.getMessage());
+            }
+        }
     }
 
-    public void deleteOrdine(Ordine ordine) throws SQLException {
+    public void deleteOrdine(Ordine ordine) {
         // 1. Cancella i record correlati nella tabella ordini_articoli
         String sqlDeleteArticoli = "DELETE FROM ordini_articoli WHERE id_ordine = ?";
         try (PreparedStatement pstmtArticoli = this.conn.prepareStatement(sqlDeleteArticoli)) {
@@ -719,6 +727,8 @@ public class DBManager
             pstmtArticoli.setInt(1, ordine.getId()); // Assumendo che Ordine abbia un getId()
             int rowsAffected = pstmtArticoli.executeUpdate();
             log.info("Cancellati " + rowsAffected + " articoli correlati all'ordine " + ordine.getId());
+        } catch (SQLException e) {
+            log.error("DBManager: Errore durante la cancellazione dell'ordine: " + e.getMessage());
         }
 
         // 2. Cancella il record principale nella tabella ordini
@@ -732,7 +742,7 @@ public class DBManager
                 log.info("Nessun ordine trovato con ID " + ordine.getId() + " da eliminare.");
             }
         } catch (SQLException ex) {
-            throw new RuntimeException("DBManager: Errore durante l'eliminazione dell'ordine: " + ex.getMessage());
+            log.error("DBManager: Errore durante l'eliminazione dell'ordine: " + ex.getMessage());
         }
     }
 
@@ -789,7 +799,7 @@ public class DBManager
                     log.error("Errore durante il rollback: " + e.getMessage());
                 }
             }
-            throw new RuntimeException("DBManager: Errore durante l'aggiornamento dell'ordine: " + ex.getMessage(), ex);
+            log.error("DBManager: Errore durante l'aggiornamento dell'ordine: " + ex.getMessage(), ex);
         } finally {
             // Ripristina l'auto-commit
             if (this.conn != null) {
