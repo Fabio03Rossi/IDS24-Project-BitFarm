@@ -5,12 +5,14 @@ import com.github.fabio03rossi.bitfarm.contenuto.articolo.IArticolo;
 import com.github.fabio03rossi.bitfarm.contenuto.articolo.Pacchetto;
 import com.github.fabio03rossi.bitfarm.contenuto.articolo.Prodotto;
 import com.github.fabio03rossi.bitfarm.database.DBManager;
+import org.slf4j.LoggerFactory;
 
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ArticoloService implements IArticoloService {
+    private static final org.slf4j.Logger log = LoggerFactory.getLogger(ArticoloService.class);
     private final DBManager db = DBManager.getInstance();
 
     @Override
