@@ -13,7 +13,11 @@ import java.util.stream.Stream;
 
 public class AccettazioneService implements IAccettazioneService {
     private static final Logger logger = LoggerFactory.getLogger(AccettazioneService.class);
+    private final DBManager db;
 
+    public AccettazioneService() {
+        db = DBManager.getInstance();
+    }
 
     @Override
     public List<Contenuto> getAllRichieste() {
@@ -24,34 +28,38 @@ public class AccettazioneService implements IAccettazioneService {
     }
 
     @Override
-    public void accettaContenuto(Contenuto r) {
-        try{
-            handleContenuto(r, true);
-        } catch (SQLException e) {
-            logger.error("C'è stato un errore nell'accettazione del contenuto.", e);
-            System.exit(1);
+    public void accettaArticolo(int id) {
+        try {
+            this.db.pubblicaArticolo(id);
+        } catch (SQLException e){
+
         }
     }
 
     @Override
-    public void rifiutaContenuto(Contenuto r) {
-        try{
-            handleContenuto(r, false);
-        } catch (SQLException e) {
-            logger.error("C'è stato un errore nel rifiuto del contenuto.", e);
-            System.exit(1);
+    public void accettaEvento(int id) {
+        try {
+            this.db.pubblicaEvento(id);
+        } catch (SQLException e){
+
         }
     }
 
-    private void handleContenuto(Contenuto r, boolean b) throws SQLException {
-        var db = DBManager.getInstance();
+    @Override
+    public void rifiutaArticolo(int id) {
+        try {
+            this.db.rifiutaArticolo(id);
+        } catch (SQLException e){
 
-        if(r instanceof IArticolo articolo) {
-            if (b) db.pubblicaArticolo(articolo);
-            else db.rifiutaArticolo(articolo);
+        }
+    }
 
-        } else if(r instanceof Evento evento)
-            if (b) db.pubblicaEvento(evento);
-            else db.rifiutaEvento(evento);
+    @Override
+    public void rifiutaEvento(int id) {
+        try {
+            this.db.rifiutaEvento(id);
+        } catch (SQLException e){
+
+        }
     }
 }

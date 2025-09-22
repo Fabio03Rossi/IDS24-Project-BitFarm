@@ -9,6 +9,8 @@ public interface IAccettazioneService {
 
     List<Contenuto> getAllRichieste();
 
-    void accettaContenuto(Contenuto r);
-    void rifiutaContenuto(Contenuto r);
+    void accettaArticolo(int id);
+    void accettaEvento(int id);
+    void rifiutaArticolo(int id);
+    void rifiutaEvento(int id);
 }

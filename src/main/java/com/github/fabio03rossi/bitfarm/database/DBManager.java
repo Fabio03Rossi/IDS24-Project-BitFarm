@@ -442,7 +442,7 @@ public class DBManager
         log.info("DBManager: Evento con id " + id + " pubblicato!");
     }
 
-    public void rifiutaEvento(int id){
+    public void rifiutaEvento(int id) {
         String sql = "DELETE FROM eventi WHERE id = ?";
         try (PreparedStatement pstmt = this.conn.prepareStatement(sql)) {
             pstmt.setInt(1, id);
