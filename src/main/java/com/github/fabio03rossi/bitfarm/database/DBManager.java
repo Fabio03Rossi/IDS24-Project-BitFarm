@@ -2,6 +2,7 @@ package com.github.fabio03rossi.bitfarm.database;
 
 import com.github.fabio03rossi.bitfarm.account.Azienda;
 import com.github.fabio03rossi.bitfarm.account.Utente;
+import com.github.fabio03rossi.bitfarm.acquisto.Ordine;
 import com.github.fabio03rossi.bitfarm.contenuto.Evento;
 import com.github.fabio03rossi.bitfarm.contenuto.articolo.IArticolo;
 import com.github.fabio03rossi.bitfarm.contenuto.articolo.Pacchetto;
@@ -75,6 +76,13 @@ public class DBManager
                 "tipologia TEXT NOT NULL" +
                 "pubblicato BOOLEAN DEFAULT false)";
 
+        String ordiniArticoliTableQuery = "CREATE TABLE IF NOT EXISTS ordini_articoli (" +
+                "id_ordine INTEGER NOT NULL," +
+                "id_articolo INTEGER NOT NULL," +
+                "quantita INTEGER NOT NULL," +
+                "PRIMARY KEY (id_ordine, id_articolo)," +
+                "FOREIGN KEY (id_ordine) REFERENCES ordini(id)," +
+                "FOREIGN KEY (id_articolo) REFERENCES articoli(id))";
 
         String pacchettiTableQuery = "CREATE TABLE IF NOT EXISTS pacchetti (" +
                 "id_pacchetto INTEGER NOT NULL," +
@@ -123,6 +131,7 @@ public class DBManager
             stmt.execute(aziendeTableQuery);
             stmt.execute(ordiniTableQuery);
             stmt.execute(eventiTableQuery);
+            stmt.execute(ordiniArticoliTableQuery);
 
             conn.commit();
 
@@ -609,6 +618,121 @@ public class DBManager
             throw new RuntimeException("DbManager: Errore durante l'aggiornamento dell'azienda: " + ex.getMessage());
         }
     }
+
+    // --------------- ORDINI ---------------
+
+    public Ordine getOrdine(int id) throws SQLException {
+        Ordine ordine = null;
+        String sqlOrdine = "SELECT * FROM ordini WHERE id = ?";
+
+        try (PreparedStatement pstmt = conn.prepareStatement(sqlOrdine)) {
+            pstmt.setInt(1, id);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+
+                    String indirizzo = rs.getString("indirizzo");
+                    String metodoPagamento = rs.getString("metodo_di_pagamento");
+                    int idUtente = rs.getInt("id_utente");
+
+                    ordine = new Ordine(indirizzo, idUtente ,metodoPagamento);
+
+                    // Recupera gli articoli correlati dalla tabella articoli_ordini
+                    String sqlArticoli = "SELECT id_articolo, quantita FROM ordini_articoli WHERE id_ordine = ?";
+                    try (PreparedStatement pstmtArticoli = conn.prepareStatement(sqlArticoli)) {
+                        pstmtArticoli.setInt(1, id);
+                        try (ResultSet rsArticoli = pstmtArticoli.executeQuery()) {
+                            while (rsArticoli.next()) {
+                                int idArticolo = rsArticoli.getInt("id_articolo");
+                                int quantita = rsArticoli.getInt("quantita");
+                                // Qui devi recuperare l'oggetto IArticolo usando l'id
+                                IArticolo articolo = getArticolo(idArticolo);
+                                if (articolo != null) {
+                                    // Aggiungi l'articolo al carrello dell'ordine
+                                    // Assumendo che esista un metodo addArticolo al Carrello
+                                    ordine.getCarrello().addArticolo(articolo, quantita);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (SQLException ex) {
+            throw new RuntimeException("DBManager: Errore durante il recupero dell'ordine e dei suoi articoli: " + ex.getMessage(), ex);
+        }
+        return ordine;
+    }
+
+    public void addOrdine(Ordine ordine) throws SQLException {
+        String sqlOrdine = "INSERT INTO ordini(indirizzo, metodo_di_pagamento, id_utente) VALUES (?, ?, ?)";
+        int idGeneratoOrdine;
+
+        // 1. Inserimento dell'ordine principale e recupero dell'ID generato
+        try (PreparedStatement pstmtOrdine = this.conn.prepareStatement(sqlOrdine, Statement.RETURN_GENERATED_KEYS)) {
+            pstmtOrdine.setString(1, ordine.getIndirizzo());
+            pstmtOrdine.setString(2, ordine.getMetodoDiPagamento());
+            pstmtOrdine.setInt(3, ordine.getIdUtente()); // Utilizza getIdUtente() del tuo oggetto Ordine
+            pstmtOrdine.executeUpdate();
+
+            // Puoi salvare l'ID generato se necessario
+            // ordine.setId(idGeneratoOrdine);
+            try (ResultSet rs = pstmtOrdine.getGeneratedKeys()) {
+                if (rs.next()) {
+                    idGeneratoOrdine = rs.getInt(1);
+                } else {
+                    throw new SQLException("DBManager: L'inserimento dell'ordine non ha generato un ID.");
+                }
+            }
+        }
+
+        // Inserimento del carrello nella tabella ordini_articoli
+        // Recupera la mappa degli articoli dal carrello
+        HashMap<IArticolo, Integer> articoliNelCarrello = ordine.getCarrello().getListaArticolo(); // Assumendo esista questo metodo nel Carrello
+
+        String sqlArticoli = "INSERT INTO ordini_articoli(id_ordine, id_articolo, quantita) VALUES (?, ?, ?)";
+        try (PreparedStatement pstmtArticoli = this.conn.prepareStatement(sqlArticoli)) {
+            for (Map.Entry<IArticolo, Integer> entry : articoliNelCarrello.entrySet()) {
+                IArticolo articolo = entry.getKey();
+                int quantita = entry.getValue();
+
+                pstmtArticoli.setInt(1, idGeneratoOrdine); // Usa l'ID dell'ordine appena creato
+                pstmtArticoli.setInt(2, articolo.getId()); // Assumendo che IArticolo abbia un getId()
+                pstmtArticoli.setInt(3, quantita);
+                pstmtArticoli.executeUpdate();
+            }
+        } catch (SQLException ex) {
+            // È buona prassi gestire il rollback in caso di fallimento per mantenere il database consistente
+            throw new RuntimeException("DBManager: Errore durante l'inserimento degli articoli dell'ordine: " + ex.getMessage());
+        }
+
+        System.out.println("Ordine aggiunto con successo con ID: " + idGeneratoOrdine);
+    }
+
+    public void deleteOrdine(Ordine ordine) throws SQLException {
+        // 1. Cancella i record correlati nella tabella ordini_articoli
+        String sqlDeleteArticoli = "DELETE FROM ordini_articoli WHERE id_ordine = ?";
+        try (PreparedStatement pstmtArticoli = this.conn.prepareStatement(sqlDeleteArticoli)) {
+            pstmtArticoli.setInt(1, ordine.getId()); // Assumendo che Ordine abbia un getId()
+            pstmtArticoli.setInt(1, ordine.getId()); // Assumendo che Ordine abbia un getId()
+            int rowsAffected = pstmtArticoli.executeUpdate();
+            System.out.println("Cancellati " + rowsAffected + " articoli correlati all'ordine " + ordine.getId());
+        }
+
+        // 2. Cancella il record principale nella tabella ordini
+        String sqlDeleteOrdine = "DELETE FROM ordini WHERE id = ?";
+        try (PreparedStatement pstmtOrdine = this.conn.prepareStatement(sqlDeleteOrdine)) {
+            pstmtOrdine.setInt(1, ordine.getId());
+            int rowsAffected = pstmtOrdine.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Ordine " + ordine.getId() + " eliminato con successo.");
+            } else {
+                System.out.println("Nessun ordine trovato con ID " + ordine.getId() + " da eliminare.");
+            }
+        } catch (SQLException ex) {
+            throw new RuntimeException("DBManager: Errore durante l'eliminazione dell'ordine: " + ex.getMessage());
+        }
+    }
+
+    public void updateOrdine(Ordine ordine) throws SQLException {}
 
 }
 
