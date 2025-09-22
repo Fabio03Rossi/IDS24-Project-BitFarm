@@ -8,8 +8,10 @@ public abstract class Account {
     private String email;
     private String password;
 
-    public Account() {
+    public Account(String email, String password) {
         this.dataCreazione = Date.from(Instant.now());
+        this.email = email;
+        this.password = password;
     }
 
     public void setEmail(String email) {

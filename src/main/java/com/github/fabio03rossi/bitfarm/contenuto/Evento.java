@@ -3,15 +3,14 @@ package com.github.fabio03rossi.bitfarm.contenuto;
 import java.util.Date;
 
 public class Evento extends Contenuto {
-    private int id;
+    private int id = -1;
     private String nome;
     private String descrizione;
     private Date data;
     private int numeroPartecipanti;
     private String posizione;
 
-    public Evento(int id, String nome, String descrizione, Date data, String posizione) {
-        this.id = id;
+    public Evento(String nome, String descrizione, Date data, String posizione) {
         this.nome = nome;
         this.descrizione = descrizione;
         this.data = data;
