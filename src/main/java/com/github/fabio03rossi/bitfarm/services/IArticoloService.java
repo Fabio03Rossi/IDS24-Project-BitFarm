@@ -1,5 +1,9 @@
 package com.github.fabio03rossi.bitfarm.services;
 
+import com.github.fabio03rossi.bitfarm.contenuto.articolo.IArticolo;
+import com.github.fabio03rossi.bitfarm.dto.PacchettoDTO;
+import com.github.fabio03rossi.bitfarm.dto.ProdottoDTO;
+
 public interface IArticoloService {
 
     void creaArticolo(String nome, String descrizione, Double prezzo, String certs);
@@ -7,9 +11,9 @@ public interface IArticoloService {
 
     void eliminaArticolo(int id);
 
-    void modificaArticolo(int id, String nome, String descrizione, Double prezzo, String certs);
+    void modificaArticolo(ProdottoDTO dto, int id);
+
+    void modificaArticolo(PacchettoDTO dto, int id);
 
     void eliminaPacchetto(int id);
-
-    void modificaPacchetto(int id, String nome, String descrizione, Double prezzo, String certs);
 }

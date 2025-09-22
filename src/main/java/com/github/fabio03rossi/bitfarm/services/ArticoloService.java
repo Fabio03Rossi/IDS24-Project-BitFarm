@@ -5,9 +5,10 @@ import com.github.fabio03rossi.bitfarm.contenuto.articolo.IArticolo;
 import com.github.fabio03rossi.bitfarm.contenuto.articolo.Pacchetto;
 import com.github.fabio03rossi.bitfarm.contenuto.articolo.Prodotto;
 import com.github.fabio03rossi.bitfarm.database.DBManager;
+import com.github.fabio03rossi.bitfarm.dto.PacchettoDTO;
+import com.github.fabio03rossi.bitfarm.dto.ProdottoDTO;
 import org.slf4j.LoggerFactory;
 
-import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -17,26 +18,18 @@ public class ArticoloService implements IArticoloService {
 
     @Override
     public void creaArticolo(String nome, String descrizione, Double prezzo, String certs) {
-        try {
-            var articolo = new Prodotto(nome, descrizione, prezzo, certs);
-            articolo.setStato(new StatoValidazione());
+        var articolo = new Prodotto(nome, descrizione, prezzo, certs);
+        articolo.setStato(new StatoValidazione());
 
-            this.db.addArticolo(articolo);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        this.db.addArticolo(articolo);
     }
 
     @Override
     public void creaPacchetto(String nome, String descrizione, Double prezzo, String certs) {
-        try {
-            var pacchetto = new Pacchetto(nome, descrizione, prezzo, certs);
-            pacchetto.setStato(new StatoValidazione());
+        var pacchetto = new Pacchetto(nome, descrizione, prezzo, certs);
+        pacchetto.setStato(new StatoValidazione());
 
-            this.db.addArticolo(pacchetto);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        this.db.addArticolo(pacchetto);
     }
 
     @Override
@@ -45,10 +38,20 @@ public class ArticoloService implements IArticoloService {
     }
 
     @Override
-    public void modificaArticolo(int id, String nome, String descrizione, Double prezzo, String certs) {
+    public void modificaArticolo(ProdottoDTO dto, int id) {
         try {
-            IArticolo prodotto = this.db.getArticolo(id);
-            this.db.updateArticolo(prodotto);
+            IArticolo articolo = new Prodotto(dto.nome(), dto.descrizione(), dto.prezzo(), dto.certificazioni());
+            this.db.updateArticolo(articolo);
+        } catch (Exception ex) {
+            Logger.getLogger(AccountService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @Override
+    public void modificaArticolo(PacchettoDTO dto, int id) {
+        try {
+            IArticolo articolo = new Pacchetto(dto.nome(), dto.descrizione(), dto.prezzo(), dto.certificazioni());
+            this.db.updateArticolo(articolo);
         } catch (Exception ex) {
             Logger.getLogger(AccountService.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -59,13 +62,4 @@ public class ArticoloService implements IArticoloService {
 
     }
 
-    @Override
-    public void modificaPacchetto(int id, String nome, String descrizione, Double prezzo, String certs) {
-        try {
-            IArticolo pacchetto = this.db.getArticolo(id);
-            this.db.updateArticolo(pacchetto);
-        } catch (Exception ex) {
-            Logger.getLogger(AccountService.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
 }

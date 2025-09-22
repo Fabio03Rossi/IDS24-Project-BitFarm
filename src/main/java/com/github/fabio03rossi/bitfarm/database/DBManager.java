@@ -208,8 +208,6 @@ public class DBManager
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
                     // Leggi il tipo dall'attributo "tipo_articolo"
-                    String tipoArticolo = rs.getString("tipologia");
-
                     nome = rs.getString("nome");
                     descrizione = rs.getString("descrizione");
                     prezzo = rs.getDouble("prezzo");
@@ -227,7 +225,7 @@ public class DBManager
             // Se è un PACCHETTO, istanzia la classe Pacchetto
             articolo = getPacchetto(id, nome, descrizione, prezzo, certificazioni);
         }
-        if(tipologia.equals("prodotto")){
+        if(Objects.equals(tipologia, "prodotto")){
             articolo = getProdotto(id);
         }
         return articolo;

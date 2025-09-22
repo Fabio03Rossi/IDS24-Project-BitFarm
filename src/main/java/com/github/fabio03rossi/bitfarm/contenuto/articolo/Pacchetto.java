@@ -15,6 +15,7 @@ public class Pacchetto extends AbstractArticolo implements IArticoloComposto {
                 this.nome = nomeProdotto;
                 this.description = descrizioneProdotto;
                 this.price = prezzoProdotto;
+                this.listaProdotti = new HashMap<>();
         }
 
         public Pacchetto(String nomeProdotto, String descrizioneProdotto, double prezzoProdotto, String certificazioni, HashMap<Prodotto, Integer> listaProdotti) {

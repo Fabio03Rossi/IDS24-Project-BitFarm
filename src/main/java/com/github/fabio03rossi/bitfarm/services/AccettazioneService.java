@@ -29,37 +29,21 @@ public class AccettazioneService implements IAccettazioneService {
 
     @Override
     public void accettaArticolo(int id) {
-        try {
-            this.db.pubblicaArticolo(id);
-        } catch (SQLException e){
-
-        }
+        this.db.pubblicaArticolo(id);
     }
 
     @Override
     public void accettaEvento(int id) {
-        try {
-            this.db.pubblicaEvento(id);
-        } catch (SQLException e){
-
-        }
+        this.db.pubblicaEvento(id);
     }
 
     @Override
     public void rifiutaArticolo(int id) {
-        try {
-            this.db.rifiutaArticolo(id);
-        } catch (SQLException e){
-
-        }
+        this.db.rifiutaArticolo(id);
     }
 
     @Override
     public void rifiutaEvento(int id) {
-        try {
-            this.db.rifiutaEvento(id);
-        } catch (SQLException e){
-
-        }
+        this.db.rifiutaEvento(id);
     }
 }
