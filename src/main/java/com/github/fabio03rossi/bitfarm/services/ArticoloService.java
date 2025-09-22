@@ -40,12 +40,12 @@ public class ArticoloService implements IArticoloService {
     }
 
     @Override
-    public void eliminaArticolo() {
+    public void eliminaArticolo(int id) {
 
     }
 
     @Override
-    public void modificaArticolo(int id) {
+    public void modificaArticolo(int id, String nome, String descrizione, Double prezzo, String certs) {
         try {
             IArticolo prodotto = this.db.getArticolo(id);
             this.db.updateArticolo(prodotto);
@@ -55,12 +55,12 @@ public class ArticoloService implements IArticoloService {
     }
 
     @Override
-    public void eliminaPacchetto() {
+    public void eliminaPacchetto(int id) {
 
     }
 
     @Override
-    public void modificaPacchetto(int id) {
+    public void modificaPacchetto(int id, String nome, String descrizione, Double prezzo, String certs) {
         try {
             IArticolo pacchetto = this.db.getArticolo(id);
             this.db.updateArticolo(pacchetto);

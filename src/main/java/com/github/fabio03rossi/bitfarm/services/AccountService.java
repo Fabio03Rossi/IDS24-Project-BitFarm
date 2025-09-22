@@ -9,7 +9,11 @@ import org.slf4j.LoggerFactory;
 
 public class AccountService implements IAccountService {
     private static final Logger log = LoggerFactory.getLogger(AccountService.class);
-    private final DBManager db = DBManager.getInstance();
+    private final DBManager db;
+
+    public AccountService() {
+        this.db = DBManager.getInstance();;
+    }
 
     @Override
     public void registraAccount(String nickname, String email, String password) {

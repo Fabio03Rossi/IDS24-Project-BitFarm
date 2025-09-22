@@ -1,6 +1,5 @@
 package com.github.fabio03rossi.bitfarm.services;
 
-import com.github.fabio03rossi.bitfarm.account.Utente;
 import com.github.fabio03rossi.bitfarm.dto.AziendaDTO;
 import com.github.fabio03rossi.bitfarm.dto.UtenteDTO;
 import org.junit.jupiter.api.Test;
