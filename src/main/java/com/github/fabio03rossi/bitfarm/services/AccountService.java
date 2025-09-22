@@ -4,10 +4,11 @@ import com.github.fabio03rossi.bitfarm.account.Azienda;
 import com.github.fabio03rossi.bitfarm.account.Utente;
 import com.github.fabio03rossi.bitfarm.database.DBManager;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class AccountService implements IAccountService {
+    private static final Logger log = LoggerFactory.getLogger(AccountService.class);
     private final DBManager db;
 
     public AccountService() {

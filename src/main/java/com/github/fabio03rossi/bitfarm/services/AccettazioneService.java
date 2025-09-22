@@ -4,15 +4,16 @@ import com.github.fabio03rossi.bitfarm.contenuto.Contenuto;
 import com.github.fabio03rossi.bitfarm.contenuto.Evento;
 import com.github.fabio03rossi.bitfarm.contenuto.articolo.IArticolo;
 import com.github.fabio03rossi.bitfarm.database.DBManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.SQLException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.stream.Stream;
 
 public class AccettazioneService implements IAccettazioneService {
-    private static final Logger LOGGER = Logger.getLogger(AccettazioneService.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(AccettazioneService.class);
+
 
     @Override
     public List<Contenuto> getAllRichieste() {
@@ -27,7 +28,7 @@ public class AccettazioneService implements IAccettazioneService {
         try{
             handleContenuto(r, true);
         } catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "C'è stato un errore nell'accettazione del contenuto.", e);
+            logger.error("C'è stato un errore nell'accettazione del contenuto.", e);
             System.exit(1);
         }
     }
@@ -37,7 +38,7 @@ public class AccettazioneService implements IAccettazioneService {
         try{
             handleContenuto(r, false);
         } catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "C'è stato un errore nel rifiuto del contenuto.", e);
+            logger.error("C'è stato un errore nel rifiuto del contenuto.", e);
             System.exit(1);
         }
     }

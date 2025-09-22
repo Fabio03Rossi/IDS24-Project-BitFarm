@@ -4,12 +4,14 @@ import com.github.fabio03rossi.bitfarm.account.Utente;
 import com.github.fabio03rossi.bitfarm.contenuto.Evento;
 import com.github.fabio03rossi.bitfarm.contenuto.StatoValidazione;
 import com.github.fabio03rossi.bitfarm.database.DBManager;
+import org.slf4j.LoggerFactory;
 
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class EventoService implements IEventoService {
+    private static final org.slf4j.Logger log = LoggerFactory.getLogger(EventoService.class);
     private final DBManager db = DBManager.getInstance();
 
     @Override

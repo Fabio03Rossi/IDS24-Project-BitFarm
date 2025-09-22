@@ -7,5 +7,5 @@ public interface IAcquistoService {
     void aggiungiAlCarrello(IArticolo articolo, int quantita);
     void rimuoviDalCarrello(IArticolo articolo, int quantita);
     void svuotaCarrello();
-    void acquista(Utente utente);
+    void acquista(Utente utente, IPagamentoService pagamentoService);
 }
