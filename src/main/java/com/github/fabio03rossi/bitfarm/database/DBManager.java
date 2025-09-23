@@ -524,8 +524,9 @@ public class DBManager
                     String nickname = rs.getString("nickname");
                     String email = rs.getString("email");
                     String password = rs.getString("password");
+                    String indirizzo = rs.getString("indirizzo");
 
-                    utente = new Utente(id, nickname, email, password);
+                    utente = new Utente(id, nickname, email, password, indirizzo);
                 }
             }
         } catch (SQLException ex) {

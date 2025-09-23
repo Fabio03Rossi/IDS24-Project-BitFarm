@@ -56,7 +56,8 @@ class AcquistoServiceTest {
         var utente = new Utente(
                 "TestUtente",
                 "testutente@gmail.com",
-                "testpassword"
+                "testpassword",
+                "TestIndirizzo"
         );
 
         var pagamento = new IPagamentoService() {

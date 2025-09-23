@@ -5,17 +5,17 @@ public class Utente extends Account {
     private int id = -1;
     private String indirizzo;
 
-
-    public Utente(String nickname, String email, String password) {
+    public Utente(String nickname, String email, String password, String indirizzo) {
         super(email, password);
         this.nickname = nickname;
+        this.indirizzo = indirizzo;
     }
 
-
-    public Utente(int id, String nickname, String email, String password) {
-        this(nickname, email, password);
+    public Utente(int id, String nickname, String email, String password, String indirizzo) {
+        this(nickname, email, password, indirizzo);
         this.id = id;
     }
+
 
     public String getNickname() {
         return this.nickname;

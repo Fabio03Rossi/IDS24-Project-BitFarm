@@ -19,7 +19,7 @@ class AccountServiceTest {
                 );
 
         assertAll(
-                () -> accountService.registraAccount(dto.nickname(), dto.email(), dto.password())
+                () -> accountService.registraAccount(dto.nickname(), dto.email(), dto.password(), dto.indirizzo())
         );
     }
 

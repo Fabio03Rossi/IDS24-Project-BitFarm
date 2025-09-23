@@ -12,17 +12,17 @@ public class AccountService implements IAccountService {
     private final DBManager db;
 
     public AccountService() {
-        this.db = DBManager.getInstance();;
+        this.db = DBManager.getInstance();
     }
 
     @Override
-    public void registraAccount(String nickname, String email, String password) {
-        var utente = new Utente(nickname, email, password);
+    public void registraAccount(String nickname, String email, String password, String indirizzo) {
+        var utente = new Utente(nickname, email, password, indirizzo);
         this.db.addUtente(utente);
     }
 
-    public void registraAccount(int id, String nickname, String email, String password) {
-        var utente = new Utente(id, nickname, email, password);
+    public void registraAccount(int id, String nickname, String email, String password, String indirizzo) {
+        var utente = new Utente(id, nickname, email, password, indirizzo);
         this.db.addUtente(utente);
     }
 

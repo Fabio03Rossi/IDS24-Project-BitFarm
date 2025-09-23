@@ -1,13 +1,10 @@
 package com.github.fabio03rossi.bitfarm.services;
 
 import com.github.fabio03rossi.bitfarm.contenuto.Contenuto;
-import com.github.fabio03rossi.bitfarm.contenuto.Evento;
-import com.github.fabio03rossi.bitfarm.contenuto.articolo.IArticolo;
 import com.github.fabio03rossi.bitfarm.database.DBManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.sql.SQLException;
 import java.util.List;
 import java.util.stream.Stream;
 
