@@ -8,6 +8,7 @@ public record OrdineDTO(
          String metodoPagamento,
          Carrello carrello,
          int idUtente
-){}
+)
+{}
 
 
