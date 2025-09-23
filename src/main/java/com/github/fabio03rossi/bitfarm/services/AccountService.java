@@ -38,7 +38,7 @@ public class AccountService implements IAccountService {
     }
 
     @Override
-    public void modificaAccount(int id, String nickname, String email, String password, String indirizzo) {
+    public void modificaUtente(int id, String nickname, String email, String password, String indirizzo) {
         try {
             Utente ut = new Utente(nickname, email, password, indirizzo);
             this.db.updateUtente(ut);
@@ -54,8 +54,8 @@ public class AccountService implements IAccountService {
     }
 
     @Override
-    public void loginAzienda(String nome, String password) {
-
+    public boolean loginAzienda(String nome, String password) {
+        return false;
     }
 
     @Override

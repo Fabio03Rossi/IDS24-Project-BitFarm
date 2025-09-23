@@ -22,9 +22,9 @@ public class AccountController {
         this.accountService = accountService;
     }
 
-    @RequestMapping(value = "/creaAccount", method = RequestMethod.POST)
-    public ResponseEntity<Object> creaAccount(@RequestBody UtenteDTO account) {
-        this.accountService.registraAccount(
+    @RequestMapping(value = "/creaUtente", method = RequestMethod.POST)
+    public ResponseEntity<Object> creaUtente(@RequestBody UtenteDTO account) {
+        this.accountService.registraUtente(
                 account.nickname(),
                 account.email(),
                 account.password(),
@@ -49,9 +49,9 @@ public class AccountController {
         return new ResponseEntity<>("Azienda creata correttamente.", HttpStatus.CREATED);
     }
 
-    @RequestMapping(value = "/modificaAccount/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<Object> modificaAccount(@PathVariable("id") int id, @RequestBody UtenteDTO account) {
-        this.accountService.modificaAccount(
+    @RequestMapping(value = "/modificaUtente/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<Object> modificaUtente(@PathVariable("id") int id, @RequestBody UtenteDTO account) {
+        this.accountService.modificaUtente(
                 id,
                 account.nickname(),
                 account.email(),
@@ -76,5 +76,17 @@ public class AccountController {
                 account.certificazioni()
         );
         return new ResponseEntity<>("Azienda modificata correttamente.", HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/eliminaUtente/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<Object> eliminaUtente(@PathVariable("id") int id) {
+        this.accountService.eliminaUtente(id);
+        return new ResponseEntity<>("Utente eliminato.", HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/eliminaAzienda/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<Object> eliminaAzienda(@PathVariable("id") int id) {
+        this.accountService.eliminaAzienda(id);
+        return new ResponseEntity<>("Azienda eliminata.", HttpStatus.OK);
     }
 }

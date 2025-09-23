@@ -19,7 +19,7 @@ class AccountServiceTest {
                 );
 
         assertAll(
-                () -> accountService.registraAccount(dto.nickname(), dto.email(), dto.password(), dto.indirizzo())
+                () -> accountService.registraUtente(dto.nickname(), dto.email(), dto.password(), dto.indirizzo())
         );
     }
 
@@ -38,7 +38,7 @@ class AccountServiceTest {
     }
 
     @Test
-    void modificaAccount() {
+    void modificaUtente() {
         var dto = new UtenteDTO(
                 "TestUtente",
                 "testutente@gmail.com",
@@ -48,7 +48,7 @@ class AccountServiceTest {
         int id = 1;
 
         assertAll(
-                () -> accountService.modificaAccount(id, dto.nickname(), dto.email(), dto.password(), dto.indirizzo())
+                () -> accountService.modificaUtente(id, dto.nickname(), dto.email(), dto.password(), dto.indirizzo())
         );
     }
 
