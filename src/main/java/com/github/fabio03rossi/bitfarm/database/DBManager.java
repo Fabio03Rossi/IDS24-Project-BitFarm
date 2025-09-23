@@ -602,21 +602,22 @@ public class DBManager
     }
     
     public void updateUtente(Utente utente) {
-        String sql = "UPDATE utenti SET nome = ?, email = ?, password = ?, indirizzo = ? WHERE id = ?";
+        String sql = "UPDATE utenti SET nome = ?, email = ?, password = ?, indirizzo = ? WHERE email = ?";
         try (PreparedStatement pstmt = this.conn.prepareStatement(sql)) {
             pstmt.setString(1, utente.getNome());
             pstmt.setString(2, utente.getEmail());
             pstmt.setString(3, utente.getPassword());
             pstmt.setString(4, utente.getIndirizzo());
+            pstmt.setString(5, utente.getEmail());
 
             int rowsAffected = pstmt.executeUpdate();
             if (rowsAffected > 0) {
-                log.info("DBManager: Utente " + utente.getNome() + " aggiornato correttamente!");
+                log.info("DBManager: Utente {} aggiornato correttamente!", utente.getNome());
             } else {
-                log.info("DBManager: Nessun utente trovato con ID " + utente.getId() + " da aggiornare.");
+                log.warn("DBManager: Nessun utente trovato con nome {} da aggiornare", utente.getNome());
             }
         } catch (SQLException ex) {
-            log.error("DbManager: Errore durante l'aggiornamento dell'utente: " + ex.getMessage());
+            log.error("DbManager: Errore durante l'aggiornamento dell'utente: {}", ex.getMessage());
         }
     }
 
