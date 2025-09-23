@@ -1,11 +1,26 @@
 package com.github.fabio03rossi.bitfarm;
 
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @SpringBootApplication
-public class BitFarmApplication {
+@RestController
+public class BitFarmApplication implements ApplicationRunner {
 	public static void main(String[] args) {
 		SpringApplication.run(BitFarmApplication.class, args);
 	}
+
+    @RequestMapping(value = "/")
+    public String hello() {
+        return "Hello World";
+    }
+
+    @Override
+    public void run(ApplicationArguments arg0) throws Exception {
+        System.out.println("Hello World from Application Runner");
+    }
 }
