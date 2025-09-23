@@ -8,16 +8,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @SpringBootApplication
-@RestController
 public class BitFarmApplication implements ApplicationRunner {
 	public static void main(String[] args) {
 		SpringApplication.run(BitFarmApplication.class, args);
 	}
-
-    @RequestMapping(value = "/")
-    public String hello() {
-        return "Hello World";
-    }
 
     @Override
     public void run(ApplicationArguments arg0) throws Exception {

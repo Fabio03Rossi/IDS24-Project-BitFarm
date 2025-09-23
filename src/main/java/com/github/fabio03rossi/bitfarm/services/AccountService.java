@@ -6,7 +6,10 @@ import com.github.fabio03rossi.bitfarm.database.DBManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
 
+@Component
 public class AccountService implements IAccountService {
     private static final Logger log = LoggerFactory.getLogger(AccountService.class);
     private final DBManager db;
