@@ -173,7 +173,7 @@ public class DBManager
                 Prodotto prodotto = (Prodotto) coppia.getKey();
                 int quantita = coppia.getValue();
 
-                String sql = "INSERT INTO pacchetto (id_prodotto, quantita) VALUES (?, ?, ?)";
+                String sql = "INSERT INTO pacchetto (id_prodotto, quantita) VALUES (?, ?)";
 
                 try (PreparedStatement pstmt = this.conn.prepareStatement(sql)) {
                     // Assegno i valori ai segnaposto
