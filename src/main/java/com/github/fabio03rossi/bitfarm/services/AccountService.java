@@ -6,7 +6,6 @@ import com.github.fabio03rossi.bitfarm.database.DBManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -18,26 +17,24 @@ public class AccountService implements IAccountService {
         this.db = DBManager.getInstance();
     }
 
+    //-------------------------------------- UTENTE --------------------------------------
+
     @Override
-    public void registraAccount(String nickname, String email, String password, String indirizzo) {
+    public void registraUtente(String nickname, String email, String password, String indirizzo) {
         var utente = new Utente(nickname, email, password, indirizzo);
         this.db.addUtente(utente);
     }
 
-    public void registraAccount(int id, String nickname, String email, String password, String indirizzo) {
-        var utente = new Utente(id, nickname, email, password, indirizzo);
-        this.db.addUtente(utente);
-    }
+
 
     @Override
     public boolean loginAccount(String email, String password) {
-
         return false;
     }
 
     @Override
-    public void eliminaAccount(int id) {
-
+    public void eliminaUtente(int id) {
+        db.cancellaUtente(id);
     }
 
     @Override
@@ -49,7 +46,7 @@ public class AccountService implements IAccountService {
             ut.setPassword(password);
             this.db.updateUtente(ut);
         } catch (Exception ex) {
-            log.error("Errore nella modifica dell'account, tipo di errore: " + ex);
+            log.error("Errore nella modifica dell'account, tipo di errore: {}", String.valueOf(ex));
         }
     }
 
@@ -66,7 +63,7 @@ public class AccountService implements IAccountService {
 
     @Override
     public void eliminaAzienda(int id) {
-
+        db.cancellaAzienda(id);
     }
 
     @Override
@@ -83,7 +80,13 @@ public class AccountService implements IAccountService {
             az.setCertificazioni(certificazioni);
             this.db.updateAzienda(az);
         } catch (Exception ex) {
-            log.error("Errore nella modifica dell'azienda, tipo di errore: " + ex);
+            log.error("Errore nella modifica dell'azienda, tipo di errore: {}", String.valueOf(ex));
         }
+    }
+
+    @Override
+    public void registraCuratore(String email, String password) {
+        // TODO
+        log.warn("non implementato");
     }
 }

@@ -28,12 +28,12 @@ class AccountServiceTest {
     }
 
     @Test
-    void eliminaAccount() {
+    void eliminaUtente() {
         this.registraAccount();
         int id = 1;
 
         assertAll(
-                () -> accountService.eliminaAccount(id)
+                () -> accountService.eliminaUtente(id)
         );
     }
 
