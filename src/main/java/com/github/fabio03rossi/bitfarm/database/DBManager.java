@@ -99,7 +99,8 @@ public class DBManager
                 "nickname TEXT NOT NULL," +
                 "data_creazione DATETIME NOT NULL," +
                 "email TEXT NOT NULL," +
-                "password TEXT NOT NULL)";
+                "password TEXT NOT NULL," +
+                "indirizzo TEXT NOT NULL)";
 
         String aziendeTableQuery = "CREATE TABLE IF NOT EXISTS aziende(" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT," +
