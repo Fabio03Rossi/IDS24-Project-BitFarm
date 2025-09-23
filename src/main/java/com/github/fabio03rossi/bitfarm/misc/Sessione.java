@@ -1,6 +1,7 @@
 package com.github.fabio03rossi.bitfarm.misc;
 import com.github.fabio03rossi.bitfarm.account.Account;
 import com.github.fabio03rossi.bitfarm.acquisto.Carrello;
+import com.github.fabio03rossi.bitfarm.database.DBManager;
 import com.github.fabio03rossi.bitfarm.services.IAccountService;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -15,23 +16,24 @@ public class Sessione {
     private boolean loggedIn;
     private IAccountService accountService;
     private Carrello carrello;
+    private static Sessione instance;
 
-    public Sessione() {
-        this.loggedIn = false;
+    private Sessione(){}
+
+    public static Sessione getInstance() {
+        if (instance == null) {
+            instance = new Sessione();
+        }
+        return instance;
     }
 
-    public boolean login() {
+    public void login(Account account) {
         /**
          * Effettua il login tramite IAccountService
          * @return true se il login è stato effettuato con successo, false se i dati inseriti non sono corretti
          */
-        boolean result = accountService.loginAccount(this.accountCorrente.getEmail(), this.accountCorrente.getPassword());
-        if (result) {
-            this.loggedIn = true;
-            return true;
-        }
-        System.out.println("Session: login fallito");
-        return false;
+        this.loggedIn = true;
+        this.accountCorrente = account;
     }
 
     public boolean isLogged(){

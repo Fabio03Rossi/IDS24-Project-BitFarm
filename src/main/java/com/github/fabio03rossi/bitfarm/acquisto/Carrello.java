@@ -27,8 +27,12 @@ public class Carrello {
     }
 
     public void addArticolo(IArticolo articolo, int quantita) {
-        this.listaArticolo.put(articolo, 0);
         totale += articolo.getPrezzo() * quantita;
+        if(this.listaArticolo.isEmpty() || this.listaArticolo.get(articolo) == null){
+            this.listaArticolo.put(articolo, quantita);
+        }else{
+            this.listaArticolo.replace(articolo, this.listaArticolo.get(articolo) + quantita);
+        }
     }
 
     public void rimuoviArticolo(IArticolo articolo) {

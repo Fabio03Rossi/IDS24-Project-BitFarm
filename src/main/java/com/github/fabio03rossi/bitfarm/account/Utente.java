@@ -1,28 +1,28 @@
 package com.github.fabio03rossi.bitfarm.account;
 
 public class Utente extends Account {
-    private String nickname;
+    private String nome;
     private int id = -1;
     private String indirizzo;
 
-    public Utente(String nickname, String email, String password, String indirizzo) {
+    public Utente(String nome, String email, String password, String indirizzo) {
         super(email, password);
-        this.nickname = nickname;
+        this.nome = nome;
         this.indirizzo = indirizzo;
     }
 
-    public Utente(int id, String nickname, String email, String password, String indirizzo) {
-        this(nickname, email, password, indirizzo);
+    public Utente(int id, String nome, String email, String password, String indirizzo) {
+        this(nome, email, password, indirizzo);
         this.id = id;
     }
 
 
-    public String getNickname() {
-        return this.nickname;
+    public String getNome() {
+        return this.nome;
     }
 
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
+    public void setNickname(String nome) {
+        this.nome = nome;
     }
 
     public int getId(){

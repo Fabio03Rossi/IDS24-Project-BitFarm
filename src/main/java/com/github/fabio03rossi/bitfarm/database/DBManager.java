@@ -80,6 +80,12 @@ public class DBManager
                 "tipologia TEXT NOT NULL," +
                 "pubblicato BOOLEAN DEFAULT false)";
 
+        String pacchettiTableQuery = "CREATE TABLE IF NOT EXISTS pacchetti (" +
+                "id_pacchetto INTEGER NOT NULL," +
+                "id_articolo INTEGER NOT NULL," +
+                "quantita INTEGER DEFAULT 1," +
+                "FOREIGN KEY (id_articolo) REFERENCES articoli (id_articolo))";
+
         String ordiniArticoliTableQuery = "CREATE TABLE IF NOT EXISTS ordini_articoli (" +
                 "id_ordine INTEGER NOT NULL," +
                 "id_articolo INTEGER NOT NULL," +
@@ -87,32 +93,6 @@ public class DBManager
                 "PRIMARY KEY (id_ordine, id_articolo)," +
                 "FOREIGN KEY (id_ordine) REFERENCES ordini(id)," +
                 "FOREIGN KEY (id_articolo) REFERENCES articoli(id))";
-
-        String pacchettiTableQuery = "CREATE TABLE IF NOT EXISTS pacchetti (" +
-                "id_pacchetto INTEGER NOT NULL," +
-                "id_articolo INTEGER NOT NULL," +
-                "quantita INTEGER DEFAULT 1," +
-                "FOREIGN KEY (id_articolo) REFERENCES articoli (id_articolo))";
-
-        String utentiTableQuery = "CREATE TABLE IF NOT EXISTS utenti(" +
-                "id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                "nickname TEXT NOT NULL," +
-                "data_creazione DATETIME NOT NULL," +
-                "email TEXT NOT NULL," +
-                "password TEXT NOT NULL," +
-                "indirizzo TEXT NOT NULL)";
-
-        String aziendeTableQuery = "CREATE TABLE IF NOT EXISTS aziende(" +
-                "id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                "nome TEXT NOT NULL," +
-                "descrizione TEXT," +
-                "indirizzo TEXT NOT NULL," +
-                "tipologia TEXT NOT NULL," +
-                "telefono TEXT NOT NULL," +
-                "partita_iva TEXT NOT NULL," +
-                "certificazioni TEXT," +
-                "email TEXT," +
-                "password TEXT NOT NULL)";
 
         String ordiniTableQuery = "CREATE TABLE IF NOT EXISTS ordini(" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -128,6 +108,33 @@ public class DBManager
                 "numero_partecipanti INTEGER," +
                 "posizione TEXT NOT NULL," +
                 "pubblicato BOOLEAN DEFAULT false)";
+
+        String utentiTableQuery = "CREATE TABLE IF NOT EXISTS utenti(" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "nome TEXT NOT NULL," +
+                "data_creazione DATETIME NOT NULL," +
+                "email TEXT NOT NULL UNIQUE," +
+                "password TEXT NOT NULL," +
+                "indirizzo TEXT NOT NULL)";
+
+        String aziendeTableQuery = "CREATE TABLE IF NOT EXISTS aziende(" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "nome TEXT NOT NULL," +
+                "descrizione TEXT," +
+                "indirizzo TEXT NOT NULL," +
+                "tipologia TEXT NOT NULL," +
+                "telefono TEXT NOT NULL," +
+                "partita_iva TEXT NOT NULL," +
+                "certificazioni TEXT," +
+                "email TEXT," +
+                "password TEXT NOT NULL)";
+
+        String curatoriTableQuery = "CREATE TABLE IF NOT EXISTS curatori(" +
+        "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "nome TEXT NOT NULL," +
+                "data_creazione DATETIME NOT NULL," +
+                "email TEXT NOT NULL UNIQUE," +
+                "password TEXT NOT NULL)";
 
 
 
@@ -389,9 +396,6 @@ public class DBManager
         } catch (SQLException e) {
             log.error("DBManager: Errore durante la cancellazione dell'evento: " + e.getMessage());
         }
-
-
-
     }
 
 
@@ -509,6 +513,31 @@ public class DBManager
 
     // // --------------- UTENTI ---------------
 
+    public Utente getUtente(String email) {
+        String sql = "SELECT * FROM utenti WHERE email = ?";
+        Utente utente = null;
+
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, email);
+
+            // Esegue la query e ottiene il set di risultati
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+
+                    int id = rs.getInt("id");
+                    String nome = rs.getString("nome");
+                    String password = rs.getString("password");
+                    String indirizzo = rs.getString("indirizzo");
+
+                    utente = new Utente(id, nome, email, password, indirizzo);
+                }
+            }
+        } catch (SQLException ex) {
+            log.error("DbManager: Errore durante l'accesso al database: {}", ex.getMessage(), ex);
+        }
+        return utente;
+    }
+    
     public Utente getUtente(int id) {
 
         String sql = "SELECT * FROM utenti WHERE id = ?";
@@ -521,12 +550,12 @@ public class DBManager
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
 
-                    String nickname = rs.getString("nickname");
+                    String nome = rs.getString("nome");
                     String email = rs.getString("email");
                     String password = rs.getString("password");
                     String indirizzo = rs.getString("indirizzo");
 
-                    utente = new Utente(id, nickname, email, password, indirizzo);
+                    utente = new Utente(id, nome, email, password, indirizzo);
                 }
             }
         } catch (SQLException ex) {
@@ -536,11 +565,11 @@ public class DBManager
     }
 
     public void addUtente(Utente utente) {
-        String sql = "INSERT INTO utenti(nickname, data_creazione, email, password, indirizzo) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO utenti(nome, data_creazione, email, password, indirizzo) VALUES (?, ?, ?, ?, ?)";
 
         try (PreparedStatement pstmt = this.conn.prepareStatement(sql)) {
             // Set values for placeholders
-            pstmt.setString(1, utente.getNickname());
+            pstmt.setString(1, utente.getNome());
 
             java.sql.Date sqlDate = new java.sql.Date(utente.getDataCreazione().getTime());
             pstmt.setDate(2, sqlDate);
@@ -556,20 +585,20 @@ public class DBManager
             log.error("DbManager: Errore durante l'accesso al database: " + ex.getMessage());
         }
 
-        log.info("Utente " + utente.getNickname() + " aggiunto!");
+        log.info("Utente " + utente.getNome() + " aggiunto!");
     }
-
+    
     public void updateUtente(Utente utente) {
-        String sql = "UPDATE utenti SET nickname = ?, email = ?, password = ?, indirizzo = ? WHERE id = ?";
+        String sql = "UPDATE utenti SET nome = ?, email = ?, password = ?, indirizzo = ? WHERE id = ?";
         try (PreparedStatement pstmt = this.conn.prepareStatement(sql)) {
-            pstmt.setString(1, utente.getNickname());
+            pstmt.setString(1, utente.getNome());
             pstmt.setString(2, utente.getEmail());
             pstmt.setString(3, utente.getPassword());
             pstmt.setString(4, utente.getIndirizzo());
 
             int rowsAffected = pstmt.executeUpdate();
             if (rowsAffected > 0) {
-                log.info("DBManager: Utente " + utente.getNickname() + " aggiornato correttamente!");
+                log.info("DBManager: Utente " + utente.getNome() + " aggiornato correttamente!");
             } else {
                 log.info("DBManager: Nessun utente trovato con ID " + utente.getId() + " da aggiornare.");
             }
