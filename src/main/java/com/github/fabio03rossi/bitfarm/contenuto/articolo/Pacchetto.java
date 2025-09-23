@@ -45,7 +45,7 @@ public class Pacchetto extends AbstractArticolo implements IArticoloComposto {
         }
 
         @Override
-        public void setPrice(double price) {
+        public void setPrezzo(double prezzo) {
 
         }
 

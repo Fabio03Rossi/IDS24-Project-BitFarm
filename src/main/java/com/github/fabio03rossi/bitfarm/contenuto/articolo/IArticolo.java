@@ -4,7 +4,7 @@ public interface IArticolo {
     public String getNome();
     public void setNome(String nome);
     public double getPrezzo();
-    public void setPrice(double prezzo);
+    public void setPrezzo(double prezzo);
     public String getDescrizione();
     public void setDescrizione(String description);
     public String getCertificati();

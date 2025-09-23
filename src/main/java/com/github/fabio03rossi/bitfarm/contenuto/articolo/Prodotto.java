@@ -2,15 +2,15 @@ package com.github.fabio03rossi.bitfarm.contenuto.articolo;
 
 public class Prodotto extends AbstractArticolo {
     private int id = -1;
-    private String name;
-    private String description;
-    private Double price;
+    private String nome;
+    private String descrizione;
+    private Double prezzo;
     private String certs;
 
     public Prodotto(String nome, String descrizione, Double prezzo, String certs) {
-        this.name = nome;
-        this.description = descrizione;
-        this.price = prezzo;
+        this.nome = nome;
+        this.descrizione = descrizione;
+        this.prezzo = prezzo;
         this.certs = certs;
     }
 
@@ -28,19 +28,19 @@ public class Prodotto extends AbstractArticolo {
     }
 
     public String getNome() {
-        return name;
+        return nome;
     }
 
     public void setNome(String nome) {
-        this.name = nome;
+        this.nome = nome;
     }
 
     public String getDescrizione() {
-        return description;
+        return descrizione;
     }
 
     public void setDescrizione(String description) {
-        this.description = description;
+        this.descrizione = description;
     }
 
     @Override
@@ -62,16 +62,16 @@ public class Prodotto extends AbstractArticolo {
     }
 
     public double getPrezzo() {
-        return price;
+        return prezzo;
     }
 
     @Override
-    public void setPrice(double price) {
+    public void setPrezzo(double prezzo) {
 
     }
 
     public void setPrice(Double price) {
-        this.price = price;
+        this.prezzo = price;
     }
 
 

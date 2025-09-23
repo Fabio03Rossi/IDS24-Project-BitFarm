@@ -2,6 +2,9 @@ package com.github.fabio03rossi.bitfarm.controller;
 
 import com.github.fabio03rossi.bitfarm.account.Account;
 import com.github.fabio03rossi.bitfarm.account.Utente;
+import com.github.fabio03rossi.bitfarm.contenuto.articolo.IArticolo;
+import com.github.fabio03rossi.bitfarm.contenuto.articolo.Prodotto;
+import com.github.fabio03rossi.bitfarm.dto.ProdottoDTO;
 import com.github.fabio03rossi.bitfarm.dto.UtenteDTO;
 import com.github.fabio03rossi.bitfarm.misc.Sessione;
 import com.github.fabio03rossi.bitfarm.services.IAcquistoService;
@@ -10,7 +13,9 @@ import com.github.fabio03rossi.bitfarm.services.PagamentoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -23,8 +28,28 @@ public class AcquistoController {
         this.acquistoService = acquistoService;
     }
 
-    @RequestMapping
-    public ResponseEntity<Object> acquista(UtenteDTO utenteDTO, String pagamentoService) {
+    @RequestMapping(value = "/aggiungiAlCarrello", method = RequestMethod.POST)
+    public ResponseEntity<Object> aggiungiAlCarrello(@RequestBody ProdottoDTO articolo, @RequestBody int quantita) {
+        IArticolo prodotto = new Prodotto(articolo.nome(), articolo.descrizione(), articolo.prezzo(), articolo.certificazioni());
+        this.acquistoService.aggiungiAlCarrello(prodotto, quantita);
+        return new ResponseEntity<>("Articolo aggiunto al Carrello correttamente.", HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/rimuoviDalCarrello", method = RequestMethod.DELETE)
+    public ResponseEntity<Object> aggiungiAlCarrello(@RequestBody ProdottoDTO articolo) {
+        IArticolo prodotto = new Prodotto(articolo.nome(), articolo.descrizione(), articolo.prezzo(), articolo.certificazioni());
+        this.acquistoService.rimuoviDalCarrello(prodotto);
+        return new ResponseEntity<>("Articolo rimosso dal Carrello correttamente.", HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/svuotaCarrello", method = RequestMethod.DELETE)
+    public ResponseEntity<Object> svuotaCarrello() {
+        this.acquistoService.svuotaCarrello();
+        return new ResponseEntity<>("Carrello svuotato correttamente.", HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/acquista", method = RequestMethod.POST)
+    public ResponseEntity<Object> acquista(@RequestBody UtenteDTO utenteDTO, @RequestBody String pagamentoService) {
         if(sessione.isLogged()) {
             IPagamentoService servizio = new PagamentoService();
             Account account = sessione.getAccount();
