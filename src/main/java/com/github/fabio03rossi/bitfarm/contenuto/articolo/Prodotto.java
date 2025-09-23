@@ -18,8 +18,8 @@ public class Prodotto extends AbstractArticolo {
         return id;
     }
 
-    public int setId() {
-        return id;
+    public void setId(int id) {
+        this.id = id;
     }
 
     @Override

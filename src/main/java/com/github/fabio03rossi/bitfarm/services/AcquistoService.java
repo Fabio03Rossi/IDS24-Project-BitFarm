@@ -15,19 +15,22 @@ public class AcquistoService implements IAcquistoService {
     private IPagamentoService pagamentoService;
     private final DBManager db;
 
-    public AcquistoService(IPagamentoService pagamentoService) {
-        this.pagamentoService = pagamentoService;
+    public AcquistoService() {
         this.db = DBManager.getInstance();
     }
 
 
     @Override
     public void aggiungiAlCarrello(IArticolo articolo, int quantita) {
+        if(this.carrello == null) {
+            this.carrello = new Carrello();
+        }
         this.carrello.addArticolo(articolo, quantita);
     }
 
     @Override
-    public void rimuoviDalCarrello(IArticolo articolo, int quantita) {
+    public void rimuoviDalCarrello(IArticolo articolo) {
+        if(this.carrello == null) return;
         this.carrello.rimuoviArticolo(articolo);
     }
 

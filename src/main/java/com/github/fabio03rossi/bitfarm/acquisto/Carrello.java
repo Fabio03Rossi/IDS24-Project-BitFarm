@@ -9,6 +9,10 @@ public class Carrello {
     private HashMap<IArticolo, Integer> listaArticolo;
     private double totale;
 
+    public Carrello(){
+        this.listaArticolo = new HashMap<>();
+    }
+
     public HashMap<IArticolo, Integer> getListaArticolo() {
         return listaArticolo;
     }
@@ -29,15 +33,13 @@ public class Carrello {
 
     public void rimuoviArticolo(IArticolo articolo) {
         totale -= articolo.getPrezzo();
+        if(this.listaArticolo.isEmpty() || this.listaArticolo.get(articolo) == null) return;
+
         this.listaArticolo.replace(articolo, this.listaArticolo.get(articolo) - 1);
     }
 
     public double getTotale() {
         return totale;
     }
-
-
-    public Carrello() {}
-
 
 }
