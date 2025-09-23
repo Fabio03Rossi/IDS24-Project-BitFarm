@@ -22,6 +22,7 @@ public class EventoService implements IEventoService {
 
     @Override
     public void eliminaEvento(int id) {
+
     }
 
     @Override

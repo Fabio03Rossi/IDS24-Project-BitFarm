@@ -4,12 +4,12 @@ import java.util.HashMap;
 
 public class Pacchetto extends AbstractArticolo implements IArticoloComposto {
         // Coppie Prodotto - quantità
-        private HashMap<Prodotto, Integer> listaProdotti;
+        private HashMap<IArticolo, Integer> listaProdotti;
         private String nome;
         private String description;
         private double price;
         private int id = -1;
-        private String Certificazioni;
+        private String certificazioni;
 
         public Pacchetto(String nomeProdotto, String descrizioneProdotto, double prezzoProdotto, String certificazioni) {
                 this.nome = nomeProdotto;
@@ -18,7 +18,7 @@ public class Pacchetto extends AbstractArticolo implements IArticoloComposto {
                 this.listaProdotti = new HashMap<>();
         }
 
-        public Pacchetto(String nomeProdotto, String descrizioneProdotto, double prezzoProdotto, String certificazioni, HashMap<Prodotto, Integer> listaProdotti) {
+        public Pacchetto(String nomeProdotto, String descrizioneProdotto, double prezzoProdotto, String certificazioni, HashMap<IArticolo, Integer> listaProdotti) {
                 this.listaProdotti = listaProdotti;
                 this.nome = nomeProdotto;
                 this.description = descrizioneProdotto;
@@ -65,8 +65,12 @@ public class Pacchetto extends AbstractArticolo implements IArticoloComposto {
         }
 
         @Override
-        public void setCertificati(String certificates) {
+        public void setCertificati(String certificati) {
+                this.certificazioni = certificati;
+        }
 
+        public void setListaProdotti(HashMap<IArticolo, Integer> listaProdotti) {
+                this.listaProdotti = listaProdotti;
         }
 
         @Override
@@ -80,7 +84,7 @@ public class Pacchetto extends AbstractArticolo implements IArticoloComposto {
         }
 
         @Override
-        public HashMap<Prodotto, Integer> getProductList() {
+        public HashMap<IArticolo, Integer> getListaProdotti() {
                 return listaProdotti;
         }
 }

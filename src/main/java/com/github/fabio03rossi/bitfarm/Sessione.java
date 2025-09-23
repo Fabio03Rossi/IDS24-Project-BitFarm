@@ -1,5 +1,6 @@
 package com.github.fabio03rossi.bitfarm;
 import com.github.fabio03rossi.bitfarm.account.Account;
+import com.github.fabio03rossi.bitfarm.acquisto.Carrello;
 import com.github.fabio03rossi.bitfarm.services.IAccountService;
 
 
@@ -10,6 +11,7 @@ public class Sessione {
     private Account accountCorrente;
     private boolean loggedIn;
     private IAccountService accountService;
+    private Carrello carrello;
 
     public Sessione(Account account) {
         this.accountCorrente = account;

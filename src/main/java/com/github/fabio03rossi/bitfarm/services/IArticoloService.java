@@ -7,6 +7,7 @@ import com.github.fabio03rossi.bitfarm.dto.ProdottoDTO;
 public interface IArticoloService {
 
     void creaArticolo(String nome, String descrizione, Double prezzo, String certs);
+
     void creaPacchetto(String nome, String descrizione, Double prezzo, String certs);
 
     void eliminaArticolo(int id);
