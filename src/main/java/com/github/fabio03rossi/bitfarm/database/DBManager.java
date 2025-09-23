@@ -536,7 +536,7 @@ public class DBManager
     }
 
     public void addUtente(Utente utente) {
-        String sql = "INSERT INTO utenti(nickname, data_creazione, email, password) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO utenti(nickname, data_creazione, email, password, indirizzo) VALUES (?, ?, ?, ?, ?)";
 
         try (PreparedStatement pstmt = this.conn.prepareStatement(sql)) {
             // Set values for placeholders
@@ -547,6 +547,7 @@ public class DBManager
 
             pstmt.setString(3, utente.getEmail());
             pstmt.setString(4, utente.getPassword());
+            pstmt.setString(5, utente.getIndirizzo());
 
             // Execute the query
             pstmt.executeUpdate();
@@ -559,11 +560,12 @@ public class DBManager
     }
 
     public void updateUtente(Utente utente) {
-        String sql = "UPDATE utenti SET nickname = ?, email = ?, password = ? WHERE id = ?";
+        String sql = "UPDATE utenti SET nickname = ?, email = ?, password = ?, indirizzo = ? WHERE id = ?";
         try (PreparedStatement pstmt = this.conn.prepareStatement(sql)) {
             pstmt.setString(1, utente.getNickname());
             pstmt.setString(2, utente.getEmail());
             pstmt.setString(3, utente.getPassword());
+            pstmt.setString(4, utente.getIndirizzo());
 
             int rowsAffected = pstmt.executeUpdate();
             if (rowsAffected > 0) {
