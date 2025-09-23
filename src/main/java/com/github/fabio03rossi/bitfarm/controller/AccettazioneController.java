@@ -1,7 +1,6 @@
 package com.github.fabio03rossi.bitfarm.controller;
 
 import com.github.fabio03rossi.bitfarm.services.IAccettazioneService;
-import com.github.fabio03rossi.bitfarm.services.IAcquistoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +16,12 @@ public class AccettazioneController {
     @Autowired
     public AccettazioneController(IAccettazioneService accettazioneService) {
         this.accettazioneService = accettazioneService;
+    }
+
+    @RequestMapping(value = "/getAllRichieste", method = RequestMethod.GET)
+    public ResponseEntity<Object> getAllRichieste() {
+        var richieste = this.accettazioneService.getAllRichieste();
+        return new ResponseEntity<>(richieste, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/accettaArticolo/{id}", method = RequestMethod.PUT)
