@@ -2,8 +2,11 @@ package com.github.fabio03rossi.bitfarm.misc;
 import com.github.fabio03rossi.bitfarm.account.Account;
 import com.github.fabio03rossi.bitfarm.acquisto.Carrello;
 import com.github.fabio03rossi.bitfarm.services.IAccountService;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
-
+@Component
+@Scope("Session")
 public class Sessione {
     /**
      * La classe Session si occupa di contenere i dati della sessione corrente
@@ -13,8 +16,7 @@ public class Sessione {
     private IAccountService accountService;
     private Carrello carrello;
 
-    public Sessione(Account account) {
-        this.accountCorrente = account;
+    public Sessione() {
         this.loggedIn = false;
     }
 
@@ -30,6 +32,10 @@ public class Sessione {
         }
         System.out.println("Session: login fallito");
         return false;
+    }
+
+    public boolean isLogged(){
+        return this.loggedIn;
     }
 
     public void logout() {

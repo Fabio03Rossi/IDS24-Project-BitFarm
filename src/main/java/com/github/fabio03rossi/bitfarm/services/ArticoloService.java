@@ -8,10 +8,12 @@ import com.github.fabio03rossi.bitfarm.database.DBManager;
 import com.github.fabio03rossi.bitfarm.dto.PacchettoDTO;
 import com.github.fabio03rossi.bitfarm.dto.ProdottoDTO;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+@Component
 public class ArticoloService implements IArticoloService {
     private static final org.slf4j.Logger log = LoggerFactory.getLogger(ArticoloService.class);
     private final DBManager db = DBManager.getInstance();

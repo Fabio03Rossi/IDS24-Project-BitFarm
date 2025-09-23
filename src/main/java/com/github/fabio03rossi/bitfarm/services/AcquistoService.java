@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
+@Component
 public class AcquistoService implements IAcquistoService {
     private static final Logger log = LoggerFactory.getLogger(AcquistoService.class);
     private Carrello carrello;
@@ -43,6 +44,10 @@ public class AcquistoService implements IAcquistoService {
     @Override
     public void acquista(Utente utente, IPagamentoService pagamentoService) {
         // Tenta l'acquisto
+        if(carrello == null) {
+            log.warn("Carrello vuoto");
+            return;
+        }
         if(pagamentoService.buy(carrello)){
             // Se il pagamento è andato a buon fine creo l'ordine e aggiorno il database
             try {

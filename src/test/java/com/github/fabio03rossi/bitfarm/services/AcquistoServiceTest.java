@@ -51,8 +51,11 @@ class AcquistoServiceTest {
         );
     }
 
+
+
     @Test
     void acquista() {
+        this.aggiungiAlCarrello();
         var utente = new Utente(
                 "TestUtente",
                 "testutente@gmail.com",

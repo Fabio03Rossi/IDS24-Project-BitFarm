@@ -4,10 +4,12 @@ import com.github.fabio03rossi.bitfarm.contenuto.Contenuto;
 import com.github.fabio03rossi.bitfarm.database.DBManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Stream;
 
+@Component
 public class AccettazioneService implements IAccettazioneService {
     private static final Logger logger = LoggerFactory.getLogger(AccettazioneService.class);
     private final DBManager db;

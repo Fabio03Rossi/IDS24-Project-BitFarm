@@ -5,9 +5,11 @@ import com.github.fabio03rossi.bitfarm.contenuto.Evento;
 import com.github.fabio03rossi.bitfarm.contenuto.StatoValidazione;
 import com.github.fabio03rossi.bitfarm.database.DBManager;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
+@Component
 public class EventoService implements IEventoService {
     private static final org.slf4j.Logger log = LoggerFactory.getLogger(EventoService.class);
     private final DBManager db = DBManager.getInstance();
