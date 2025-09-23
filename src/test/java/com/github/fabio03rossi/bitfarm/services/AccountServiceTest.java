@@ -48,7 +48,7 @@ class AccountServiceTest {
         int id = 1;
 
         assertAll(
-                () -> accountService.modificaAccount(id, dto.nickname(), dto.email(), dto.password())
+                () -> accountService.modificaAccount(id, dto.nickname(), dto.email(), dto.password(), dto.indirizzo())
         );
     }
 
@@ -115,6 +115,7 @@ class AccountServiceTest {
         assertAll(
                 () -> accountService.modificaAzienda(
                         id,
+                        dto.partitaIVA(),
                         dto.nome(),
                         dto.email(),
                         dto.password(),

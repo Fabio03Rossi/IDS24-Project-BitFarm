@@ -6,7 +6,6 @@ import com.github.fabio03rossi.bitfarm.database.DBManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -41,12 +40,9 @@ public class AccountService implements IAccountService {
     }
 
     @Override
-    public void modificaAccount(int id, String nickname, String email, String password) {
+    public void modificaAccount(int id, String nickname, String email, String password, String indirizzo) {
         try {
-            Utente ut = this.db.getUtente(id);
-            ut.setNickname(nickname);
-            ut.setEmail(email);
-            ut.setPassword(password);
+            Utente ut = new Utente(nickname, email, password, indirizzo);
             this.db.updateUtente(ut);
         } catch (Exception ex) {
             log.error("Errore nella modifica dell'account, tipo di errore: " + ex);
@@ -70,17 +66,10 @@ public class AccountService implements IAccountService {
     }
 
     @Override
-    public void modificaAzienda(int id, String nome, String email, String password, String descrizione, String indirizzo, String telefono, String tipologia, String certificazioni) {
+    public void modificaAzienda(int id, String partitaIVA, String nome, String email, String password, String descrizione, String indirizzo, String telefono, String tipologia, String certificazioni) {
         try {
-            Azienda az = this.db.getAzienda(id);
-            az.setNome(nome);
-            az.setEmail(email);
-            az.setPassword(password);
-            az.setDescrizione(descrizione);
-            az.setIndirizzo(indirizzo);
-            az.setTelefono(telefono);
-            az.setTipologia(tipologia);
-            az.setCertificazioni(certificazioni);
+            Azienda az = new Azienda(partitaIVA, nome, email, password, descrizione, indirizzo, telefono, tipologia, certificazioni);
+            az.setId(id);
             this.db.updateAzienda(az);
         } catch (Exception ex) {
             log.error("Errore nella modifica dell'azienda, tipo di errore: " + ex);
