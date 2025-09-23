@@ -1,6 +1,8 @@
 package com.github.fabio03rossi.bitfarm.database;
 
 import com.github.fabio03rossi.bitfarm.account.Azienda;
+import com.github.fabio03rossi.bitfarm.account.Curatore;
+import com.github.fabio03rossi.bitfarm.account.GestoreDellaPiattaforma;
 import com.github.fabio03rossi.bitfarm.account.Utente;
 import com.github.fabio03rossi.bitfarm.acquisto.Ordine;
 import com.github.fabio03rossi.bitfarm.contenuto.Evento;
@@ -136,21 +138,32 @@ public class DBManager
                 "email TEXT NOT NULL UNIQUE," +
                 "password TEXT NOT NULL)";
 
+        String gestorePiattaformaQuery = "CRATE TABLE IF NOT EXISTS gestore_piattaforma(" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "nome TEXT NOT NULL," +
+                "data_creazione DATETIME NOT NULL," +
+                "email TEXT NOT NULL UNIQUE," +
+                "password TEXT NOT NULL)";
+
 
 
         try {
             stmt.execute(articoliTableQuery);
             stmt.execute(pacchettiTableQuery);
+
+            stmt.execute(ordiniTableQuery);
+            stmt.execute(ordiniArticoliTableQuery);
+            stmt.execute(eventiTableQuery);
+
             stmt.execute(utentiTableQuery);
             stmt.execute(aziendeTableQuery);
-            stmt.execute(ordiniTableQuery);
-            stmt.execute(eventiTableQuery);
-            stmt.execute(ordiniArticoliTableQuery);
+            stmt.execute(curatoriTableQuery);
+            stmt.execute(gestorePiattaformaQuery);
 
             conn.commit();
 
         } catch (SQLException e) {
-            log.error("DbManager: errore nella creazione delle tabelle, tipo errore: " + e.getMessage());
+            log.error("DbManager: errore nella creazione delle tabelle, tipo errore: {}", e.getMessage());
         }
 
         log.info("Tabelle create correttamente");
@@ -705,6 +718,238 @@ public class DBManager
             log.info("DBManager: Account aziendale cancellato");
         } catch (SQLException e) {
             log.error("DBManager: Errore durante la cancellazione dell'account aziendale: " + e.getMessage());
+        }
+    }
+
+    // --------------- CURATORI ---------------
+
+    public Curatore getCuratore(String email) {
+        String sql = "SELECT * FROM curatori WHERE email = ?";
+        Curatore curatore = null;
+
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, email);
+
+            // Esegue la query e ottiene il set di risultati
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+
+                    int id = rs.getInt("id");
+                    String nome = rs.getString("nome");
+                    String password = rs.getString("password");
+                    String indirizzo = rs.getString("indirizzo");
+
+                    curatore = new Curatore(email, password, nome, indirizzo);
+                }
+            }
+        } catch (SQLException ex) {
+            log.error("DbManager: Errore durante il recupero del curatore: {}", ex.getMessage(), ex);
+        }
+        return curatore;
+    }
+
+    public Curatore getCuratore(int id) {
+
+        String sql = "SELECT * FROM curatori WHERE id = ?";
+        Curatore curatore = null;
+
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, id);
+
+            // Esegue la query e ottiene il set di risultati
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+
+                    String email = rs.getString("email");
+                    String nome = rs.getString("nome");
+                    String password = rs.getString("password");
+                    String indirizzo = rs.getString("indirizzo");
+
+                    curatore = new Curatore(email, password, nome, indirizzo);
+                }
+            }
+        } catch (SQLException ex) {
+            log.error("DbManager: Errore durante il recupero del curatore: {}", ex.getMessage(), ex);
+        }
+        return curatore;
+    }
+
+    public void addCuratore(Curatore curatore) {
+        String sql = "INSERT INTO curatori (nome, data_creazione, email, password, indirizzo) VALUES (?, ?, ?, ?, ?)";
+
+        try (PreparedStatement pstmt = this.conn.prepareStatement(sql)) {
+            // Set values for placeholders
+            pstmt.setString(1, curatore.getNome());
+
+            java.sql.Date sqlDate = new java.sql.Date(curatore.getDataCreazione().getTime());
+            pstmt.setDate(2, sqlDate);
+
+            pstmt.setString(3, curatore.getEmail());
+            pstmt.setString(4, curatore.getPassword());
+            pstmt.setString(5, curatore.getIndirizzo());
+
+            // Execute the query
+            pstmt.executeUpdate();
+
+        } catch (SQLException ex) {
+            log.error("DbManager: Errore durante il salvataggio di un curatore : {}", ex.getMessage());
+        }
+
+        log.info("Curatore " + curatore.getNome() + " aggiunto!");
+    }
+
+    public void updateCuratore(Curatore curatore) {
+        String sql = "UPDATE utenti SET nome = ?, email = ?, password = ?, indirizzo = ? WHERE id = ?";
+        try (PreparedStatement pstmt = this.conn.prepareStatement(sql)) {
+            pstmt.setString(1, curatore.getNome());
+            pstmt.setString(2, curatore.getEmail());
+            pstmt.setString(3, curatore.getPassword());
+            pstmt.setString(4, curatore.getIndirizzo());
+
+            int rowsAffected = pstmt.executeUpdate();
+            if (rowsAffected > 0) {
+                log.info("DBManager: Utente {} aggiornato correttamente", curatore.getNome());
+            } else {
+                log.info("DBManager: Nessun utente chiamato {} trovato", curatore.getNome());
+            }
+        } catch (SQLException ex) {
+            log.error("DbManager: Errore durante l'aggiornamento del curatore: {}", ex.getMessage());
+        }
+    }
+
+    public void cancellaCuratore(int id) {
+        String sql = "DELETE FROM curatore WHERE id = ?";
+        try (PreparedStatement pstmt = this.conn.prepareStatement(sql)) {
+            pstmt.setInt(1, id); // Assumendo che Ordine abbia un getId()
+            log.info("DBManager: Curatore cancellato");
+        } catch (SQLException e) {
+            log.error("DBManager: Errore durante la cancellazione del curatore : {}", e.getMessage());
+        }
+    }
+
+    public void cancellaCuratore(String email) {
+        String sql = "DELETE FROM curatore WHERE email = ?";
+        try (PreparedStatement pstmt = this.conn.prepareStatement(sql)) {
+            pstmt.setString(1, email); // Assumendo che Ordine abbia un getId()
+            log.info("DBManager: Curatore cancellato");
+        } catch (SQLException e) {
+            log.error("DBManager: Errore durante la cancellazione del curatore : {}", e.getMessage());
+        }
+    }
+
+    // --------------- GESTORI DELLA PIATTAFORMA ---------------
+
+    public GestoreDellaPiattaforma getGestoreDellaPiattaforma(String email) {
+        String sql = "SELECT * FROM gestore_piattaforma WHERE email = ?";
+        GestoreDellaPiattaforma gestore = null;
+
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, email);
+
+            // Esegue la query e ottiene il set di risultati
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+
+                    int id = rs.getInt("id");
+                    String nome = rs.getString("nome");
+                    String password = rs.getString("password");
+                    String indirizzo = rs.getString("indirizzo");
+
+                    gestore = new GestoreDellaPiattaforma(email, password, nome, indirizzo);
+                }
+            }
+        } catch (SQLException ex) {
+            log.error("DbManager: Errore durante il recupero del gestore della piattaforma: {}", ex.getMessage(), ex);
+        }
+        return gestore;
+    }
+
+    public GestoreDellaPiattaforma getGestoreDellaPiattaforma(int id) {
+
+        String sql = "SELECT * FROM gestore_piattaforma WHERE id = ?";
+        GestoreDellaPiattaforma gestore = null;
+
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, id);
+
+            // Esegue la query e ottiene il set di risultati
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+
+                    String email = rs.getString("email");
+                    String nome = rs.getString("nome");
+                    String password = rs.getString("password");
+                    String indirizzo = rs.getString("indirizzo");
+
+                    gestore = new GestoreDellaPiattaforma(email, password, nome, indirizzo);
+                }
+            }
+        } catch (SQLException ex) {
+            log.error("DbManager: Errore durante il recupero del gestore della piattaforma: {}", ex.getMessage(), ex);
+        }
+        return gestore;
+    }
+
+    public void addGestoreDellaPiattaforma(GestoreDellaPiattaforma gestore) {
+        String sql = "INSERT INTO gestore_piattaforma (nome, data_creazione, email, password, indirizzo) VALUES (?, ?, ?, ?, ?)";
+
+        try (PreparedStatement pstmt = this.conn.prepareStatement(sql)) {
+            // Set values for placeholders
+            pstmt.setString(1, gestore.getNome());
+
+            java.sql.Date sqlDate = new java.sql.Date(gestore.getDataCreazione().getTime());
+            pstmt.setDate(2, sqlDate);
+
+            pstmt.setString(3, gestore.getEmail());
+            pstmt.setString(4, gestore.getPassword());
+            pstmt.setString(5, gestore.getIndirizzo());
+
+            // Execute the query
+            pstmt.executeUpdate();
+
+        } catch (SQLException ex) {
+            log.error("DbManager: Errore durante il salvataggio del gestore della piattaforma : {}", ex.getMessage());
+        }
+
+        log.info("Gestore della piattaforma {} aggiunto", gestore.getNome());
+    }
+
+    public void updateGestoreDellaPiattaforma(GestoreDellaPiattaforma gestore) {
+        String sql = "UPDATE gestore_piattaforma SET nome = ?, email = ?, password = ?, indirizzo = ? WHERE id = ?";
+        try (PreparedStatement pstmt = this.conn.prepareStatement(sql)) {
+            pstmt.setString(1, gestore.getNome());
+            pstmt.setString(2, gestore.getEmail());
+            pstmt.setString(3, gestore.getPassword());
+            pstmt.setString(4, gestore.getIndirizzo());
+
+            int rowsAffected = pstmt.executeUpdate();
+            if (rowsAffected > 0) {
+                log.info("DBManager: Gestore della piattaforma {} aggiornato correttamente", gestore.getNome());
+            } else {
+                log.warn("DBManager: Nessun gestore della piattaforma chiamato {} trovato", gestore.getNome());
+            }
+        } catch (SQLException ex) {
+            log.error("DbManager: Errore durante l'aggiornamento del gestore della piattaforma: {}", ex.getMessage());
+        }
+    }
+
+    public void cancellaGestoreDellaPiattaforma(int id) {
+        String sql = "DELETE FROM gestore_piattaforma WHERE id = ?";
+        try (PreparedStatement pstmt = this.conn.prepareStatement(sql)) {
+            pstmt.setInt(1, id);
+            log.info("DBManager: Gestore della piattaforma cancellato");
+        } catch (SQLException e) {
+            log.error("DBManager: Errore durante la cancellazione del gestore della piattaforma : {}", e.getMessage());
+        }
+    }
+
+    public void cancellaGestoreDellaPiattaforma(String email) {
+        String sql = "DELETE FROM gestore_piattaforma WHERE email = ?";
+        try (PreparedStatement pstmt = this.conn.prepareStatement(sql)) {
+            pstmt.setString(1, email);
+            log.info("DBManager: Gestore della piattaforma cancellato");
+        } catch (SQLException e) {
+            log.error("DBManager: Errore durante la cancellazione del gestore della piattaforma : {}", e.getMessage());
         }
     }
 
