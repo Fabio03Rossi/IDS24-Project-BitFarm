@@ -49,6 +49,13 @@ public class AccountController {
         return new ResponseEntity<>("Azienda creata correttamente.", HttpStatus.CREATED);
     }
 
+    @RequestMapping(value = "/creaCuratore", method = RequestMethod.POST)
+    public ResponseEntity<Object> creaCuratore(@RequestBody String email, @RequestBody String password) {
+        this.accountService.registraCuratore(email, password);
+        return new ResponseEntity<>("Curatore creato correttamente.", HttpStatus.CREATED);
+    }
+
+
     @RequestMapping(value = "/modificaUtente/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Object> modificaUtente(@PathVariable("id") int id, @RequestBody UtenteDTO account) {
         this.accountService.modificaUtente(
@@ -78,6 +85,13 @@ public class AccountController {
         return new ResponseEntity<>("Azienda modificata correttamente.", HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/modificaCuratore/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<Object> modificaCuratore(@PathVariable("id") int id, @RequestBody String email, @RequestBody String password) {
+        this.accountService.modificaCuratore(id, email, password);
+        return new ResponseEntity<>("Curatore modificato correttamente.", HttpStatus.OK);
+    }
+
+
     @RequestMapping(value = "/eliminaUtente/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Object> eliminaUtente(@PathVariable("id") int id) {
         this.accountService.eliminaUtente(id);
@@ -88,5 +102,11 @@ public class AccountController {
     public ResponseEntity<Object> eliminaAzienda(@PathVariable("id") int id) {
         this.accountService.eliminaAzienda(id);
         return new ResponseEntity<>("Azienda eliminata.", HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/eliminaCuratore/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<Object> eliminaCuratore(@PathVariable("id") int id) {
+        this.accountService.eliminaCuratore(id);
+        return new ResponseEntity<>("Curatore eliminato.", HttpStatus.OK);
     }
 }

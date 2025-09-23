@@ -14,4 +14,8 @@ public interface IAccountService {
     void modificaAzienda(int id, String partitaIVA, String nome, String email, String password, String descrizione, String indirizzo, String telefono, String tipologia, String certificazioni);
 
     void registraCuratore(String email, String password);
+
+    void modificaCuratore(int id, String email, String password);
+
+    void eliminaCuratore(int id);
 }

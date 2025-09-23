@@ -1,7 +1,5 @@
 package com.github.fabio03rossi.bitfarm.controller;
 
-import com.github.fabio03rossi.bitfarm.account.Azienda;
-import com.github.fabio03rossi.bitfarm.services.IAccettazioneService;
 import com.github.fabio03rossi.bitfarm.services.IVerificaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,8 +8,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @RestController
 public class VerificaController {

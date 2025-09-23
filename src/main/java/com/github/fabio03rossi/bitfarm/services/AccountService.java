@@ -77,6 +77,18 @@ public class AccountService implements IAccountService {
     @Override
     public void registraCuratore(String email, String password) {
         // TODO
-        log.warn("non implementato");
+        log.warn("registraCuratore non implementato");
+    }
+
+    @Override
+    public void modificaCuratore(int id, String email, String password) {
+        // TODO
+        log.warn("modificaCuratore non implementato");
+    }
+
+    @Override
+    public void eliminaCuratore(int id) {
+        // TODO
+        log.warn("eliminaCuratore non implementato");
     }
 }
