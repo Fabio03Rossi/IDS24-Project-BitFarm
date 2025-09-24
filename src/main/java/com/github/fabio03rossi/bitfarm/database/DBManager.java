@@ -1068,12 +1068,12 @@ public class DBManager
             pstmtOrdine.setInt(1, ordine.getId());
             int rowsAffected = pstmtOrdine.executeUpdate();
             if (rowsAffected > 0) {
-                log.info("Ordine " + ordine.getId() + " eliminato con successo.");
+                log.info("Ordine {} eliminato con successo.", ordine.getId());
             } else {
-                log.info("Nessun ordine trovato con ID " + ordine.getId() + " da eliminare.");
+                log.info("Nessun ordine trovato con ID {} da eliminare.", ordine.getId());
             }
         } catch (SQLException ex) {
-            log.error("DBManager: Errore durante l'eliminazione dell'ordine: " + ex.getMessage());
+            log.error("DBManager: Errore durante l'eliminazione dell'ordine: {}", ex.getMessage());
         }
     }
 
@@ -1118,7 +1118,7 @@ public class DBManager
 
             // Conferma la transazione
             this.conn.commit();
-            log.info("Ordine " + ordine.getId() + " aggiornato correttamente, inclusi gli articoli.");
+            log.info("Ordine {} aggiornato correttamente, inclusi gli articoli.", ordine.getId());
 
         } catch (SQLException ex) {
             // In caso di errore, annulla la transazione per evitare modifiche parziali
@@ -1127,10 +1127,10 @@ public class DBManager
                     log.error("Transazione annullata a causa di un errore.");
                     this.conn.rollback();
                 } catch (SQLException e) {
-                    log.error("Errore durante il rollback: " + e.getMessage());
+                    log.error("Errore durante il rollback: {}", e.getMessage());
                 }
             }
-            log.error("DBManager: Errore durante l'aggiornamento dell'ordine: " + ex.getMessage(), ex);
+            log.error("DBManager: Errore durante l'aggiornamento dell'ordine: {}", ex.getMessage(), ex);
         } finally {
             // Ripristina l'auto-commit
             if (this.conn != null) {
