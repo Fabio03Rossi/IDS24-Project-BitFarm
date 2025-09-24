@@ -22,7 +22,7 @@ public class AccountController {
         this.accountService = accountService;
     }
 
-    @RequestMapping(value = "/creaUtente", method = RequestMethod.POST)
+    @RequestMapping(value = "/account/creaUtente", method = RequestMethod.POST)
     public ResponseEntity<Object> creaUtente(@RequestBody UtenteDTO account) {
         this.accountService.registraUtente(
                 account.nickname(),
@@ -33,7 +33,7 @@ public class AccountController {
         return new ResponseEntity<>("Utente creato correttamente.", HttpStatus.CREATED);
     }
 
-    @RequestMapping(value = "/creaAzienda", method = RequestMethod.POST)
+    @RequestMapping(value = "/account/creaAzienda", method = RequestMethod.POST)
     public ResponseEntity<Object> creaAzienda(@RequestBody AziendaDTO account) {
         this.accountService.registraAzienda(
                 account.partitaIVA(),
@@ -49,14 +49,14 @@ public class AccountController {
         return new ResponseEntity<>("Azienda creata correttamente.", HttpStatus.CREATED);
     }
 
-    @RequestMapping(value = "/creaCuratore", method = RequestMethod.POST)
+    @RequestMapping(value = "/account/creaCuratore", method = RequestMethod.POST)
     public ResponseEntity<Object> creaCuratore(@RequestBody String email, @RequestBody String password) {
         this.accountService.registraCuratore(email, password);
         return new ResponseEntity<>("Curatore creato correttamente.", HttpStatus.CREATED);
     }
 
 
-    @RequestMapping(value = "/modificaUtente/{id}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/account/modificaUtente/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Object> modificaUtente(@PathVariable("id") int id, @RequestBody UtenteDTO account) {
         this.accountService.modificaUtente(
                 id,
@@ -68,7 +68,7 @@ public class AccountController {
         return new ResponseEntity<>("Utente modificato correttamente.", HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/modificaAzienda/{id}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/account/modificaAzienda/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Object> modificaAzienda(@PathVariable("id") int id, @RequestBody AziendaDTO account) {
         this.accountService.modificaAzienda(
                 id,
@@ -85,26 +85,26 @@ public class AccountController {
         return new ResponseEntity<>("Azienda modificata correttamente.", HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/modificaCuratore/{id}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/account/modificaCuratore/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Object> modificaCuratore(@PathVariable("id") int id, @RequestBody String email, @RequestBody String password) {
         this.accountService.modificaCuratore(id, email, password);
         return new ResponseEntity<>("Curatore modificato correttamente.", HttpStatus.OK);
     }
 
 
-    @RequestMapping(value = "/eliminaUtente/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/account/eliminaUtente/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Object> eliminaUtente(@PathVariable("id") int id) {
         this.accountService.eliminaUtente(id);
         return new ResponseEntity<>("Utente eliminato.", HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/eliminaAzienda/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/account/eliminaAzienda/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Object> eliminaAzienda(@PathVariable("id") int id) {
         this.accountService.eliminaAzienda(id);
         return new ResponseEntity<>("Azienda eliminata.", HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/eliminaCuratore/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/account/eliminaCuratore/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Object> eliminaCuratore(@PathVariable("id") int id) {
         this.accountService.eliminaCuratore(id);
         return new ResponseEntity<>("Curatore eliminato.", HttpStatus.OK);

@@ -28,27 +28,27 @@ public class AcquistoController {
         this.acquistoService = acquistoService;
     }
 
-    @RequestMapping(value = "/aggiungiAlCarrello", method = RequestMethod.POST)
+    @RequestMapping(value = "/acquisti/aggiungiAlCarrello", method = RequestMethod.POST)
     public ResponseEntity<Object> aggiungiAlCarrello(@RequestBody ProdottoDTO articolo, @RequestBody int quantita) {
         IArticolo prodotto = new Prodotto(articolo.nome(), articolo.descrizione(), articolo.prezzo(), articolo.certificazioni());
         this.acquistoService.aggiungiAlCarrello(prodotto, quantita);
         return new ResponseEntity<>("Articolo aggiunto al Carrello correttamente.", HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/rimuoviDalCarrello", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/acquisti/rimuoviDalCarrello", method = RequestMethod.DELETE)
     public ResponseEntity<Object> aggiungiAlCarrello(@RequestBody ProdottoDTO articolo) {
         IArticolo prodotto = new Prodotto(articolo.nome(), articolo.descrizione(), articolo.prezzo(), articolo.certificazioni());
         this.acquistoService.rimuoviDalCarrello(prodotto);
         return new ResponseEntity<>("Articolo rimosso dal Carrello correttamente.", HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/svuotaCarrello", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/acquisti/svuotaCarrello", method = RequestMethod.DELETE)
     public ResponseEntity<Object> svuotaCarrello() {
         this.acquistoService.svuotaCarrello();
         return new ResponseEntity<>("Carrello svuotato correttamente.", HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/acquista", method = RequestMethod.POST)
+    @RequestMapping(value = "/acquisti/acquista", method = RequestMethod.POST)
     public ResponseEntity<Object> acquista(@RequestBody UtenteDTO utenteDTO, @RequestBody String pagamentoService) {
         if(sessione.isLogged()) {
             IPagamentoService servizio = new PagamentoService();

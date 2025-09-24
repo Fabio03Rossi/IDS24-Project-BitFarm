@@ -18,19 +18,19 @@ public class VerificaController {
         this.verificaService = verificaService;
     }
 
-    @RequestMapping(value = "/getAllRichiesteAziende", method = RequestMethod.GET)
+    @RequestMapping(value = "/verifiche/getAllRichiesteAziende", method = RequestMethod.GET)
     public ResponseEntity<Object> getAllRichiesteAziende() {
         var richieste = this.verificaService.getAllRichieste();
         return new ResponseEntity<>(richieste, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/accettaRegistrazioneAzienda/{id}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/verifiche/accettaRegistrazioneAzienda/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Object> accettaRegistrazioneAzienda(@PathVariable("id") int id) {
         this.verificaService.accettaRegistrazioneAzienda(id);
         return new ResponseEntity<>("Azienda accettata correttamente.", HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/rifiutaRegistrazioneAzienda/{id}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/verifiche/rifiutaRegistrazioneAzienda/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Object> rifiutaRegistrazioneAzienda(@PathVariable("id") int id) {
         this.verificaService.rifiutaRegistrazioneAzienda(id);
         return new ResponseEntity<>("Azienda rifiutata correttamente.", HttpStatus.OK);
