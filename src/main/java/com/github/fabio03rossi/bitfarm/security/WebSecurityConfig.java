@@ -1,20 +1,7 @@
 package com.github.fabio03rossi.bitfarm.security;
 
-import com.github.fabio03rossi.bitfarm.account.Account;
-import com.github.fabio03rossi.bitfarm.account.Utente;
-import com.github.fabio03rossi.bitfarm.contenuto.articolo.IArticolo;
-import com.github.fabio03rossi.bitfarm.contenuto.articolo.Prodotto;
-import com.github.fabio03rossi.bitfarm.dto.AziendaDTO;
-import com.github.fabio03rossi.bitfarm.dto.EventoDTO;
-import com.github.fabio03rossi.bitfarm.dto.PacchettoDTO;
-import com.github.fabio03rossi.bitfarm.dto.ProdottoDTO;
-import com.github.fabio03rossi.bitfarm.dto.UtenteDTO;
-import com.github.fabio03rossi.bitfarm.services.IPagamentoService;
-import com.github.fabio03rossi.bitfarm.services.PagamentoService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -28,10 +15,6 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 @Configuration
 @EnableWebSecurity

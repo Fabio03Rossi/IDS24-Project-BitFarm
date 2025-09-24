@@ -1,9 +1,11 @@
 package com.github.fabio03rossi.bitfarm.controller;
 
+import com.github.fabio03rossi.bitfarm.exception.DatiNonTrovatiException;
 import com.github.fabio03rossi.bitfarm.services.IAccettazioneService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -47,4 +49,10 @@ public class AccettazioneController {
         this.accettazioneService.rifiutaEvento(id);
         return new ResponseEntity<>("Evento accettato correttamente.", HttpStatus.OK);
     }
+
+    @ExceptionHandler(value = DatiNonTrovatiException.class)
+    public ResponseEntity<Object> datiNonTrovatiException(DatiNonTrovatiException exception) {
+        return new ResponseEntity<>("Dato non trovato.", HttpStatus.NOT_FOUND);
+    }
+
 }

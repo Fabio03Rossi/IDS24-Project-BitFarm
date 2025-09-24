@@ -49,6 +49,7 @@ dependencies {
     implementation 'org.xerial:sqlite-jdbc:3.46.0.0'
     runtimeOnly 'org.hibernate.orm:hibernate-community-dialects'
 
+    implementation "org.springframework.boot:spring-boot-starter-security"
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
