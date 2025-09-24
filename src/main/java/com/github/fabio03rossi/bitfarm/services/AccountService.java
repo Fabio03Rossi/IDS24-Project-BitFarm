@@ -58,6 +58,7 @@ public class AccountService implements IAccountService {
     public void modificaUtente(int id, String nickname, String email, String password, String indirizzo) {
         try {
             Utente ut = new Utente(nickname, email, password, indirizzo);
+            ut.setId(id);
             this.db.updateUtente(ut);
         } catch (Exception ex) {
             log.error("Errore nella modifica dell'account, tipo di errore: {}", String.valueOf(ex));

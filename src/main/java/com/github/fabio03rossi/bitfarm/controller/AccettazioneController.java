@@ -18,8 +18,8 @@ public class AccettazioneController {
         this.accettazioneService = accettazioneService;
     }
 
-    @RequestMapping(value = "/getAllRichieste", method = RequestMethod.GET)
-    public ResponseEntity<Object> getAllRichieste() {
+    @RequestMapping(value = "/getAllRichiesteAccettazioni", method = RequestMethod.GET)
+    public ResponseEntity<Object> getAllRichiesteAccettazioni() {
         var richieste = this.accettazioneService.getAllRichieste();
         return new ResponseEntity<>(richieste, HttpStatus.OK);
     }

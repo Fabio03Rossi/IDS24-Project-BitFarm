@@ -18,8 +18,8 @@ public class VerificaController {
         this.verificaService = verificaService;
     }
 
-    @RequestMapping(value = "/getAllRichieste", method = RequestMethod.GET)
-    public ResponseEntity<Object> getAllRichieste() {
+    @RequestMapping(value = "/getAllRichiesteAziende", method = RequestMethod.GET)
+    public ResponseEntity<Object> getAllRichiesteAziende() {
         var richieste = this.verificaService.getAllRichieste();
         return new ResponseEntity<>(richieste, HttpStatus.OK);
     }
