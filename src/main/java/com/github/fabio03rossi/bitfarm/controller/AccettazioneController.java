@@ -52,7 +52,7 @@ public class AccettazioneController {
 
     @ExceptionHandler(value = DatiNonTrovatiException.class)
     public ResponseEntity<Object> datiNonTrovatiException(DatiNonTrovatiException exception) {
-        return new ResponseEntity<>("Dato non trovato.", HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
     }
 
 }
