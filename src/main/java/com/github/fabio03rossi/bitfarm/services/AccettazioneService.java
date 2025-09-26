@@ -18,6 +18,7 @@ public class AccettazioneService implements IAccettazioneService {
         db = DBManager.getInstance();
     }
 
+    //TODO: Aggiungere riferimenti al db per le liste
     @Override
     public List<Contenuto> getAllRichieste() {
         List<? extends Contenuto> articoli = List.of();

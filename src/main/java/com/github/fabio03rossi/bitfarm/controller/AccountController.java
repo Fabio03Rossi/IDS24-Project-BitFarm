@@ -18,7 +18,7 @@ public class AccountController {
     IAccountService accountService;
 
     @Autowired
-    public AccountController(AccountService accountService) {
+    public AccountController(IAccountService accountService) {
         this.accountService = accountService;
     }
 
