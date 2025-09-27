@@ -1,21 +1,24 @@
 package com.github.fabio03rossi.bitfarm.services;
 
-public interface IAccountService {
-    void registraUtente(String nickname, String email, String password, String indirizzo);
+import com.github.fabio03rossi.bitfarm.dto.AziendaDTO;
+import com.github.fabio03rossi.bitfarm.dto.UtenteDTO;
 
-    void registraGestoreDellaPiattaforma(String email, String password, String nickname, String indirizzo);
+public interface IAccountService {
+    void registraUtente(UtenteDTO dto);
+
+    void registraGestoreDellaPiattaforma(UtenteDTO dto);
 
     void registraCuratore(String email, String password);
 
-    void registraAzienda(String partitaIVA, String nome, String email, String password, String descrizione, String indirizzo, String telefono, String tipologia, String certificazioni);
+    void registraAzienda(AziendaDTO dto);
 
-    boolean modificaAzienda(int id, String partitaIVA, String nome, String email, String password, String descrizione, String indirizzo, String telefono, String tipologia, String certificazioni);
+    boolean modificaAzienda(int id, AziendaDTO dto);
 
-    boolean modificaUtente(int id, String nickname, String email, String password, String indirizzo);
+    boolean modificaUtente(int id, UtenteDTO dto);
 
     boolean modificaCuratore(int id, String email, String password);
 
-    boolean modificaGestoreDellaPiattaforma(int id, String email, String password, String indirizzo);
+    boolean modificaGestoreDellaPiattaforma(int id, UtenteDTO dto);
 
     boolean eliminaUtente(int id);
 

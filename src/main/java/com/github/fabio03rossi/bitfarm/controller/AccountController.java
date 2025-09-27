@@ -2,8 +2,6 @@ package com.github.fabio03rossi.bitfarm.controller;
 
 import com.github.fabio03rossi.bitfarm.dto.AziendaDTO;
 import com.github.fabio03rossi.bitfarm.dto.UtenteDTO;
-import com.github.fabio03rossi.bitfarm.exception.DatiNonTrovatiException;
-import com.github.fabio03rossi.bitfarm.services.AccountService;
 import com.github.fabio03rossi.bitfarm.services.IAccountService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,28 +24,13 @@ public class AccountController {
 
     @RequestMapping(value = "/account/creaUtente", method = RequestMethod.POST)
     public ResponseEntity<Object> creaUtente(@Valid @RequestBody UtenteDTO account) {
-        this.accountService.registraUtente(
-                account.nickname(),
-                account.email(),
-                account.password(),
-                account.indirizzo()
-        );
+        this.accountService.registraUtente(account);
         return new ResponseEntity<>("Utente creato correttamente.", HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "/account/creaAzienda", method = RequestMethod.POST)
     public ResponseEntity<Object> creaAzienda(@Valid @RequestBody AziendaDTO account) {
-        this.accountService.registraAzienda(
-                account.partitaIVA(),
-                account.nome(),
-                account.email(),
-                account.password(),
-                account.descrizione(),
-                account.indirizzo(),
-                account.telefono(),
-                account.tipologia(),
-                account.certificazioni()
-        );
+        this.accountService.registraAzienda(account);
         return new ResponseEntity<>("Azienda creata correttamente.", HttpStatus.CREATED);
     }
 
@@ -58,38 +41,21 @@ public class AccountController {
     }
 
     @RequestMapping(value = "/account/creaGestoreDellaPiattaforma", method = RequestMethod.PUT)
-    public ResponseEntity<Object> creaGestoreDellaPiattaforma(@Valid @RequestBody UtenteDTO utenteDTO) {
-        this.accountService.registraGestoreDellaPiattaforma(utenteDTO.email(), utenteDTO.password(), utenteDTO.nickname(), utenteDTO.indirizzo());
+    public ResponseEntity<Object> creaGestoreDellaPiattaforma(@Valid @RequestBody UtenteDTO account) {
+        this.accountService.registraGestoreDellaPiattaforma(account);
         return new ResponseEntity<>("Account Gestore creato correttamente.", HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "/account/modificaUtente/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Object> modificaUtente(@PathVariable("id") int id, @Valid @RequestBody UtenteDTO account) {
-        this.accountService.modificaUtente(
-                id,
-                account.nickname(),
-                account.email(),
-                account.password(),
-                account.indirizzo()
-        );
+        this.accountService.modificaUtente(id, account);
         return new ResponseEntity<>("Utente modificato correttamente.", HttpStatus.OK);
 
     }
 
     @RequestMapping(value = "/account/modificaAzienda/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Object> modificaAzienda(@PathVariable("id") int id, @Valid @RequestBody AziendaDTO account) {
-        this.accountService.modificaAzienda(
-                id,
-                account.partitaIVA(),
-                account.nome(),
-                account.email(),
-                account.password(),
-                account.descrizione(),
-                account.indirizzo(),
-                account.telefono(),
-                account.tipologia(),
-                account.certificazioni()
-        );
+        this.accountService.modificaAzienda(id, account);
         return new ResponseEntity<>("Azienda modificata correttamente.", HttpStatus.OK);
     }
 

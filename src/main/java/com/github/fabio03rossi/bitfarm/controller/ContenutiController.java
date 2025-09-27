@@ -29,23 +29,13 @@ public class ContenutiController {
 
     @RequestMapping(value = "/contenuti/creaArticolo", method = RequestMethod.POST)
     public ResponseEntity<Object> creaArticolo(@Valid @RequestBody ProdottoDTO prodotto) {
-        this.articoloService.creaArticolo(
-                prodotto.nome(),
-                prodotto.descrizione(),
-                prodotto.prezzo(),
-                prodotto.certificazioni()
-        );
+        this.articoloService.creaArticolo(prodotto);
         return new ResponseEntity<>("Articolo creato correttamente.", HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "/contenuti/creaPacchetto", method = RequestMethod.POST)
     public ResponseEntity<Object> creaPacchetto(@Valid @RequestBody PacchettoDTO prodotto) {
-        this.articoloService.creaPacchetto(
-                prodotto.nome(),
-                prodotto.descrizione(),
-                prodotto.prezzo(),
-                prodotto.certificazioni()
-        );
+        this.articoloService.creaPacchetto(prodotto);
         return new ResponseEntity<>("Pacchetto creato correttamente.", HttpStatus.CREATED);
     }
 

@@ -19,16 +19,16 @@ public class ArticoloService implements IArticoloService {
     private final DBManager db = DBManager.getInstance();
 
     @Override
-    public void creaArticolo(String nome, String descrizione, Double prezzo, String certs) {
-        var articolo = new Prodotto(nome, descrizione, prezzo, certs);
+    public void creaArticolo(ProdottoDTO dto) {
+        var articolo = new Prodotto(dto.nome(), dto.descrizione(), dto.prezzo(), dto.certificazioni());
         articolo.setStato(new StatoValidazione());
 
         this.db.addArticolo(articolo);
     }
 
     @Override
-    public void creaPacchetto(String nome, String descrizione, Double prezzo, String certs) {
-        var pacchetto = new Pacchetto(nome, descrizione, prezzo, certs);
+    public void creaPacchetto(PacchettoDTO dto) {
+        var pacchetto = new Pacchetto(dto.nome(), dto.descrizione(), dto.prezzo(), dto.certificazioni());
         pacchetto.setStato(new StatoValidazione());
 
         this.db.addArticolo(pacchetto);
