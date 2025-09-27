@@ -1,26 +1,14 @@
 package com.github.fabio03rossi.bitfarm.security;
 
-import com.github.fabio03rossi.bitfarm.account.Account;
-import com.github.fabio03rossi.bitfarm.account.Utente;
-import com.github.fabio03rossi.bitfarm.contenuto.articolo.IArticolo;
-import com.github.fabio03rossi.bitfarm.contenuto.articolo.Prodotto;
-import com.github.fabio03rossi.bitfarm.dto.AziendaDTO;
-import com.github.fabio03rossi.bitfarm.dto.EventoDTO;
-import com.github.fabio03rossi.bitfarm.dto.PacchettoDTO;
-import com.github.fabio03rossi.bitfarm.dto.ProdottoDTO;
-import com.github.fabio03rossi.bitfarm.dto.UtenteDTO;
-import com.github.fabio03rossi.bitfarm.services.IPagamentoService;
-import com.github.fabio03rossi.bitfarm.services.PagamentoService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -28,10 +16,8 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+
+import java.util.Collections;
 
 @Configuration
 @EnableWebSecurity
@@ -46,42 +32,24 @@ public class WebSecurityConfig {
         http
                 .authorizeHttpRequests((requests) -> requests
                         // Accettazione
-                        .requestMatchers("/moderazione/getAllRichiesteAccettazioni").permitAll()
-                        .requestMatchers("/moderazione/accettaArticolo").permitAll()
-                        .requestMatchers("/moderazione/accettaEvento").permitAll()
-                        .requestMatchers("/moderazione/rifiutaArticolo").permitAll()
-                        .requestMatchers("/moderazione/rifiutaEvento").permitAll()
+                        .requestMatchers("/moderazione/**").hasAuthority("CURATORE")
                         // Account
                         .requestMatchers("/account/creaUtente").permitAll()
                         .requestMatchers("/account/creaAzienda").permitAll()
-                        .requestMatchers("/account/creaCuratore").permitAll()
-                        .requestMatchers("/account/modificaUtente").permitAll()
-                        .requestMatchers("/account/modificaAzienda").permitAll()
-                        .requestMatchers("/account/modificaCuratore").permitAll()
-                        .requestMatchers("/account/eliminaUtente").permitAll()
-                        .requestMatchers("/account/eliminaAzienda").permitAll()
-                        .requestMatchers("/account/eliminaCuratore").permitAll()
-                        .requestMatchers("/account/modificaAzienda").permitAll()
+                        .requestMatchers("/account/creaCuratore").hasAuthority("GESTORE")
+                        .requestMatchers("/account/modificaUtente/**").hasAuthority("UTENTE")
+                        .requestMatchers("/account/modificaAzienda/**").hasAuthority("AZIENDA")
+                        .requestMatchers("/account/modificaCuratore/**").hasAuthority("CURATORE")
+                        .requestMatchers("/account/eliminaUtente/**").hasAuthority("UTENTE")
+                        .requestMatchers("/account/eliminaAzienda/**").hasAuthority("AZIENDA")
+                        .requestMatchers("/account/eliminaCuratore/**").hasAuthority("GESTORE")
                         // Acquisto
-                        .requestMatchers("/acquisti/aggiungiAlCarrello").permitAll()
-                        .requestMatchers("/acquisti/rimuoviDalCarrello").permitAll()
-                        .requestMatchers("/acquisti/svuotaCarrello").permitAll()
-                        .requestMatchers("/acquisti/acquista").permitAll()
-                        .requestMatchers("/moderazione/rifiutaEvento").permitAll()
+                        .requestMatchers("/acquisti/**").hasAuthority("UTENTE")
                         // Contenuti
-                        .requestMatchers("/contenuti/creaArticolo").permitAll()
-                        .requestMatchers("/contenuti/creaPacchetto").permitAll()
-                        .requestMatchers("/contenuti/modificaArticolo").permitAll()
-                        .requestMatchers("/contenuti/modificaPacchetto").permitAll()
-                        .requestMatchers("/contenuti/eliminaArticolo").permitAll()
-                        .requestMatchers("/contenuti/eliminaPacchetto").permitAll()
-                        .requestMatchers("/contenuti/creaEvento").permitAll()
-                        .requestMatchers("/contenuti/modificaEvento").permitAll()
-                        .requestMatchers("/contenuti/eliminaEvento").permitAll()
+                        .requestMatchers("/contenuti/**").hasAuthority("AZIENDA")
                         // Verifica
-                        .requestMatchers("/verifiche/getAllRichiesteAziende").permitAll()
-                        .requestMatchers("/verifiche/accettaRegistrazioneAzienda").permitAll()
-                        .requestMatchers("/verifiche/rifiutaRegistrazioneAzienda").permitAll()
+                        .requestMatchers("/verifiche/**").hasAuthority("GESTORE")
+
                         .anyRequest().authenticated()
                 )
                 .csrf(AbstractHttpConfigurer::disable)
@@ -101,19 +69,11 @@ public class WebSecurityConfig {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        UserDetails user =
-                User.withDefaultPasswordEncoder()
-                        .username("user")
-                        .password("password")
-                        .roles("USER")
-                        .build();
-        UserDetails admin =
-                User.withDefaultPasswordEncoder()
-                        .username("admin")
-                        .password("adminpsw")
-                        .roles("ADMIN")
-                        .build();
+        UserDetails utente = new User("utente", "utente", Collections.singleton(new SimpleGrantedAuthority("UTENTE")));
+        UserDetails azienda = new User("azienda", "azienda", Collections.singleton(new SimpleGrantedAuthority("AZIENDA")));
+        UserDetails curatore = new User("curatore", "curatore", Collections.singleton(new SimpleGrantedAuthority("CURATORE")));
+        UserDetails gestore = new User("gestore", "gestore", Collections.singleton(new SimpleGrantedAuthority("GESTORE")));
 
-        return new InMemoryUserDetailsManager(user, admin);
+        return new InMemoryUserDetailsManager(utente, azienda, curatore, gestore);
     }
 }
