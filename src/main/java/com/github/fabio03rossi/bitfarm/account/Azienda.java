@@ -1,7 +1,6 @@
 package com.github.fabio03rossi.bitfarm.account;
 
 public class Azienda extends Account {
-    private int id = -1;
     private String partitaIVA;
     private String nome;
     private String descrizione;
@@ -21,11 +20,12 @@ public class Azienda extends Account {
     }
 
     public int getId() {
-        return id;
+        return super.getId();
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setId(int id)
+    {
+        super.setId(id);
     }
 
     public String getCertificazioni() {

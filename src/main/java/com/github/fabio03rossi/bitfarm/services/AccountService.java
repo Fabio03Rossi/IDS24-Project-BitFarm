@@ -19,52 +19,12 @@ public class AccountService implements IAccountService {
         this.db = DBManager.getInstance();
     }
 
-    //-------------------------------------- UTENTE --------------------------------------
+    //-------------------------------------- REGISTRAZIONI --------------------------------------
 
     @Override
     public void registraUtente(String nickname, String email, String password, String indirizzo) {
         var utente = new Utente(nickname, email, password, indirizzo);
         this.db.addUtente(utente);
-    }
-
-    @Override
-    public void registraGestoreDellaPiattaforma(String email, String password, String nome, String indirizzo) {
-        GestoreDellaPiattaforma gestore = new GestoreDellaPiattaforma(email, password, nome, indirizzo);
-        this.db.addGestoreDellaPiattaforma(gestore);
-    }
-
-    @Override
-    public boolean loginAccount(String email, String password) {
-        Sessione sessione = Sessione.getInstance();
-        Account utente = this.db.getUtente(email);
-        if(utente.getPassword().equals(password)) {
-            sessione.login(utente);
-            log.info("Loggato come {}", utente.getEmail());
-        }
-        return false;
-    }
-
-    @Override
-    public boolean eliminaUtente(int id) {
-        Sessione sessione = Sessione.getInstance();
-        if(sessione.getAccount() instanceof GestoreDellaPiattaforma){
-            db.cancellaUtente(id);
-            log.info("Account eliminato");
-            return true;
-        }
-        log.warn("Il tuo account non ha i permessi necessari per eliminare gli account");
-        return false;
-    }
-
-    @Override
-    public void modificaUtente(int id, String nickname, String email, String password, String indirizzo) {
-        try {
-            Utente ut = new Utente(nickname, email, password, indirizzo);
-            ut.setId(id);
-            this.db.updateUtente(ut);
-        } catch (Exception ex) {
-            log.error("Errore nella modifica dell'account, tipo di errore: {}", String.valueOf(ex));
-        }
     }
 
     @Override
@@ -74,29 +34,22 @@ public class AccountService implements IAccountService {
     }
 
     @Override
-    public boolean loginAzienda(String email, String password)
-    {
-        Sessione sessione = Sessione.getInstance();
-        Account account = db.getAzienda(email);
-        sessione.login(account);
-        return true;
+    public void registraCuratore(String email, String password) {
+        // TODO
+        log.warn("registraCuratore non implementato");
     }
 
     @Override
-    public boolean eliminaAzienda(int id) {
-        Sessione sessione = Sessione.getInstance();
-        if(sessione.getAccount() instanceof GestoreDellaPiattaforma){
-            log.info("Account aziendale eliminato");
-            db.cancellaAzienda(id);
-        }
-        log.warn("Non hai i permessi necessari per eliminare un account aziendale");
-        return false;
+    public void registraGestoreDellaPiattaforma(String email, String password, String nome, String indirizzo) {
+        GestoreDellaPiattaforma gestore = new GestoreDellaPiattaforma(email, password, nome, indirizzo);
+        this.db.addGestoreDellaPiattaforma(gestore);
     }
 
+    //-------------------------------------- MODIFICA --------------------------------------
     @Override
     public boolean modificaAzienda(int id, String partitaIVA, String nome, String email, String password, String descrizione, String indirizzo, String telefono, String tipologia, String certificazioni) {
         Sessione sessione = Sessione.getInstance();
-        if(sessione.getAccount() instanceof GestoreDellaPiattaforma){
+        if (sessione.getAccount() instanceof GestoreDellaPiattaforma) {
             try {
                 Azienda az = new Azienda(partitaIVA, nome, email, password, descrizione, indirizzo, telefono, tipologia, certificazioni);
                 az.setId(id);
@@ -112,17 +65,54 @@ public class AccountService implements IAccountService {
         }
     }
 
+
     @Override
-    public void registraCuratore(String email, String password) {
-        // TODO
-        log.warn("registraCuratore non implementato");
+    public boolean loginAccount(String email, String password) {
+        Sessione sessione = Sessione.getInstance();
+        Account utente = this.db.getUtente(email);
+        if (utente.getPassword().equals(password)) {
+            sessione.login(utente);
+            log.info("Loggato come {}", utente.getEmail());
+        }
+        return false;
+    }
+
+    @Override
+    public boolean eliminaUtente(int id) {
+        Sessione sessione = Sessione.getInstance();
+        if (sessione.getAccount() instanceof GestoreDellaPiattaforma) {
+            db.cancellaUtente(id);
+            log.info("Account eliminato");
+            return true;
+        }
+        log.warn("Il tuo account non ha i permessi necessari per eliminare gli account");
+        return false;
+    }
+
+    @Override
+    public boolean modificaUtente(int id, String nickname, String email, String password, String indirizzo) {
+        try {
+            Sessione sessione = Sessione.getInstance();
+            Account utente = sessione.getAccount();
+            if (utente instanceof GestoreDellaPiattaforma || utente.getId() == id) {
+                Utente ut = new Utente(nickname, email, password, indirizzo);
+                ut.setId(id);
+                this.db.updateUtente(ut);
+                log.info("Account dell'utente modificato");
+                return true;
+            }
+            log.warn("Non hai i permessi necessari per modificare l'account dell'utente");
+            return false;
+        } catch (Exception ex) {
+            log.error("Errore nella modifica dell'account, tipo di errore: {}", String.valueOf(ex));
+        }
     }
 
     @Override
     public boolean modificaCuratore(int id, String email, String password) {
         // TODO
         Sessione sessione = Sessione.getInstance();
-        if(sessione.getAccount() instanceof GestoreDellaPiattaforma){
+        if (sessione.getAccount() instanceof GestoreDellaPiattaforma) {
             db.cancellaCuratore(id);
             log.info("Curatore modificato");
             return true;
@@ -133,6 +123,19 @@ public class AccountService implements IAccountService {
 
     @Override
     public boolean modificaGestoreDellaPiattaforma(int id, String email, String password, String indirizzo) {
+        return false;
+    }
+
+    //-------------------------------------- ELIMININA --------------------------------------
+
+    @Override
+    public boolean eliminaAzienda(int id) {
+        Sessione sessione = Sessione.getInstance();
+        if (sessione.getAccount() instanceof GestoreDellaPiattaforma) {
+            log.info("Account aziendale eliminato");
+            db.cancellaAzienda(id);
+        }
+        log.warn("Non hai i permessi necessari per eliminare un account aziendale");
         return false;
     }
 
@@ -147,4 +150,15 @@ public class AccountService implements IAccountService {
     public boolean eliminaGestoreDellaPiattaforma(int id) {
         return false;
     }
+
+    //-------------------------------------- ALTRO --------------------------------------
+
+    @Override
+    public boolean loginAzienda(String email, String password) {
+        Sessione sessione = Sessione.getInstance();
+        Account account = db.getAzienda(email);
+        sessione.login(account);
+        return true;
+    }
 }
+

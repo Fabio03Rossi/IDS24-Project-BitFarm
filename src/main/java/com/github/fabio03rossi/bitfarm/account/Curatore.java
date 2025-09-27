@@ -23,4 +23,12 @@ public class Curatore extends Account{
     public void setIndirizzo(String indirizzo) {
         this.indirizzo = indirizzo;
     }
+
+    public void setId(int id) {
+        super.setId(id);
+    }
+
+    public int getId() {
+        return super.getId();
+    }
 }

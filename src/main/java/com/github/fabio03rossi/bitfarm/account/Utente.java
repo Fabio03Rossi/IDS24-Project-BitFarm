@@ -2,7 +2,6 @@ package com.github.fabio03rossi.bitfarm.account;
 
 public class Utente extends Account {
     private String nome;
-    private int id = -1;
     private String indirizzo;
 
     public Utente(String nome, String email, String password, String indirizzo) {
@@ -12,8 +11,10 @@ public class Utente extends Account {
     }
 
     public Utente(int id, String nome, String email, String password, String indirizzo) {
-        this(nome, email, password, indirizzo);
-        this.id = id;
+        super(email, password);
+        this.nome = nome;
+        this.indirizzo = indirizzo;
+        setId(id);
     }
 
 
@@ -26,11 +27,11 @@ public class Utente extends Account {
     }
 
     public int getId(){
-        return this.id;
+        return super.getId();
     }
 
     public void setId(int id){
-        this.id = id;
+        super.setId(id);
     }
 
     public void setIndirizzo(String indirizzo){

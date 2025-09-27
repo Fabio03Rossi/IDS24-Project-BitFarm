@@ -8,9 +8,10 @@ import java.util.Date;
 
 
 public abstract class Account {
-    private Date dataCreazione;
+    private final Date dataCreazione;
     private String email;
     private String password;
+    private int id = -1;
 
     public Account(String email, String password) {
         this.dataCreazione = Date.from(Instant.now());
@@ -36,5 +37,13 @@ public abstract class Account {
 
     public Date getDataCreazione() {
         return this.dataCreazione;
+    }
+
+    public int getId(){
+        return this.id;
+    }
+
+    public void setId(int id){
+        this.id = id;
     }
 }
