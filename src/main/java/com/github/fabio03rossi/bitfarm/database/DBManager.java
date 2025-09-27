@@ -666,6 +666,38 @@ public class DBManager
         return azienda;
     }
 
+    public Azienda getAzienda(String email) {
+        /**
+         *
+         */
+        String sql = "SELECT * FROM aziende WHERE email = ?";
+        Azienda azienda = null;
+
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, email);
+
+            // Esegue la query e ottiene il set di risultati
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+
+                    String partitaIVA = rs.getString("partita_iva");
+                    String nome = rs.getString("nome");
+                    String descrizione = rs.getString("descrizione");
+                    String indirizzo = rs.getString("indirizzo");
+                    String telefono = rs.getString("telefono");
+                    String tipologia = rs.getString("tipologia");
+                    String certificazioni = rs.getString("certificazioni");
+                    String password = rs.getString("password");
+
+                    azienda = new Azienda(partitaIVA, nome, email, password, descrizione, indirizzo, telefono, tipologia, certificazioni);
+                }
+            }
+        } catch (SQLException ex) {
+            log.error("DbManager: Errore durante l'accesso al database: {}", ex.getMessage(), ex);
+        }
+        return azienda;
+    }
+
     public void addAzienda(Azienda azienda) {
         String sql = "INSERT INTO aziende (partita_iva, nome, descrizione, indirizzo, telefono, tipologia, certificazioni, password) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 

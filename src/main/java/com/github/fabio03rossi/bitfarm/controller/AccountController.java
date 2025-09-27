@@ -55,6 +55,11 @@ public class AccountController {
         return new ResponseEntity<>("Curatore creato correttamente.", HttpStatus.CREATED);
     }
 
+    @RequestMapping(value = "/account/creaGestoreDellaPiattaforma", method = RequestMethod.PUT)
+    public ResponseEntity<Object> creaGestoreDellaPiattaforma(@RequestBody UtenteDTO utenteDTO) {
+        this.accountService.registraGestoreDellaPiattaforma(utenteDTO.email(), utenteDTO.password(), utenteDTO.nickname(), utenteDTO.indirizzo());
+        return new ResponseEntity<>("Account Gestore creato correttamente.", HttpStatus.CREATED);
+    }
 
     @RequestMapping(value = "/account/modificaUtente/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Object> modificaUtente(@PathVariable("id") int id, @RequestBody UtenteDTO account) {
@@ -109,4 +114,5 @@ public class AccountController {
         this.accountService.eliminaCuratore(id);
         return new ResponseEntity<>("Curatore eliminato.", HttpStatus.OK);
     }
+
 }
