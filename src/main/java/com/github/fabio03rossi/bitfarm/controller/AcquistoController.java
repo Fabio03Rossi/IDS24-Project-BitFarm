@@ -10,6 +10,7 @@ import com.github.fabio03rossi.bitfarm.misc.Sessione;
 import com.github.fabio03rossi.bitfarm.services.IAcquistoService;
 import com.github.fabio03rossi.bitfarm.services.IPagamentoService;
 import com.github.fabio03rossi.bitfarm.services.PagamentoService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,14 +30,14 @@ public class AcquistoController {
     }
 
     @RequestMapping(value = "/acquisti/aggiungiAlCarrello", method = RequestMethod.POST)
-    public ResponseEntity<Object> aggiungiAlCarrello(@RequestBody ProdottoDTO articolo, @RequestBody int quantita) {
+    public ResponseEntity<Object> aggiungiAlCarrello(@Valid @RequestBody ProdottoDTO articolo, @Valid @RequestBody int quantita) {
         IArticolo prodotto = new Prodotto(articolo.nome(), articolo.descrizione(), articolo.prezzo(), articolo.certificazioni());
         this.acquistoService.aggiungiAlCarrello(prodotto, quantita);
         return new ResponseEntity<>("Articolo aggiunto al Carrello correttamente.", HttpStatus.OK);
     }
 
     @RequestMapping(value = "/acquisti/rimuoviDalCarrello", method = RequestMethod.DELETE)
-    public ResponseEntity<Object> aggiungiAlCarrello(@RequestBody ProdottoDTO articolo) {
+    public ResponseEntity<Object> aggiungiAlCarrello(@Valid @RequestBody ProdottoDTO articolo) {
         IArticolo prodotto = new Prodotto(articolo.nome(), articolo.descrizione(), articolo.prezzo(), articolo.certificazioni());
         this.acquistoService.rimuoviDalCarrello(prodotto);
         return new ResponseEntity<>("Articolo rimosso dal Carrello correttamente.", HttpStatus.OK);
@@ -49,7 +50,7 @@ public class AcquistoController {
     }
 
     @RequestMapping(value = "/acquisti/acquista", method = RequestMethod.POST)
-    public ResponseEntity<Object> acquista(@RequestBody UtenteDTO utenteDTO, @RequestBody String pagamentoService) {
+    public ResponseEntity<Object> acquista(@Valid @RequestBody UtenteDTO utenteDTO, @Valid @RequestBody String pagamentoService) {
         if(sessione.isLogged()) {
             IPagamentoService servizio = new PagamentoService();
             Account account = sessione.getAccount();

@@ -63,6 +63,7 @@ public class AccountService implements IAccountService {
             log.warn("Non hai i permessi necessari per eliminare un account Aziendale");
             return false;
         }
+        return false;
     }
 
 
@@ -105,6 +106,7 @@ public class AccountService implements IAccountService {
             return false;
         } catch (Exception ex) {
             log.error("Errore nella modifica dell'account, tipo di errore: {}", String.valueOf(ex));
+            throw ex;
         }
     }
 

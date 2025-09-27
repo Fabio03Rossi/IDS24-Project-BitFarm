@@ -2,8 +2,10 @@ package com.github.fabio03rossi.bitfarm.controller;
 
 import com.github.fabio03rossi.bitfarm.dto.AziendaDTO;
 import com.github.fabio03rossi.bitfarm.dto.UtenteDTO;
+import com.github.fabio03rossi.bitfarm.exception.DatiNonTrovatiException;
 import com.github.fabio03rossi.bitfarm.services.AccountService;
 import com.github.fabio03rossi.bitfarm.services.IAccountService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +25,7 @@ public class AccountController {
     }
 
     @RequestMapping(value = "/account/creaUtente", method = RequestMethod.POST)
-    public ResponseEntity<Object> creaUtente(@RequestBody UtenteDTO account) {
+    public ResponseEntity<Object> creaUtente(@Valid @RequestBody UtenteDTO account) {
         this.accountService.registraUtente(
                 account.nickname(),
                 account.email(),
@@ -34,7 +36,7 @@ public class AccountController {
     }
 
     @RequestMapping(value = "/account/creaAzienda", method = RequestMethod.POST)
-    public ResponseEntity<Object> creaAzienda(@RequestBody AziendaDTO account) {
+    public ResponseEntity<Object> creaAzienda(@Valid @RequestBody AziendaDTO account) {
         this.accountService.registraAzienda(
                 account.partitaIVA(),
                 account.nome(),
@@ -50,19 +52,19 @@ public class AccountController {
     }
 
     @RequestMapping(value = "/account/creaCuratore", method = RequestMethod.POST)
-    public ResponseEntity<Object> creaCuratore(@RequestBody String email, @RequestBody String password) {
+    public ResponseEntity<Object> creaCuratore(@Valid @RequestBody String email, @Valid @RequestBody String password) {
         this.accountService.registraCuratore(email, password);
         return new ResponseEntity<>("Curatore creato correttamente.", HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "/account/creaGestoreDellaPiattaforma", method = RequestMethod.PUT)
-    public ResponseEntity<Object> creaGestoreDellaPiattaforma(@RequestBody UtenteDTO utenteDTO) {
+    public ResponseEntity<Object> creaGestoreDellaPiattaforma(@Valid @RequestBody UtenteDTO utenteDTO) {
         this.accountService.registraGestoreDellaPiattaforma(utenteDTO.email(), utenteDTO.password(), utenteDTO.nickname(), utenteDTO.indirizzo());
         return new ResponseEntity<>("Account Gestore creato correttamente.", HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "/account/modificaUtente/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<Object> modificaUtente(@PathVariable("id") int id, @RequestBody UtenteDTO account) {
+    public ResponseEntity<Object> modificaUtente(@PathVariable("id") int id, @Valid @RequestBody UtenteDTO account) {
         this.accountService.modificaUtente(
                 id,
                 account.nickname(),
@@ -71,10 +73,11 @@ public class AccountController {
                 account.indirizzo()
         );
         return new ResponseEntity<>("Utente modificato correttamente.", HttpStatus.OK);
+
     }
 
     @RequestMapping(value = "/account/modificaAzienda/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<Object> modificaAzienda(@PathVariable("id") int id, @RequestBody AziendaDTO account) {
+    public ResponseEntity<Object> modificaAzienda(@PathVariable("id") int id, @Valid @RequestBody AziendaDTO account) {
         this.accountService.modificaAzienda(
                 id,
                 account.partitaIVA(),
@@ -91,7 +94,7 @@ public class AccountController {
     }
 
     @RequestMapping(value = "/account/modificaCuratore/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<Object> modificaCuratore(@PathVariable("id") int id, @RequestBody String email, @RequestBody String password) {
+    public ResponseEntity<Object> modificaCuratore(@PathVariable("id") int id, @Valid @RequestBody String email, @Valid @RequestBody String password) {
         this.accountService.modificaCuratore(id, email, password);
         return new ResponseEntity<>("Curatore modificato correttamente.", HttpStatus.OK);
     }

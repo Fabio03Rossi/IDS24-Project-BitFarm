@@ -5,6 +5,7 @@ import com.github.fabio03rossi.bitfarm.acquisto.Carrello;
 import com.github.fabio03rossi.bitfarm.acquisto.Ordine;
 import com.github.fabio03rossi.bitfarm.contenuto.articolo.IArticolo;
 import com.github.fabio03rossi.bitfarm.database.DBManager;
+import com.github.fabio03rossi.bitfarm.exception.CarrelloVuotoException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -20,7 +21,6 @@ public class AcquistoService implements IAcquistoService {
         this.db = DBManager.getInstance();
     }
 
-
     @Override
     public void aggiungiAlCarrello(IArticolo articolo, int quantita) {
         if(this.carrello == null) {
@@ -31,32 +31,36 @@ public class AcquistoService implements IAcquistoService {
 
     @Override
     public void rimuoviDalCarrello(IArticolo articolo) {
-        if(this.carrello == null) return;
-        this.carrello.rimuoviArticolo(articolo);
+        if(this.carrello == null) throw new CarrelloVuotoException("Il carrello non può essere vuoto.");
+
+        try{
+            this.carrello.rimuoviArticolo(articolo);
+        } catch(Exception ex) {
+            log.error(ex.getMessage(), ex);
+            throw ex;
+        }
     }
 
     @Override
     public void svuotaCarrello() {
-        this.carrello.svuotaCarrello();
         this.carrello = null;
     }
 
     @Override
     public void acquista(Utente utente, IPagamentoService pagamentoService) {
         // Tenta l'acquisto
-        if(carrello == null) {
-            log.warn("Carrello vuoto");
-            return;
-        }
+        if(this.carrello == null) throw new CarrelloVuotoException("Il carrello non può essere vuoto.");
+
         if(pagamentoService.buy(carrello)){
             // Se il pagamento è andato a buon fine creo l'ordine e aggiorno il database
             try {
                 String metodoPagamento = pagamentoService.getNome();
                 Ordine ordine = new Ordine(utente.getIndirizzo(), utente.getId(), carrello, metodoPagamento);
-                db.addOrdine(ordine);
+                this.db.addOrdine(ordine);
 
             }catch (Exception e) {
-                System.out.println("AcquistoService: Errore durante l'acquisto " + e);
+                log.error("AcquistoService: Errore durante l'acquisto");
+                throw e;
             }
         }
     }

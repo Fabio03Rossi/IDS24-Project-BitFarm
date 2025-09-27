@@ -1,13 +1,12 @@
 package com.github.fabio03rossi.bitfarm.dto;
 
-import com.github.fabio03rossi.bitfarm.contenuto.articolo.Prodotto;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 
-import java.util.HashMap;
-
-public record PacchettoDTO(
+public record PacchettoDTO (
         //HashMap<Integer, Integer> prodotti,
-        String nome,
-        String descrizione,
-        double prezzo,
-        String certificazioni
-){}
+        @NotBlank String nome,
+        @NotBlank String descrizione,
+        @NotNull double prezzo,
+        @NotBlank String certificazioni
+) {}

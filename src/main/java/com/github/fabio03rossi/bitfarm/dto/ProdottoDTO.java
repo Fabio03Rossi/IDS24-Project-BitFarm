@@ -1,9 +1,12 @@
 package com.github.fabio03rossi.bitfarm.dto;
 
-public record ProdottoDTO(
-        String nome,
-        String descrizione,
-        double prezzo,
-        String certificazioni
-){}
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
+
+public record ProdottoDTO (
+        @NotBlank String nome,
+        @NotBlank String descrizione,
+        @NotNull double prezzo,
+        @NotBlank String certificazioni
+) {}
 

@@ -36,7 +36,7 @@ public class ArticoloService implements IArticoloService {
 
     @Override
     public void eliminaArticolo(int id) {
-
+        this.db.cancellaArticolo(id);
     }
 
     @Override
@@ -45,7 +45,8 @@ public class ArticoloService implements IArticoloService {
             IArticolo articolo = new Prodotto(dto.nome(), dto.descrizione(), dto.prezzo(), dto.certificazioni());
             this.db.updateArticolo(articolo);
         } catch (Exception ex) {
-            Logger.getLogger(AccountService.class.getName()).log(Level.SEVERE, null, ex);
+            log.warn("C'è stato un problema nell'aggiornamento dell'articolo.");
+            throw ex;
         }
     }
 
@@ -55,13 +56,14 @@ public class ArticoloService implements IArticoloService {
             IArticolo articolo = new Pacchetto(dto.nome(), dto.descrizione(), dto.prezzo(), dto.certificazioni());
             this.db.updateArticolo(articolo);
         } catch (Exception ex) {
-            Logger.getLogger(AccountService.class.getName()).log(Level.SEVERE, null, ex);
+            log.warn("C'è stato un problema nell'aggiornamento del pacchetto.");
+            throw ex;
         }
     }
 
     @Override
     public void eliminaPacchetto(int id) {
-
+        this.db.cancellaArticolo(id);
     }
 
 }

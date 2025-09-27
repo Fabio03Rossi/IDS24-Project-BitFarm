@@ -1,13 +1,12 @@
 package com.github.fabio03rossi.bitfarm.services;
 
-import com.github.fabio03rossi.bitfarm.account.Utente;
 import com.github.fabio03rossi.bitfarm.contenuto.Evento;
 import com.github.fabio03rossi.bitfarm.contenuto.StatoValidazione;
 import com.github.fabio03rossi.bitfarm.database.DBManager;
+import com.github.fabio03rossi.bitfarm.dto.EventoDTO;
+import com.github.fabio03rossi.bitfarm.exception.ErroreInputDatiException;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-
-import java.util.Date;
 
 @Component
 public class EventoService implements IEventoService {
@@ -15,8 +14,8 @@ public class EventoService implements IEventoService {
     private final DBManager db = DBManager.getInstance();
 
     @Override
-    public void creaEvento(String nome, String descrizione, Date data, String posizione) {
-        var evento = new Evento(nome, descrizione, data, posizione);
+    public void creaEvento(EventoDTO dto) {
+        Evento evento = new Evento(dto.nome(), dto.descrizione(), dto.data(), dto.posizione());
         evento.setStato(new StatoValidazione());
 
         this.db.addEvento(evento);
@@ -24,17 +23,17 @@ public class EventoService implements IEventoService {
 
     @Override
     public void eliminaEvento(int id) {
+        if(id == 0) throw new ErroreInputDatiException("ID non valido.");
 
+        this.db.cancellaEvento(id);
     }
 
     @Override
-    public void modificaEvento(int id, String nome, String descrizione, Date data, String posizione) {
-        try {
-            Evento ev = new Evento(nome, descrizione, data, posizione);
-            ev.setId(id);
-            this.db.updateEvento(ev);
-        } catch (Exception ex) {
-            log.error("EventoService: Errore nella modificare la evento", ex);
-        }
+    public void modificaEvento(int id, EventoDTO dto) {
+        if(id == 0) throw new ErroreInputDatiException("Dati in input non validi.");
+
+        Evento ev = new Evento(dto.nome(), dto.descrizione(), dto.data(), dto.posizione());
+        ev.setId(id);
+        this.db.updateEvento(ev);
     }
 }

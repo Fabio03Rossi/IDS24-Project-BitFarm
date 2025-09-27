@@ -5,6 +5,7 @@ import com.github.fabio03rossi.bitfarm.dto.PacchettoDTO;
 import com.github.fabio03rossi.bitfarm.dto.ProdottoDTO;
 import com.github.fabio03rossi.bitfarm.services.IArticoloService;
 import com.github.fabio03rossi.bitfarm.services.IEventoService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +28,7 @@ public class ContenutiController {
     }
 
     @RequestMapping(value = "/contenuti/creaArticolo", method = RequestMethod.POST)
-    public ResponseEntity<Object> creaArticolo(@RequestBody ProdottoDTO prodotto) {
+    public ResponseEntity<Object> creaArticolo(@Valid @RequestBody ProdottoDTO prodotto) {
         this.articoloService.creaArticolo(
                 prodotto.nome(),
                 prodotto.descrizione(),
@@ -38,7 +39,7 @@ public class ContenutiController {
     }
 
     @RequestMapping(value = "/contenuti/creaPacchetto", method = RequestMethod.POST)
-    public ResponseEntity<Object> creaPacchetto(@RequestBody PacchettoDTO prodotto) {
+    public ResponseEntity<Object> creaPacchetto(@Valid @RequestBody PacchettoDTO prodotto) {
         this.articoloService.creaPacchetto(
                 prodotto.nome(),
                 prodotto.descrizione(),
@@ -49,13 +50,13 @@ public class ContenutiController {
     }
 
     @RequestMapping(value = "/contenuti/modificaArticolo/{id}", method = RequestMethod.POST)
-    public ResponseEntity<Object> modificaArticolo(@PathVariable("id") int id, @RequestBody ProdottoDTO prodotto) {
+    public ResponseEntity<Object> modificaArticolo(@PathVariable("id") int id, @Valid @RequestBody ProdottoDTO prodotto) {
         this.articoloService.modificaArticolo(prodotto, id);
         return new ResponseEntity<>("Articolo modificato correttamente.", HttpStatus.OK);
     }
 
     @RequestMapping(value = "/contenuti/modificaPacchetto/{id}", method = RequestMethod.POST)
-    public ResponseEntity<Object> modificaPacchetto(@PathVariable("id") int id, @RequestBody PacchettoDTO pacchetto) {
+    public ResponseEntity<Object> modificaPacchetto(@PathVariable("id") int id, @Valid @RequestBody PacchettoDTO pacchetto) {
         this.articoloService.modificaArticolo(pacchetto, id);
         return new ResponseEntity<>("Pacchetto modificato correttamente.", HttpStatus.OK);
     }
@@ -74,25 +75,14 @@ public class ContenutiController {
 
 
     @RequestMapping(value = "/contenuti/creaEvento", method = RequestMethod.POST)
-    public ResponseEntity<Object> creaEvento(@RequestBody EventoDTO evento) {
-        this.eventoService.creaEvento(
-                evento.nome(),
-                evento.descrizione(),
-                evento.data(),
-                evento.posizione()
-        );
+    public ResponseEntity<Object> creaEvento(@Valid @RequestBody EventoDTO evento) {
+        this.eventoService.creaEvento(evento);
         return new ResponseEntity<>("Evento creato correttamente.", HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "/contenuti/modificaEvento/{id}", method = RequestMethod.POST)
-    public ResponseEntity<Object> modificaEvento(@PathVariable("id") int id, @RequestBody EventoDTO evento) {
-        this.eventoService.modificaEvento(
-                id,
-                evento.nome(),
-                evento.descrizione(),
-                evento.data(),
-                evento.posizione()
-        );
+    public ResponseEntity<Object> modificaEvento(@PathVariable("id") int id, @Valid @RequestBody EventoDTO evento) {
+        this.eventoService.modificaEvento(id, evento);
         return new ResponseEntity<>("Evento modificato correttamente.", HttpStatus.OK);
     }
 
