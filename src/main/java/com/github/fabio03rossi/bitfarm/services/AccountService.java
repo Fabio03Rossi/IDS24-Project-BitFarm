@@ -138,7 +138,7 @@ public class AccountService implements IAccountService {
 
     @Override
     public boolean eliminaCuratore(int id) {
-        // TODO
+        // TODO continua
         log.warn("eliminaCuratore non implementato");
         return false;
     }

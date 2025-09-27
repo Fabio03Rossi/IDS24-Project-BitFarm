@@ -11,7 +11,6 @@ public interface IAccountService {
     boolean modificaCuratore(int id, String email, String password);
     boolean modificaGestoreDellaPiattaforma(int id, String email, String password, String indirizzo);
 
-
     boolean eliminaUtente(int id);
     boolean eliminaAzienda(int id);
     boolean eliminaCuratore(int id);
