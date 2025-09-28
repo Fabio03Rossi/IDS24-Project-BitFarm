@@ -37,9 +37,9 @@ public class AccountService implements IAccountService {
     }
 
     @Override
-    public void registraCuratore(String email, String password) {
-        // TODO
-        log.warn("registraCuratore non implementato");
+    public void registraCuratore(UtenteDTO curatoreDTO) {
+        Curatore curatore = new Curatore(curatoreDTO.email(), curatoreDTO.password(), curatoreDTO.nickname(), curatoreDTO.indirizzo());
+        this.db.addCuratore(curatore);
     }
 
     @Override
@@ -51,22 +51,22 @@ public class AccountService implements IAccountService {
     //-------------------------------------- MODIFICA --------------------------------------
     @Override
     public boolean modificaAzienda(int id, AziendaDTO dto) {
-        Sessione sessione = Sessione.getInstance();
-        if (sessione.getAccount() instanceof GestoreDellaPiattaforma) {
-            try {
+        try {
+            Sessione sessione = Sessione.getInstance();
+            Account azienda = sessione.getAccount();
+            if (azienda instanceof GestoreDellaPiattaforma || azienda.getId() == id) {
                 Azienda az = new Azienda(dto.partitaIVA(), dto.nome(), dto.email(), dto.password(), dto.descrizione(), dto.indirizzo(), dto.telefono(), dto.tipologia(), dto.certificazioni());
                 az.setId(id);
                 this.db.updateAzienda(az);
-                log.info("Account aziendale modificato");
+                log.info("Account dell'azienda modificato");
                 return true;
-            } catch (Exception ex) {
-                //throw new... TODO
-                log.error("Errore nella modifica dell'azienda, tipo di errore: {}", String.valueOf(ex));
             }
-            log.warn("Non hai i permessi necessari per eliminare un account Aziendale");
+            log.warn("Non hai i permessi necessari per modificare l'account dell'azienda.");
             return false;
+        } catch (Exception ex) {
+            log.error("Errore nella modifica dell'account, tipo di errore: {}", String.valueOf(ex));
+            throw ex;
         }
-        return false;
     }
 
 
@@ -91,16 +91,23 @@ public class AccountService implements IAccountService {
     }
 
     @Override
-    public boolean modificaCuratore(int id, String email, String password) {
-        // TODO
-        Sessione sessione = Sessione.getInstance();
-        if (sessione.getAccount() instanceof GestoreDellaPiattaforma) {
-            db.cancellaCuratore(id);
-            log.info("Curatore modificato");
-            return true;
+    public boolean modificaCuratore(int id, UtenteDTO dto) {
+        try {
+            Sessione sessione = Sessione.getInstance();
+            Account curatore = sessione.getAccount();
+            if (curatore instanceof GestoreDellaPiattaforma || curatore.getId() == id) {
+                Curatore cu = new Curatore(dto.nickname(), dto.email(), dto.password(), dto.indirizzo());
+                cu.setId(id);
+                this.db.updateCuratore(cu);
+                log.info("Account del curatore modificato");
+                return true;
+            }
+            log.warn("Non hai i permessi necessari per modificare l'account del curatore.");
+            return false;
+        } catch (Exception ex) {
+            log.error("Errore nella modifica del curatore, tipo di errore: {}", String.valueOf(ex));
+            throw ex;
         }
-        log.warn("Non hai i permessi per eliminare un account di tipo Curatore");
-        return false;
     }
 
     @Override

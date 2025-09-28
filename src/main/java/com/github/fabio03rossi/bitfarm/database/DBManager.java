@@ -4,6 +4,7 @@ import com.github.fabio03rossi.bitfarm.account.Azienda;
 import com.github.fabio03rossi.bitfarm.account.Curatore;
 import com.github.fabio03rossi.bitfarm.account.GestoreDellaPiattaforma;
 import com.github.fabio03rossi.bitfarm.account.Utente;
+import com.github.fabio03rossi.bitfarm.acquisto.Carrello;
 import com.github.fabio03rossi.bitfarm.acquisto.Ordine;
 import com.github.fabio03rossi.bitfarm.contenuto.Evento;
 import com.github.fabio03rossi.bitfarm.contenuto.articolo.IArticolo;
@@ -340,6 +341,35 @@ public class DBManager
 
     }
 
+    public void cancellaArticolo(int id) {
+        String sql = "DELETE FROM articoli WHERE id = ?";
+        try (PreparedStatement pstmt = this.conn.prepareStatement(sql)) {
+            pstmt.setInt(1, id); // Assumendo che Ordine abbia un getId()
+            log.info("DBManager: Evento cancellato");
+        } catch (SQLException e) {
+            log.error("DBManager: Errore durante la cancellazione dell'evento: " + e.getMessage());
+            throw new DatiNonTrovatiException("Errore di lettura dei dati.");
+        }
+    }
+
+    public List<IArticolo> getAllArticoli() {
+        List<IArticolo> listaArticoli = null;
+        String sql = "SELECT id FROM articoli";
+
+        try (ResultSet rs = conn.createStatement().executeQuery(sql)) {
+            // Per ogni articolo associato cerco i valori dell'articolo nella tabella articoli
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                listaArticoli.add(getIArticolo(id));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return listaArticoli;
+    }
+
+
+
     private IArticolo getIArticolo(int id) {
         IArticolo articolo = null;
         String sql = "SELECT * FROM articoli WHERE id = ?";
@@ -412,18 +442,6 @@ public class DBManager
         }
     }
 
-    public void cancellaArticolo(int id) {
-        String sql = "DELETE FROM articoli WHERE id = ?";
-        try (PreparedStatement pstmt = this.conn.prepareStatement(sql)) {
-            pstmt.setInt(1, id); // Assumendo che Ordine abbia un getId()
-            log.info("DBManager: Evento cancellato");
-        } catch (SQLException e) {
-            log.error("DBManager: Errore durante la cancellazione dell'evento: " + e.getMessage());
-            throw new DatiNonTrovatiException("Errore di lettura dei dati.");
-        }
-    }
-
-
     // // --------------- EVENTI ---------------
 
     public Evento getEvento(int id) {
@@ -448,6 +466,7 @@ public class DBManager
                     String posizione = rs.getString("posizione");
 
                     evento = new Evento(nome, descrizione, data , posizione);
+                    evento.setId(id);
                 }
             }
         } catch (SQLException ex) {
@@ -541,6 +560,30 @@ public class DBManager
         }
     }
 
+    public List<Evento> getListaEventi() {
+        String sql = "SELECT * FROM eventi";
+        List<Evento> listaEventi = new ArrayList<>();
+            // Esegue la query e ottiene il set di risultati
+            try (ResultSet rs = conn.createStatement().executeQuery(sql)) {
+                if (rs.next()) {
+
+                    String nome = rs.getString("nome");
+                    String descrizione = rs.getString("descrizione");
+                    Date data = rs.getDate("data");
+                    String numeroPartecipanti = rs.getString("numero_partecipanti");
+                    String posizione = rs.getString("posizione");
+
+                    Evento evento = new Evento(nome, descrizione, data , posizione);
+                    evento.setId(rs.getInt("id"));
+                    listaEventi.add(evento);
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
+        return listaEventi;
+    }
+
 
     // // --------------- UTENTI ---------------
 
@@ -561,6 +604,7 @@ public class DBManager
                     String indirizzo = rs.getString("indirizzo");
 
                     utente = new Utente(id, nome, email, password, indirizzo);
+                    utente.setId(id);
                 }
             }
         } catch (SQLException ex) {
@@ -588,6 +632,7 @@ public class DBManager
                     String indirizzo = rs.getString("indirizzo");
 
                     utente = new Utente(id, nome, email, password, indirizzo);
+                    utente.setId(id);
                 }
             }
         } catch (SQLException ex) {
@@ -655,6 +700,30 @@ public class DBManager
         }
     }
 
+    public List<Utente> getListaUtenti() {
+        String sql = "SELECT * FROM utenti";
+        List<Utente> listaUtenti = new ArrayList<>();
+        // Esegue la query e ottiene il set di risultati
+        try (ResultSet rs = conn.createStatement().executeQuery(sql)) {
+            if (rs.next()) {
+
+                String nome = rs.getString("nome");
+                String email = rs.getString("email");
+                String password = rs.getString("password");
+                String indirizzo = rs.getString("indirizzo");
+                int id = rs.getInt("id");
+
+                Utente utente = new Utente(nome, email, password , indirizzo);
+                utente.setId(rs.getInt("id"));
+                listaUtenti.add(utente);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return listaUtenti;
+    }
+
     // --------------- ACCOUNT AZIENDALI ---------------
 
     public Azienda getAzienda(int id) {
@@ -682,6 +751,7 @@ public class DBManager
                     String password = rs.getString("password");
 
                     azienda = new Azienda(partitaIVA, nome, email, password, descrizione, indirizzo, telefono, tipologia, certificazioni);
+                    azienda.setId(id);
                 }
             }
         } catch (SQLException ex) {
@@ -715,6 +785,7 @@ public class DBManager
                     String password = rs.getString("password");
 
                     azienda = new Azienda(partitaIVA, nome, email, password, descrizione, indirizzo, telefono, tipologia, certificazioni);
+                    azienda.setId(rs.getInt("id"));
                 }
             }
         } catch (SQLException ex) {
@@ -783,6 +854,36 @@ public class DBManager
         }
     }
 
+    public List<Azienda> getListaAziende() {
+        String sql = "SELECT * FROM aziende";
+        List<Azienda> listaAziende = new ArrayList<>();
+        // Esegue la query e ottiene il set di risultati
+        try (ResultSet rs = conn.createStatement().executeQuery(sql)) {
+            if (rs.next()) {
+
+                String partitaIVA = rs.getString("partita_iva");
+                String nome = rs.getString("nome");
+                String email = rs.getString("email");
+                String password = rs.getString("password");
+                String descrizione = rs.getString("descrizione");
+                String indirizzo = rs.getString("indirizzo");
+                String telefono = rs.getString("telefono");
+                String tipologia = rs.getString("tipologia");
+                String certificazioni = rs.getString("certificazioni");
+                int id = rs.getInt("id");
+
+                Azienda azienda = new Azienda(partitaIVA, nome, email, password, descrizione, indirizzo, telefono, tipologia, certificazioni);
+
+                azienda.setId(rs.getInt("id"));
+                listaAziende.add(azienda);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return listaAziende;
+    }
+
     // --------------- CURATORI ---------------
 
     public Curatore getCuratore(String email) {
@@ -802,6 +903,7 @@ public class DBManager
                     String indirizzo = rs.getString("indirizzo");
 
                     curatore = new Curatore(email, password, nome, indirizzo);
+                    curatore.setId(id);
                 }
             }
         } catch (SQLException ex) {
@@ -829,6 +931,7 @@ public class DBManager
                     String indirizzo = rs.getString("indirizzo");
 
                     curatore = new Curatore(email, password, nome, indirizzo);
+                    curatore.setId(id);
                 }
             }
         } catch (SQLException ex) {
@@ -906,6 +1009,30 @@ public class DBManager
         }
     }
 
+    public List<Curatore> getListaCuratori() {
+        String sql = "SELECT * FROM curatori";
+        List<Curatore> listaCuratori = new ArrayList<>();
+        // Esegue la query e ottiene il set di risultati
+        try (ResultSet rs = conn.createStatement().executeQuery(sql)) {
+            if (rs.next()) {
+
+                String nome = rs.getString("nome");
+                String email = rs.getString("email");
+                String password = rs.getString("password");
+                String indirizzo = rs.getString("indirizzo");
+                int id = rs.getInt("id");
+
+                Curatore curatore = new Curatore(email, password, nome, indirizzo);
+                curatore.setId(rs.getInt("id"));
+                listaCuratori.add(curatore);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return listaCuratori;
+    }
+
     // --------------- GESTORI DELLA PIATTAFORMA ---------------
 
     public GestoreDellaPiattaforma getGestoreDellaPiattaforma(String email) {
@@ -925,6 +1052,7 @@ public class DBManager
                     String indirizzo = rs.getString("indirizzo");
 
                     gestore = new GestoreDellaPiattaforma(email, password, nome, indirizzo);
+                    gestore.setId(id);
                 }
             }
         } catch (SQLException ex) {
@@ -952,6 +1080,7 @@ public class DBManager
                     String indirizzo = rs.getString("indirizzo");
 
                     gestore = new GestoreDellaPiattaforma(email, password, nome, indirizzo);
+                    gestore.setId(id);
                 }
             }
         } catch (SQLException ex) {
@@ -1029,6 +1158,30 @@ public class DBManager
         }
     }
 
+    public List<GestoreDellaPiattaforma> getListaGestori() {
+        String sql = "SELECT * FROM gestore_piattaforma";
+        List<GestoreDellaPiattaforma> listaGestori = new ArrayList<>();
+        // Esegue la query e ottiene il set di risultati
+        try (ResultSet rs = conn.createStatement().executeQuery(sql)) {
+            if (rs.next()) {
+
+                String nome = rs.getString("nome");
+                String email = rs.getString("email");
+                String password = rs.getString("password");
+                String indirizzo = rs.getString("indirizzo");
+                int id = rs.getInt("id");
+
+                GestoreDellaPiattaforma utente = new GestoreDellaPiattaforma(email, password, nome, indirizzo);
+                utente.setId(rs.getInt("id"));
+                listaGestori.add(utente);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return listaGestori;
+    }
+
     // --------------- ORDINI ---------------
 
     public Ordine getOrdine(int id) {
@@ -1045,6 +1198,7 @@ public class DBManager
                     int idUtente = rs.getInt("id_utente");
 
                     ordine = new Ordine(indirizzo, idUtente ,metodoPagamento);
+                    ordine.setId(id);
 
                     // Recupera gli articoli correlati dalla tabella articoli_ordini
                     String sqlArticoli = "SELECT id_articolo, quantita FROM ordini_articoli WHERE id_ordine = ?";
@@ -1219,6 +1373,22 @@ public class DBManager
             }
         }
     }
+
+    public List<Ordine> getListaOrdini() {
+        String sql = "SELECT id FROM ordini";
+        List<Ordine> listaOrdini = new ArrayList<>();
+        // Esegue la query e ottiene il set di risultati
+        try (ResultSet rs = conn.createStatement().executeQuery(sql)) {
+            if (rs.next()) {
+                int id = rs.getInt("id");
+                listaOrdini.add(getOrdine(id));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return listaOrdini;
+    }
+
 
 }
 

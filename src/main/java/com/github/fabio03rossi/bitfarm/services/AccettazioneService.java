@@ -20,30 +20,37 @@ public class AccettazioneService implements IAccettazioneService {
 
     //TODO: Aggiungere riferimenti al db per le liste
     @Override
-    public List<Contenuto> getAllRichieste() {
+    public List<Contenuto> getAllRichieste()
+    {
         List<? extends Contenuto> articoli = List.of();
         List<? extends Contenuto> eventi = List.of();
+
+
 
         return Stream.concat(articoli.stream(), eventi.stream()).toList();
     }
 
     @Override
-    public void accettaArticolo(int id) {
+    public void accettaArticolo(int id)
+    {
         this.db.pubblicaArticolo(id);
     }
 
     @Override
-    public void accettaEvento(int id) {
+    public void accettaEvento(int id)
+    {
         this.db.pubblicaEvento(id);
     }
 
     @Override
-    public void rifiutaArticolo(int id) {
+    public void rifiutaArticolo(int id)
+    {
         this.db.rifiutaArticolo(id);
     }
 
     @Override
-    public void rifiutaEvento(int id) {
+    public void rifiutaEvento(int id)
+    {
         this.db.rifiutaEvento(id);
     }
 }

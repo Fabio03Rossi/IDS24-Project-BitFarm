@@ -37,8 +37,8 @@ public class AccountController {
     }
 
     @RequestMapping(value = "/" + PATH + "/creaCuratore", method = RequestMethod.POST)
-    public ResponseEntity<Object> creaCuratore(@Valid @RequestBody String email, @Valid @RequestBody String password) {
-        this.accountService.registraCuratore(email, password);
+    public ResponseEntity<Object> creaCuratore(@Valid @RequestBody UtenteDTO curatoreDTO) {
+        this.accountService.registraCuratore(curatoreDTO);
         return new ResponseEntity<>("Curatore creato correttamente.", HttpStatus.CREATED);
     }
 
@@ -62,8 +62,8 @@ public class AccountController {
     }
 
     @RequestMapping(value = "/" + PATH + "/modificaCuratore/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<Object> modificaCuratore(@PathVariable("id") int id, @Valid @RequestBody String email, @Valid @RequestBody String password) {
-        this.accountService.modificaCuratore(id, email, password);
+    public ResponseEntity<Object> modificaCuratore(@PathVariable("id") int id, @Valid @RequestBody UtenteDTO dto) {
+        this.accountService.modificaCuratore(id, dto);
         return new ResponseEntity<>("Curatore modificato correttamente.", HttpStatus.OK);
     }
 

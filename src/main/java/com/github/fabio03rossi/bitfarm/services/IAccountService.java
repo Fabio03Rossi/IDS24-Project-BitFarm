@@ -9,7 +9,7 @@ public interface IAccountService {
 
     void registraGestoreDellaPiattaforma(UtenteDTO dto);
 
-    void registraCuratore(String email, String password);
+    void registraCuratore(UtenteDTO dto);
 
     void registraAzienda(AziendaDTO dto);
 
@@ -17,7 +17,7 @@ public interface IAccountService {
 
     boolean modificaUtente(int id, UtenteDTO dto);
 
-    boolean modificaCuratore(int id, String email, String password);
+    boolean modificaCuratore(int id, UtenteDTO dto);
 
     boolean modificaGestoreDellaPiattaforma(int id, UtenteDTO dto);
 
