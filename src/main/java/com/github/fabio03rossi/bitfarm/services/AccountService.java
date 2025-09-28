@@ -93,7 +93,7 @@ public class AccountService implements IAccountService {
     }
 
     @Override
-    public List<AziendaDTO> getAllAzinde() {
+    public List<AziendaDTO> getAllAziende() {
         List<AziendaDTO> dto = new ArrayList<>();
         List<Azienda> listaAziende = this.db.getAllAziende();
         for (Azienda azienda : listaAziende) {

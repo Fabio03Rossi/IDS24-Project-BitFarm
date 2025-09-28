@@ -1,5 +1,6 @@
 package com.github.fabio03rossi.bitfarm.controller;
 
+import com.github.fabio03rossi.bitfarm.account.Azienda;
 import com.github.fabio03rossi.bitfarm.dto.AziendaDTO;
 import com.github.fabio03rossi.bitfarm.dto.UtenteDTO;
 import com.github.fabio03rossi.bitfarm.services.IAccountService;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 public class AccountController {
@@ -127,27 +130,27 @@ public class AccountController {
 
     //--------------------------- GET_ALL ---------------------------
 
-    @RequestMapping(value = "/" + PATH + "/getUtente/{id}", method = RequestMethod.GET)
-    public ResponseEntity<Object> getAllUtenti() {
-        var dto = this.accountService.getAllUtenti();
-        return new ResponseEntity<>(dto, HttpStatus.OK);
+    @RequestMapping(value = "/" + PATH + "/getAllUtenti", method = RequestMethod.GET)
+    public ResponseEntity<List<UtenteDTO>> getAllUtenti() {
+        var dtoList = this.accountService.getAllUtenti();
+        return new ResponseEntity<>(dtoList, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/" + PATH + "/getAzienda/{id}", method = RequestMethod.GET)
-    public ResponseEntity<Object> getAzienda(@PathVariable("id") int id) {
-        var dto = this.accountService.getAzienda(id);
-        return new ResponseEntity<>(dto, HttpStatus.OK);
+    @RequestMapping(value = "/" + PATH + "/getAllAziende", method = RequestMethod.GET)
+    public ResponseEntity<List<AziendaDTO>> getAllAziende() {
+        var dtoList = this.accountService.getAllAziende();
+        return new ResponseEntity<>(dtoList, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/" + PATH + "/getCuratore/{id}", method = RequestMethod.GET)
-    public ResponseEntity<Object> getCuratore(@PathVariable("id") int id) {
-        var dto = this.accountService.getCuratore(id);
-        return new ResponseEntity<>(dto, HttpStatus.OK);
+    @RequestMapping(value = "/" + PATH + "/getAllCuratori", method = RequestMethod.GET)
+    public ResponseEntity<List<UtenteDTO>> getAllCuratori() {
+        var dtoList = this.accountService.getAllCuratori();
+        return new ResponseEntity<>(dtoList, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/" + PATH + "/getGestore/{id}", method = RequestMethod.GET)
-    public ResponseEntity<Object> getGestore(@PathVariable("id") int id) {
-        var dto = this.accountService.getGestoreDellaPiattaforma(id);
-        return new ResponseEntity<>(dto, HttpStatus.OK);
+    @RequestMapping(value = "/" + PATH + "/getAllUtenti", method = RequestMethod.GET)
+    public ResponseEntity<List<UtenteDTO>> getAllGestori() {
+        var dtoList = this.accountService.getAllGestori();
+        return new ResponseEntity<>(dtoList, HttpStatus.OK);
     }
 }

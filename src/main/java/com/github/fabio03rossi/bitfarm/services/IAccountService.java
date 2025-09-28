@@ -28,7 +28,7 @@ public interface IAccountService {
 
     List<UtenteDTO> getAllUtenti();
 
-    List<AziendaDTO> getAllAzinde();
+    List<AziendaDTO> getAllAziende();
 
     List<UtenteDTO> getAllCuratori();
 
