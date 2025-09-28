@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @ControllerAdvice
-public class ExceptionController {
+public class GlobalExceptionController {
     @ExceptionHandler(value = DatiNonTrovatiException.class)
     public ResponseEntity<Object> datiNonTrovati(DatiNonTrovatiException exception) {
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);

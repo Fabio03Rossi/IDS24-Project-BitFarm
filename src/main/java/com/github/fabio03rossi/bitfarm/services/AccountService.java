@@ -103,7 +103,7 @@ public class AccountService implements IAccountService {
                 log.info("Account dell'utente modificato");
                 return true;
             }
-            log.warn("Non hai i permessi necessari per modificare l'account dell'utente");
+            log.warn("Non hai i permessi necessari per modificare l'account dell'utente.");
             return false;
         } catch (Exception ex) {
             log.error("Errore nella modifica dell'account, tipo di errore: {}", String.valueOf(ex));

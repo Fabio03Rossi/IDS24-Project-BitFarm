@@ -51,11 +51,15 @@ dependencies {
     implementation 'org.xerial:sqlite-jdbc:3.46.0.0'
     runtimeOnly 'org.hibernate.orm:hibernate-community-dialects'
 
+    implementation "org.springframework.boot:spring-boot-starter-web"
     implementation "org.springframework.boot:spring-boot-starter-security"
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.13'
+
     runtimeOnly 'com.h2database:h2'
 }
 

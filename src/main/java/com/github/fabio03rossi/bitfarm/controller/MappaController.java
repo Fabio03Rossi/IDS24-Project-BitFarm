@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class MappaController {
     IMappaService mappaService;
 
+    final String PATH = "mappa";
+
     @Autowired
     public MappaController(IMappaService mappaService) {
         this.mappaService = mappaService;

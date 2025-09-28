@@ -17,68 +17,70 @@ import org.springframework.web.bind.annotation.RestController;
 public class AccountController {
     IAccountService accountService;
 
+    final String PATH = "account";
+    
     @Autowired
     public AccountController(IAccountService accountService) {
         this.accountService = accountService;
     }
 
-    @RequestMapping(value = "/account/creaUtente", method = RequestMethod.POST)
+    @RequestMapping(value = "/" + PATH + "/creaUtente", method = RequestMethod.POST)
     public ResponseEntity<Object> creaUtente(@Valid @RequestBody UtenteDTO account) {
         this.accountService.registraUtente(account);
         return new ResponseEntity<>("Utente creato correttamente.", HttpStatus.CREATED);
     }
 
-    @RequestMapping(value = "/account/creaAzienda", method = RequestMethod.POST)
+    @RequestMapping(value = "/" + PATH + "/creaAzienda", method = RequestMethod.POST)
     public ResponseEntity<Object> creaAzienda(@Valid @RequestBody AziendaDTO account) {
         this.accountService.registraAzienda(account);
         return new ResponseEntity<>("Azienda creata correttamente.", HttpStatus.CREATED);
     }
 
-    @RequestMapping(value = "/account/creaCuratore", method = RequestMethod.POST)
+    @RequestMapping(value = "/" + PATH + "/creaCuratore", method = RequestMethod.POST)
     public ResponseEntity<Object> creaCuratore(@Valid @RequestBody String email, @Valid @RequestBody String password) {
         this.accountService.registraCuratore(email, password);
         return new ResponseEntity<>("Curatore creato correttamente.", HttpStatus.CREATED);
     }
 
-    @RequestMapping(value = "/account/creaGestoreDellaPiattaforma", method = RequestMethod.PUT)
+    @RequestMapping(value = "/" + PATH + "/creaGestoreDellaPiattaforma", method = RequestMethod.PUT)
     public ResponseEntity<Object> creaGestoreDellaPiattaforma(@Valid @RequestBody UtenteDTO account) {
         this.accountService.registraGestoreDellaPiattaforma(account);
         return new ResponseEntity<>("Account Gestore creato correttamente.", HttpStatus.CREATED);
     }
 
-    @RequestMapping(value = "/account/modificaUtente/{id}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/" + PATH + "/modificaUtente/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Object> modificaUtente(@PathVariable("id") int id, @Valid @RequestBody UtenteDTO account) {
         this.accountService.modificaUtente(id, account);
         return new ResponseEntity<>("Utente modificato correttamente.", HttpStatus.OK);
 
     }
 
-    @RequestMapping(value = "/account/modificaAzienda/{id}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/" + PATH + "/modificaAzienda/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Object> modificaAzienda(@PathVariable("id") int id, @Valid @RequestBody AziendaDTO account) {
         this.accountService.modificaAzienda(id, account);
         return new ResponseEntity<>("Azienda modificata correttamente.", HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/account/modificaCuratore/{id}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/" + PATH + "/modificaCuratore/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Object> modificaCuratore(@PathVariable("id") int id, @Valid @RequestBody String email, @Valid @RequestBody String password) {
         this.accountService.modificaCuratore(id, email, password);
         return new ResponseEntity<>("Curatore modificato correttamente.", HttpStatus.OK);
     }
 
 
-    @RequestMapping(value = "/account/eliminaUtente/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/" + PATH + "/eliminaUtente/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Object> eliminaUtente(@PathVariable("id") int id) {
         this.accountService.eliminaUtente(id);
         return new ResponseEntity<>("Utente eliminato.", HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/account/eliminaAzienda/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/" + PATH + "/eliminaAzienda/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Object> eliminaAzienda(@PathVariable("id") int id) {
         this.accountService.eliminaAzienda(id);
         return new ResponseEntity<>("Azienda eliminata.", HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/account/eliminaCuratore/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/" + PATH + "/eliminaCuratore/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Object> eliminaCuratore(@PathVariable("id") int id) {
         this.accountService.eliminaCuratore(id);
         return new ResponseEntity<>("Curatore eliminato.", HttpStatus.OK);

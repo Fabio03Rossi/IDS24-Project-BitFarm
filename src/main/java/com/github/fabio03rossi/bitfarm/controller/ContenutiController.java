@@ -20,6 +20,7 @@ public class ContenutiController {
     IArticoloService articoloService;
     IEventoService eventoService;
 
+    final String PATH = "contenuti";
 
     @Autowired
     public ContenutiController(IArticoloService articoloService, IEventoService eventoService) {
@@ -27,56 +28,56 @@ public class ContenutiController {
         this.eventoService = eventoService;
     }
 
-    @RequestMapping(value = "/contenuti/creaArticolo", method = RequestMethod.POST)
+    @RequestMapping(value = "/" + PATH + "/creaArticolo", method = RequestMethod.POST)
     public ResponseEntity<Object> creaArticolo(@Valid @RequestBody ProdottoDTO prodotto) {
         this.articoloService.creaArticolo(prodotto);
         return new ResponseEntity<>("Articolo creato correttamente.", HttpStatus.CREATED);
     }
 
-    @RequestMapping(value = "/contenuti/creaPacchetto", method = RequestMethod.POST)
+    @RequestMapping(value = "/" + PATH + "/creaPacchetto", method = RequestMethod.POST)
     public ResponseEntity<Object> creaPacchetto(@Valid @RequestBody PacchettoDTO prodotto) {
         this.articoloService.creaPacchetto(prodotto);
         return new ResponseEntity<>("Pacchetto creato correttamente.", HttpStatus.CREATED);
     }
 
-    @RequestMapping(value = "/contenuti/modificaArticolo/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "/" + PATH + "/modificaArticolo/{id}", method = RequestMethod.POST)
     public ResponseEntity<Object> modificaArticolo(@PathVariable("id") int id, @Valid @RequestBody ProdottoDTO prodotto) {
         this.articoloService.modificaArticolo(prodotto, id);
         return new ResponseEntity<>("Articolo modificato correttamente.", HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/contenuti/modificaPacchetto/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "/" + PATH + "/modificaPacchetto/{id}", method = RequestMethod.POST)
     public ResponseEntity<Object> modificaPacchetto(@PathVariable("id") int id, @Valid @RequestBody PacchettoDTO pacchetto) {
         this.articoloService.modificaArticolo(pacchetto, id);
         return new ResponseEntity<>("Pacchetto modificato correttamente.", HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/contenuti/eliminaArticolo/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/" + PATH + "/eliminaArticolo/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Object> eliminaArticolo(@PathVariable("id") int id) {
         this.articoloService.eliminaArticolo(id);
         return new ResponseEntity<>("Articolo eliminato correttamente.", HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/contenuti/eliminaPacchetto/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/" + PATH + "/eliminaPacchetto/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Object> eliminaPacchetto(@PathVariable("id") int id) {
         this.articoloService.eliminaArticolo(id);
         return new ResponseEntity<>("Pacchetto eliminato correttamente.", HttpStatus.OK);
     }
 
 
-    @RequestMapping(value = "/contenuti/creaEvento", method = RequestMethod.POST)
+    @RequestMapping(value = "/" + PATH + "/creaEvento", method = RequestMethod.POST)
     public ResponseEntity<Object> creaEvento(@Valid @RequestBody EventoDTO evento) {
         this.eventoService.creaEvento(evento);
         return new ResponseEntity<>("Evento creato correttamente.", HttpStatus.CREATED);
     }
 
-    @RequestMapping(value = "/contenuti/modificaEvento/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "/" + PATH + "/modificaEvento/{id}", method = RequestMethod.POST)
     public ResponseEntity<Object> modificaEvento(@PathVariable("id") int id, @Valid @RequestBody EventoDTO evento) {
         this.eventoService.modificaEvento(id, evento);
         return new ResponseEntity<>("Evento modificato correttamente.", HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/contenuti/eliminaEvento/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/" + PATH + "/eliminaEvento/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Object> eliminaEvento(@PathVariable("id") int id) {
         this.eventoService.eliminaEvento(id);
         return new ResponseEntity<>("Evento eliminato correttamente.", HttpStatus.OK);

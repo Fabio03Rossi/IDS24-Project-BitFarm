@@ -13,24 +13,26 @@ import org.springframework.web.bind.annotation.RestController;
 public class VerificaController {
     IVerificaService verificaService;
 
+    final String PATH = "verifiche";
+    
     @Autowired
     public VerificaController(IVerificaService verificaService) {
         this.verificaService = verificaService;
     }
 
-    @RequestMapping(value = "/verifiche/getAllRichiesteAziende", method = RequestMethod.GET)
+    @RequestMapping(value = "/" + PATH + "/getAllRichiesteAziende", method = RequestMethod.GET)
     public ResponseEntity<Object> getAllRichiesteAziende() {
         var richieste = this.verificaService.getAllRichieste();
         return new ResponseEntity<>(richieste, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/verifiche/accettaRegistrazioneAzienda/{id}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/" + PATH + "/accettaRegistrazioneAzienda/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Object> accettaRegistrazioneAzienda(@PathVariable("id") int id) {
         this.verificaService.accettaRegistrazioneAzienda(id);
         return new ResponseEntity<>("Azienda accettata correttamente.", HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/verifiche/rifiutaRegistrazioneAzienda/{id}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/" + PATH + "/rifiutaRegistrazioneAzienda/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Object> rifiutaRegistrazioneAzienda(@PathVariable("id") int id) {
         this.verificaService.rifiutaRegistrazioneAzienda(id);
         return new ResponseEntity<>("Azienda rifiutata correttamente.", HttpStatus.OK);
