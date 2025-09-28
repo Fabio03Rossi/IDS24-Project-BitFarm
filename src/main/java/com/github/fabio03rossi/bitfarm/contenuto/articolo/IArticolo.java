@@ -13,4 +13,5 @@ public interface IArticolo extends IContenuto {
     public void setCertificati(String certificates);
     public int getId();
     public String getTipologia();
+    public void setId(int id);
 }

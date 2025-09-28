@@ -43,6 +43,7 @@ public class ArticoloService implements IArticoloService {
     public void modificaArticolo(ProdottoDTO dto, int id) {
         try {
             IArticolo articolo = new Prodotto(dto.nome(), dto.descrizione(), dto.prezzo(), dto.certificazioni());
+            articolo.setId(id);
             this.db.updateArticolo(articolo);
         } catch (Exception ex) {
             log.warn("C'è stato un problema nell'aggiornamento dell'articolo.");

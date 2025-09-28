@@ -74,6 +74,11 @@ public class Pacchetto extends AbstractArticolo implements IArticoloComposto {
         }
 
         @Override
+        public void setId(int id) {
+                this.id = id;
+        }
+
+        @Override
         public int getId() {
                 return this.id;
         }

@@ -18,6 +18,7 @@ public class Prodotto extends AbstractArticolo {
         return id;
     }
 
+    @Override
     public void setId(int id) {
         this.id = id;
     }
@@ -69,6 +70,7 @@ public class Prodotto extends AbstractArticolo {
     public void setPrezzo(double prezzo) {
 
     }
+
 
     public void setPrice(Double price) {
         this.prezzo = price;
