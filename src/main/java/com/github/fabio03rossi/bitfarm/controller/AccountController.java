@@ -124,4 +124,30 @@ public class AccountController {
         var dto = this.accountService.getGestoreDellaPiattaforma(id);
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
+
+    //--------------------------- GET_ALL ---------------------------
+
+    @RequestMapping(value = "/" + PATH + "/getUtente/{id}", method = RequestMethod.GET)
+    public ResponseEntity<Object> getAllUtenti() {
+        var dto = this.accountService.getAllUtenti();
+        return new ResponseEntity<>(dto, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/" + PATH + "/getAzienda/{id}", method = RequestMethod.GET)
+    public ResponseEntity<Object> getAzienda(@PathVariable("id") int id) {
+        var dto = this.accountService.getAzienda(id);
+        return new ResponseEntity<>(dto, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/" + PATH + "/getCuratore/{id}", method = RequestMethod.GET)
+    public ResponseEntity<Object> getCuratore(@PathVariable("id") int id) {
+        var dto = this.accountService.getCuratore(id);
+        return new ResponseEntity<>(dto, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/" + PATH + "/getGestore/{id}", method = RequestMethod.GET)
+    public ResponseEntity<Object> getGestore(@PathVariable("id") int id) {
+        var dto = this.accountService.getGestoreDellaPiattaforma(id);
+        return new ResponseEntity<>(dto, HttpStatus.OK);
+    }
 }

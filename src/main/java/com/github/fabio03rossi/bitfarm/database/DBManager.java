@@ -675,6 +675,34 @@ public class DBManager
         return utente;
     }
 
+    public List<Utente> getAllUtenti() {
+
+        String sql = "SELECT * FROM utenti";
+        List<Utente> listaUtenti = new ArrayList<>();
+
+            // Esegue la query e ottiene il set di risultati
+        try (ResultSet rs = conn.createStatement().executeQuery(sql)) {
+            if (rs.next()) {
+
+                String nome = rs.getString("nome");
+                String email = rs.getString("email");
+                String password = rs.getString("password");
+                String indirizzo = rs.getString("indirizzo");
+
+                Utente utente = new Utente(nome, email, password, indirizzo);
+                utente.setId(rs.getInt("id"));
+                listaUtenti.add(utente);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        if (listaUtenti.isEmpty()) {
+            throw new DatiNonTrovatiException("Nessun utente registrato");
+        }
+        return listaUtenti;
+    }
+
     public void addUtente(Utente utente) {
         String sql = "INSERT INTO utenti(nome, data_creazione, email, password, indirizzo) VALUES (?, ?, ?, ?, ?)";
 
@@ -731,30 +759,6 @@ public class DBManager
             log.error("DBManager: Errore durante la cancellazione dell'utente: " + e.getMessage());
             throw new DatiNonTrovatiException("Errore di lettura dei dati.");
         }
-    }
-
-    private List<Utente> getListaUtenti() {
-        String sql = "SELECT * FROM utenti";
-        List<Utente> listaUtenti = new ArrayList<>();
-        // Esegue la query e ottiene il set di risultati
-        try (ResultSet rs = conn.createStatement().executeQuery(sql)) {
-            if (rs.next()) {
-
-                String nome = rs.getString("nome");
-                String email = rs.getString("email");
-                String password = rs.getString("password");
-                String indirizzo = rs.getString("indirizzo");
-                int id = rs.getInt("id");
-
-                Utente utente = new Utente(nome, email, password , indirizzo);
-                utente.setId(rs.getInt("id"));
-                listaUtenti.add(utente);
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-        return listaUtenti;
     }
 
     // --------------- ACCOUNT AZIENDALI ---------------

@@ -1,5 +1,7 @@
 package com.github.fabio03rossi.bitfarm.account;
 
+import com.github.fabio03rossi.bitfarm.dto.UtenteDTO;
+
 public class Curatore extends Account{
     private String nome;
     private String indirizzo;
@@ -30,5 +32,9 @@ public class Curatore extends Account{
 
     public int getId() {
         return super.getId();
+    }
+
+    public UtenteDTO toDTO() {
+        return new UtenteDTO(nome, getEmail(), getPassword(), indirizzo);
     }
 }

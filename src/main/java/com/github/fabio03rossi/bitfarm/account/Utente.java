@@ -1,5 +1,7 @@
 package com.github.fabio03rossi.bitfarm.account;
 
+import com.github.fabio03rossi.bitfarm.dto.UtenteDTO;
+
 public class Utente extends Account {
     private String nome;
     private String indirizzo;
@@ -40,5 +42,9 @@ public class Utente extends Account {
 
     public String getIndirizzo(){
         return this.indirizzo;
+    }
+
+    public UtenteDTO toDTO(){
+        return new UtenteDTO(nome, getEmail(), getPassword(), indirizzo);
     }
 }

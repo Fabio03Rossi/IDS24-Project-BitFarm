@@ -14,6 +14,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class AccountService implements IAccountService {
     private static final Logger log = LoggerFactory.getLogger(AccountService.class);
@@ -50,33 +53,73 @@ public class AccountService implements IAccountService {
         this.db.addGestoreDellaPiattaforma(gestore);
     }
 
-    //-------------------------------------- MODIFICA --------------------------------------
+    //-------------------------------------- GET --------------------------------------
 
     @Override
     public UtenteDTO getUtente(int id) {
         Utente utente = this.db.getUtente(id);
 
-        return new UtenteDTO(utente.getNome(), utente.getEmail(), utente.getPassword(), utente.getIndirizzo());
+        return utente.toDTO();
     }
 
     @Override
     public AziendaDTO getAzienda(int id) {
         Azienda azienda = this.db.getAzienda(id);
-
-        return new AziendaDTO(azienda.getPartitaIVA(), azienda.getNome(), azienda.getEmail(),
-                azienda.getPassword(), azienda.getDescrizione(), azienda.getIndirizzo(), azienda.getTelefono(), azienda.getTipologia(), azienda.getCertificazioni());
+        return azienda.toDTO();
     }
 
     @Override
     public UtenteDTO getCuratore(int id) {
         Curatore curatore = this.db.getCuratore(id);
-        return new UtenteDTO(curatore.getNome(), curatore.getEmail(), curatore.getPassword(), curatore.getIndirizzo());
+        return curatore.toDTO();
     }
 
     @Override
     public UtenteDTO getGestoreDellaPiattaforma(int id) {
         GestoreDellaPiattaforma gestore = this.db.getGestoreDellaPiattaforma(id);
-        return new UtenteDTO(gestore.getNome(), gestore.getEmail(), gestore.getPassword(), gestore.getIndirizzo());
+        return gestore.toDTO();
+    }
+
+    //-------------------------------------- GET_ALL --------------------------------------
+
+    @Override
+    public List<UtenteDTO> getAllUtenti() {
+        List<UtenteDTO> dto = new ArrayList<>();
+        List<Utente> listaUtenti = this.db.getAllUtenti();
+        for (Utente utente : listaUtenti) {
+        dto.add(utente.toDTO());
+        }
+        return dto;
+    }
+
+    @Override
+    public List<AziendaDTO> getAllAzinde() {
+        List<AziendaDTO> dto = new ArrayList<>();
+        List<Azienda> listaAziende = this.db.getAllAziende();
+        for (Azienda azienda : listaAziende) {
+            dto.add(azienda.toDTO());
+        }
+        return dto;
+    }
+
+    @Override
+    public List<UtenteDTO> getAllCuratori() {
+        List<UtenteDTO> dto = new ArrayList<>();
+        List<Curatore> listaCuratori = db.getAllCuratori();
+        for (Curatore curatore : listaCuratori) {
+            dto.add(curatore.toDTO());
+        }
+        return dto;
+    }
+
+    @Override
+    public List<UtenteDTO> getAllGestori() {
+        List<UtenteDTO> dto = new ArrayList<>();
+        List<GestoreDellaPiattaforma> listaGestori = db.getAllGestori();
+        for (GestoreDellaPiattaforma gestore : listaGestori) {
+            dto.add(gestore.toDTO());
+        }
+        return dto;
     }
 
     //-------------------------------------- MODIFICA --------------------------------------

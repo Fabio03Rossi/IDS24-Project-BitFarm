@@ -7,6 +7,8 @@ import com.github.fabio03rossi.bitfarm.account.Utente;
 import com.github.fabio03rossi.bitfarm.dto.AziendaDTO;
 import com.github.fabio03rossi.bitfarm.dto.UtenteDTO;
 
+import java.util.List;
+
 public interface IAccountService {
     void registraUtente(UtenteDTO dto);
 
@@ -23,6 +25,14 @@ public interface IAccountService {
     UtenteDTO getCuratore(int id);
 
     UtenteDTO getGestoreDellaPiattaforma(int id);
+
+    List<UtenteDTO> getAllUtenti();
+
+    List<AziendaDTO> getAllAzinde();
+
+    List<UtenteDTO> getAllCuratori();
+
+    List<UtenteDTO> getAllGestori();
 
     void modificaAzienda(int id, AziendaDTO dto);
 

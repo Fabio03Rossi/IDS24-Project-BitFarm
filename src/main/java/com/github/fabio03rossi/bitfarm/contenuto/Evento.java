@@ -1,5 +1,6 @@
 package com.github.fabio03rossi.bitfarm.contenuto;
 
+import com.github.fabio03rossi.bitfarm.dto.EventoDTO;
 import com.github.fabio03rossi.bitfarm.enums.EStatoContenuto;
 
 import java.util.Date;
@@ -74,6 +75,9 @@ public class Evento extends Contenuto {
 
     @Override
     public void setStato(IStatoContenuto stato) {
+    }
 
+    public EventoDTO toDTO() {
+        return new EventoDTO(nome, descrizione, data, posizione);
     }
 }

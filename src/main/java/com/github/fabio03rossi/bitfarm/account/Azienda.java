@@ -1,5 +1,7 @@
 package com.github.fabio03rossi.bitfarm.account;
 
+import com.github.fabio03rossi.bitfarm.dto.AziendaDTO;
+
 public class Azienda extends Account {
     private String partitaIVA;
     private String nome;
@@ -87,5 +89,9 @@ public class Azienda extends Account {
     @Override
     public String toString() {
         return this.getPartitaIVA().concat(" " + this.getNome()).concat(" " + this.getDescrizione());
+    }
+
+    public AziendaDTO toDTO(){
+        return new AziendaDTO(partitaIVA, nome, getEmail(), getPassword(), descrizione, indirizzo, telefono, tipologia, certificazioni);
     }
 }
