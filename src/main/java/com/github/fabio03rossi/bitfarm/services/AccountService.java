@@ -12,7 +12,6 @@ import com.github.fabio03rossi.bitfarm.exception.AccessoNegatoException;
 import com.github.fabio03rossi.bitfarm.misc.Sessione;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -52,6 +51,36 @@ public class AccountService implements IAccountService {
     }
 
     //-------------------------------------- MODIFICA --------------------------------------
+
+    @Override
+    public UtenteDTO getUtente(int id) {
+        Utente utente = this.db.getUtente(id);
+
+        return new UtenteDTO(utente.getNome(), utente.getEmail(), utente.getPassword(), utente.getIndirizzo());
+    }
+
+    @Override
+    public AziendaDTO getAzienda(int id) {
+        Azienda azienda = this.db.getAzienda(id);
+
+        return new AziendaDTO(azienda.getPartitaIVA(), azienda.getNome(), azienda.getEmail(),
+                azienda.getPassword(), azienda.getDescrizione(), azienda.getIndirizzo(), azienda.getTelefono(), azienda.getTipologia(), azienda.getCertificazioni());
+    }
+
+    @Override
+    public UtenteDTO getCuratore(int id) {
+        Curatore curatore = this.db.getCuratore(id);
+        return new UtenteDTO(curatore.getNome(), curatore.getEmail(), curatore.getPassword(), curatore.getIndirizzo());
+    }
+
+    @Override
+    public UtenteDTO getGestoreDellaPiattaforma(int id) {
+        GestoreDellaPiattaforma gestore = this.db.getGestoreDellaPiattaforma(id);
+        return new UtenteDTO(gestore.getNome(), gestore.getEmail(), gestore.getPassword(), gestore.getIndirizzo());
+    }
+
+    //-------------------------------------- MODIFICA --------------------------------------
+
     @Override
     public void modificaAzienda(int id, AziendaDTO dto) {
         try {
@@ -186,11 +215,6 @@ public class AccountService implements IAccountService {
         Account account = db.getAzienda(email);
         sessione.login(account);
         return true;
-    }
-
-    @Override
-    public Azienda getAzienda(int id) {
-        return this.db.getAzienda(id);
     }
 }
 
