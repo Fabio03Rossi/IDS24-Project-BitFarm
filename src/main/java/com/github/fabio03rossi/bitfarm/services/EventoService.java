@@ -6,8 +6,11 @@ import com.github.fabio03rossi.bitfarm.database.DBManager;
 import com.github.fabio03rossi.bitfarm.dto.EventoDTO;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
+import java.util.List;
+
+@Service
 public class EventoService implements IEventoService {
     private static final org.slf4j.Logger log = LoggerFactory.getLogger(EventoService.class);
     private final DBManager db = DBManager.getInstance();
@@ -30,5 +33,15 @@ public class EventoService implements IEventoService {
         Evento ev = new Evento(dto.nome(), dto.descrizione(), dto.data(), dto.posizione());
         ev.setId(id);
         this.db.updateEvento(ev);
+    }
+
+    @Override
+    public Evento getEvento(int id) {
+        return this.db.getEvento(id);
+    }
+
+    @Override
+    public List<Evento> getAllEventi() {
+        return this.db.getAllEventi();
     }
 }

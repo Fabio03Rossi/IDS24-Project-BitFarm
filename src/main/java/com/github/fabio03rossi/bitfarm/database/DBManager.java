@@ -897,7 +897,7 @@ public class DBManager
         this.cancellaAzienda(id);
     }
 
-    public void accettaAzienda(int id) throws SQLException {
+    public void accettaAzienda(int id) {
         String sql = "UPDATE aziende SET accettata = ? WHERE id = ?";
         try (PreparedStatement pstmt = this.conn.prepareStatement(sql)) {
             pstmt.setBoolean(1, true);
@@ -908,20 +908,22 @@ public class DBManager
             } else {
                 log.warn("DBManager: Nessuna azienda trovata con ID " + id);
             }
+        } catch (SQLException ex) {
+            throw new DatiNonTrovatiException("Errore di lettura dei dati.");
         }
     }
 
-    public List<Azienda> getAllAziende(Azienda azienda) {
+    public List<Azienda> getAllAziende() {
         String sql = "SELECT * FROM aziende";
         return this.getListaAziende(sql);
     }
 
-    public List<Azienda> getAllRichiesteAziende(Azienda azienda) {
+    public List<Azienda> getAllRichiesteAziende() {
         String sql = "SELECT * FROM aziende WHERE accettata IS true";
         return this.getListaAziende(sql);
     }
 
-    public List<Azienda> getAllAziendeAccettate(Azienda azienda) {
+    public List<Azienda> getAllAziendeAccettate() {
         String sql = "SELECT * FROM aziende WHERE accettata IS false";
         return this.getListaAziende(sql);
     }

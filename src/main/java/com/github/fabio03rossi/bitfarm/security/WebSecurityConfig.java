@@ -32,23 +32,28 @@ public class WebSecurityConfig {
         http
                 .authorizeHttpRequests((requests) -> requests
                         // Accettazione
-                        .requestMatchers("/moderazione/**").hasAuthority("CURATORE")
+                        .requestMatchers("/moderazione/**").hasAnyAuthority("CURATORE", "GESTORE")
                         // Account
                         .requestMatchers("/account/creaUtente").permitAll()
                         .requestMatchers("/account/creaAzienda").permitAll()
-                        .requestMatchers("/account/creaCuratore").hasAuthority("GESTORE")
-                        .requestMatchers("/account/modificaUtente/**").hasAuthority("UTENTE")
-                        .requestMatchers("/account/modificaAzienda/**").hasAuthority("AZIENDA")
-                        .requestMatchers("/account/modificaCuratore/**").hasAuthority("CURATORE")
-                        .requestMatchers("/account/eliminaUtente/**").hasAuthority("UTENTE")
-                        .requestMatchers("/account/eliminaAzienda/**").hasAuthority("AZIENDA")
-                        .requestMatchers("/account/eliminaCuratore/**").hasAuthority("GESTORE")
+                        .requestMatchers("/account/creaCuratore").hasAnyAuthority("GESTORE")
+                        .requestMatchers("/account/modificaUtente/**").hasAnyAuthority("UTENTE", "GESTORE")
+                        .requestMatchers("/account/modificaAzienda/**").hasAnyAuthority("AZIENDA", "GESTORE")
+                        .requestMatchers("/account/modificaCuratore/**").hasAnyAuthority("CURATORE", "GESTORE")
+                        .requestMatchers("/account/eliminaUtente/**").hasAnyAuthority("UTENTE", "GESTORE")
+                        .requestMatchers("/account/eliminaAzienda/**").hasAnyAuthority("AZIENDA", "GESTORE")
+                        .requestMatchers("/account/eliminaCuratore/**").hasAnyAuthority("GESTORE")
                         // Acquisto
-                        .requestMatchers("/acquisti/**").hasAuthority("UTENTE")
+                        .requestMatchers("/acquisti/**").hasAnyAuthority("UTENTE", "AZIENDA", "CURATORE")
                         // Contenuti
-                        .requestMatchers("/contenuti/**").hasAuthority("AZIENDA")
+                        .requestMatchers("/contenuti/**").hasAnyAuthority("AZIENDA")
+                        .requestMatchers("/contenuti/get**").hasAnyAuthority("UTENTE", "AZIENDA", "CURATORE", "GESTORE")
+                        // Mappa
+                        .requestMatchers("/mappa/**").permitAll()
                         // Verifica
-                        .requestMatchers("/verifiche/**").hasAuthority("GESTORE")
+                        .requestMatchers("/verifiche/**").hasAnyAuthority("GESTORE")
+                        // Ordini
+                        .requestMatchers("/ordini/**").hasAnyAuthority("UTENTE", "AZIENDA", "CURATORE", "GESTORE")
 
                         .anyRequest().authenticated()
                 )

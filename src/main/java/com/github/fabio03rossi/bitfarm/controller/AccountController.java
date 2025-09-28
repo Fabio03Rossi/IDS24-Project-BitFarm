@@ -4,6 +4,7 @@ import com.github.fabio03rossi.bitfarm.dto.AziendaDTO;
 import com.github.fabio03rossi.bitfarm.dto.UtenteDTO;
 import com.github.fabio03rossi.bitfarm.services.IAccountService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Email;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -90,5 +91,17 @@ public class AccountController {
     public ResponseEntity<Object> getAzienda(@PathVariable("id") int id) {
         var azienda = this.accountService.getAzienda(id);
         return new ResponseEntity<>(azienda, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/" + PATH + "/loginUtente", method = RequestMethod.POST)
+    public ResponseEntity<Object> loginUtente(@Valid @Email String email, @Valid String password) {
+        this.accountService.loginAccount(email, password);
+        return new ResponseEntity<>("Login avvenuto con successo.", HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/" + PATH + "/loginAzienda", method = RequestMethod.POST)
+    public ResponseEntity<Object> loginAzienda(@Valid @Email String email, @Valid String password) {
+        this.accountService.loginAzienda(email, password);
+        return new ResponseEntity<>("Login avvenuto con successo.", HttpStatus.OK);
     }
 }

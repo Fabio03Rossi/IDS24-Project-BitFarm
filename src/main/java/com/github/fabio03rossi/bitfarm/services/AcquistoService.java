@@ -9,10 +9,11 @@ import com.github.fabio03rossi.bitfarm.exception.CarrelloVuotoException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.Map;
 
-@Component
+@Service
 public class AcquistoService implements IAcquistoService {
     private static final Logger log = LoggerFactory.getLogger(AcquistoService.class);
     private Carrello carrello;

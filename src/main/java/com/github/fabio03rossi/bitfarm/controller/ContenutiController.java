@@ -82,4 +82,22 @@ public class ContenutiController {
         this.eventoService.eliminaEvento(id);
         return new ResponseEntity<>("Evento eliminato correttamente.", HttpStatus.OK);
     }
+
+    @RequestMapping(value = "/" + PATH + "/getArticolo/{id}", method = RequestMethod.GET)
+    public ResponseEntity<Object> getArticolo(@PathVariable("id") int id) {
+        var articolo = this.articoloService.getArticolo(id);
+        return new ResponseEntity<>(articolo, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/" + PATH + "/getAllArticoli", method = RequestMethod.GET)
+    public ResponseEntity<Object> getAllArticoli() {
+        var articolo = this.articoloService.getAllArticoli();
+        return new ResponseEntity<>(articolo, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/" + PATH + "/getAllEventi", method = RequestMethod.GET)
+    public ResponseEntity<Object> getAllEventi() {
+        var evento = this.eventoService.getAllEventi();
+        return new ResponseEntity<>(evento, HttpStatus.OK);
+    }
 }

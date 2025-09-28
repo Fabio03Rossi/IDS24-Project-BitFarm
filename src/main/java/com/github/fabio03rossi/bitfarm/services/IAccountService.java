@@ -13,21 +13,21 @@ public interface IAccountService {
 
     void registraAzienda(AziendaDTO dto);
 
-    boolean modificaAzienda(int id, AziendaDTO dto);
+    void modificaAzienda(int id, AziendaDTO dto);
 
-    boolean modificaUtente(int id, UtenteDTO dto);
+    void modificaUtente(int id, UtenteDTO dto);
 
-    boolean modificaCuratore(int id, UtenteDTO dto);
+    void modificaCuratore(int id, UtenteDTO dto);
 
-    boolean modificaGestoreDellaPiattaforma(int id, UtenteDTO dto);
+    void modificaGestoreDellaPiattaforma(int id, UtenteDTO dto);
 
-    boolean eliminaUtente(int id);
+    void eliminaUtente(int id);
 
-    boolean eliminaAzienda(int id);
+    void eliminaAzienda(int id);
 
-    boolean eliminaCuratore(int id);
+    void eliminaCuratore(int id);
 
-    boolean eliminaGestoreDellaPiattaforma(int id);
+    void eliminaGestoreDellaPiattaforma(int id);
 
     boolean loginAccount(String email, String password);
 

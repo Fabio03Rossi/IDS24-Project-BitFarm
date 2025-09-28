@@ -1,7 +1,10 @@
 package com.github.fabio03rossi.bitfarm.services;
 
+import com.github.fabio03rossi.bitfarm.contenuto.articolo.IArticolo;
 import com.github.fabio03rossi.bitfarm.dto.PacchettoDTO;
 import com.github.fabio03rossi.bitfarm.dto.ProdottoDTO;
+
+import java.util.List;
 
 public interface IArticoloService {
 
@@ -16,4 +19,8 @@ public interface IArticoloService {
     void modificaArticolo(PacchettoDTO dto, int id);
 
     void eliminaPacchetto(int id);
+
+    IArticolo getArticolo(int id);
+
+    List<IArticolo> getAllArticoli();
 }

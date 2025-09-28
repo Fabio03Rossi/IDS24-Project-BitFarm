@@ -2,17 +2,20 @@ package com.github.fabio03rossi.bitfarm.services;
 
 import com.github.fabio03rossi.bitfarm.account.Account;
 import com.github.fabio03rossi.bitfarm.account.Azienda;
+import com.github.fabio03rossi.bitfarm.account.Curatore;
 import com.github.fabio03rossi.bitfarm.account.GestoreDellaPiattaforma;
 import com.github.fabio03rossi.bitfarm.account.Utente;
 import com.github.fabio03rossi.bitfarm.database.DBManager;
 import com.github.fabio03rossi.bitfarm.dto.AziendaDTO;
 import com.github.fabio03rossi.bitfarm.dto.UtenteDTO;
+import com.github.fabio03rossi.bitfarm.exception.AccessoNegatoException;
 import com.github.fabio03rossi.bitfarm.misc.Sessione;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
 public class AccountService implements IAccountService {
     private static final Logger log = LoggerFactory.getLogger(AccountService.class);
     private final DBManager db;
@@ -50,7 +53,7 @@ public class AccountService implements IAccountService {
 
     //-------------------------------------- MODIFICA --------------------------------------
     @Override
-    public boolean modificaAzienda(int id, AziendaDTO dto) {
+    public void modificaAzienda(int id, AziendaDTO dto) {
         try {
             Sessione sessione = Sessione.getInstance();
             Account azienda = sessione.getAccount();
@@ -59,10 +62,10 @@ public class AccountService implements IAccountService {
                 az.setId(id);
                 this.db.updateAzienda(az);
                 log.info("Account dell'azienda modificato");
-                return true;
+            } else {
+                log.warn("Non disponi dei permessi necessari");
+                throw new AccessoNegatoException();
             }
-            log.warn("Non hai i permessi necessari per modificare l'account dell'azienda.");
-            return false;
         } catch (Exception ex) {
             log.error("Errore nella modifica dell'account, tipo di errore: {}", String.valueOf(ex));
             throw ex;
@@ -71,7 +74,7 @@ public class AccountService implements IAccountService {
 
 
     @Override
-    public boolean modificaUtente(int id, UtenteDTO dto) {
+    public void modificaUtente(int id, UtenteDTO dto) {
         try {
             Sessione sessione = Sessione.getInstance();
             Account utente = sessione.getAccount();
@@ -80,10 +83,10 @@ public class AccountService implements IAccountService {
                 ut.setId(id);
                 this.db.updateUtente(ut);
                 log.info("Account dell'utente modificato");
-                return true;
+            } else {
+                log.warn("Non disponi dei permessi necessari");
+                throw new AccessoNegatoException();
             }
-            log.warn("Non hai i permessi necessari per modificare l'account dell'utente.");
-            return false;
         } catch (Exception ex) {
             log.error("Errore nella modifica dell'account, tipo di errore: {}", String.valueOf(ex));
             throw ex;
@@ -91,7 +94,7 @@ public class AccountService implements IAccountService {
     }
 
     @Override
-    public boolean modificaCuratore(int id, UtenteDTO dto) {
+    public void modificaCuratore(int id, UtenteDTO dto) {
         try {
             Sessione sessione = Sessione.getInstance();
             Account curatore = sessione.getAccount();
@@ -100,10 +103,10 @@ public class AccountService implements IAccountService {
                 cu.setId(id);
                 this.db.updateCuratore(cu);
                 log.info("Account del curatore modificato");
-                return true;
+            } else {
+                log.warn("Non disponi dei permessi necessari");
+                throw new AccessoNegatoException();
             }
-            log.warn("Non hai i permessi necessari per modificare l'account del curatore.");
-            return false;
         } catch (Exception ex) {
             log.error("Errore nella modifica del curatore, tipo di errore: {}", String.valueOf(ex));
             throw ex;
@@ -111,62 +114,57 @@ public class AccountService implements IAccountService {
     }
 
     @Override
-    public boolean modificaGestoreDellaPiattaforma(int id, UtenteDTO dto) {
-        return false;
+    public void modificaGestoreDellaPiattaforma(int id, UtenteDTO dto) {
     }
 
     //-------------------------------------- ELIMININA --------------------------------------
 
     @Override
-    public boolean eliminaUtente(int id) {
+    public void eliminaUtente(int id) {
         Sessione sessione = Sessione.getInstance();
         if (sessione.getAccount() instanceof GestoreDellaPiattaforma) {
             db.cancellaGestoreDellaPiattaforma(id);
             log.info("Account gestoreDellaPiattaforma eliminato");
-            return true;
+        } else {
+            log.warn("Non disponi dei permessi necessari");
+            throw new AccessoNegatoException();
         }
-
-        log.warn("Non disponi dei permessi necessari");
-        return false;
     }
 
     @Override
-    public boolean eliminaAzienda(int id) {
+    public void eliminaAzienda(int id) {
         Sessione sessione = Sessione.getInstance();
         if (sessione.getAccount() instanceof GestoreDellaPiattaforma) {
             db.cancellaGestoreDellaPiattaforma(id);
             log.info("Account gestoreDellaPiattaforma eliminato");
-            return true;
+        } else {
+            log.warn("Non disponi dei permessi necessari");
+            throw new AccessoNegatoException();
         }
-
-        log.warn("Non disponi dei permessi necessari");
-        return false;
     }
 
     @Override
-    public boolean eliminaCuratore(int id) {
+    public void eliminaCuratore(int id) {
         Sessione sessione = Sessione.getInstance();
         if (sessione.getAccount() instanceof GestoreDellaPiattaforma) {
             db.cancellaGestoreDellaPiattaforma(id);
             log.info("Account gestoreDellaPiattaforma eliminato");
-            return true;
+        } else {
+            log.warn("Non disponi dei permessi necessari");
+            throw new AccessoNegatoException();
         }
-
-        log.warn("Non disponi dei permessi necessari");
-        return false;
     }
 
     @Override
-    public boolean eliminaGestoreDellaPiattaforma(int id) {
+    public void eliminaGestoreDellaPiattaforma(int id) {
         Sessione sessione = Sessione.getInstance();
         if (sessione.getAccount() instanceof GestoreDellaPiattaforma) {
             db.cancellaGestoreDellaPiattaforma(id);
             log.info("Account gestoreDellaPiattaforma eliminato");
-            return true;
+        } else {
+            log.warn("Non disponi dei permessi necessari");
+            throw new AccessoNegatoException();
         }
-
-        log.warn("Non disponi dei permessi necessari");
-        return false;
     }
 
     //-------------------------------------- ALTRO --------------------------------------
