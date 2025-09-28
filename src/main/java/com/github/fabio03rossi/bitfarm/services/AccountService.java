@@ -69,29 +69,6 @@ public class AccountService implements IAccountService {
 
 
     @Override
-    public boolean loginAccount(String email, String password) {
-        Sessione sessione = Sessione.getInstance();
-        Account utente = this.db.getUtente(email);
-        if (utente.getPassword().equals(password)) {
-            sessione.login(utente);
-            log.info("Loggato come {}", utente.getEmail());
-        }
-        return false;
-    }
-
-    @Override
-    public boolean eliminaUtente(int id) {
-        Sessione sessione = Sessione.getInstance();
-        if (sessione.getAccount() instanceof GestoreDellaPiattaforma) {
-            db.cancellaUtente(id);
-            log.info("Account eliminato");
-            return true;
-        }
-        log.warn("Il tuo account non ha i permessi necessari per eliminare gli account");
-        return false;
-    }
-
-    @Override
     public boolean modificaUtente(int id, UtenteDTO dto) {
         try {
             Sessione sessione = Sessione.getInstance();
@@ -132,29 +109,69 @@ public class AccountService implements IAccountService {
     //-------------------------------------- ELIMININA --------------------------------------
 
     @Override
+    public boolean eliminaUtente(int id) {
+        Sessione sessione = Sessione.getInstance();
+        if (sessione.getAccount() instanceof GestoreDellaPiattaforma) {
+            db.cancellaGestoreDellaPiattaforma(id);
+            log.info("Account gestoreDellaPiattaforma eliminato");
+            return true;
+        }
+
+        log.warn("Non disponi dei permessi necessari");
+        return false;
+    }
+
+    @Override
     public boolean eliminaAzienda(int id) {
         Sessione sessione = Sessione.getInstance();
         if (sessione.getAccount() instanceof GestoreDellaPiattaforma) {
-            log.info("Account aziendale eliminato");
-            db.cancellaAzienda(id);
+            db.cancellaGestoreDellaPiattaforma(id);
+            log.info("Account gestoreDellaPiattaforma eliminato");
+            return true;
         }
-        log.warn("Non hai i permessi necessari per eliminare un account aziendale");
+
+        log.warn("Non disponi dei permessi necessari");
         return false;
     }
 
     @Override
     public boolean eliminaCuratore(int id) {
-        // TODO continua
-        log.warn("eliminaCuratore non implementato");
+        Sessione sessione = Sessione.getInstance();
+        if (sessione.getAccount() instanceof GestoreDellaPiattaforma) {
+            db.cancellaGestoreDellaPiattaforma(id);
+            log.info("Account gestoreDellaPiattaforma eliminato");
+            return true;
+        }
+
+        log.warn("Non disponi dei permessi necessari");
         return false;
     }
 
     @Override
     public boolean eliminaGestoreDellaPiattaforma(int id) {
+        Sessione sessione = Sessione.getInstance();
+        if (sessione.getAccount() instanceof GestoreDellaPiattaforma) {
+            db.cancellaGestoreDellaPiattaforma(id);
+            log.info("Account gestoreDellaPiattaforma eliminato");
+            return true;
+        }
+
+        log.warn("Non disponi dei permessi necessari");
         return false;
     }
 
     //-------------------------------------- ALTRO --------------------------------------
+
+    @Override
+    public boolean loginAccount(String email, String password) {
+        Sessione sessione = Sessione.getInstance();
+        Account utente = this.db.getUtente(email);
+        if (utente.getPassword().equals(password)) {
+            sessione.login(utente);
+            log.info("Loggato come {}", utente.getEmail());
+        }
+        return false;
+    }
 
     @Override
     public boolean loginAzienda(String email, String password) {
