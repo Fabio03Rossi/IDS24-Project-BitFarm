@@ -102,6 +102,24 @@ public class AccountController {
         return new ResponseEntity<>("Login avvenuto con successo.", HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/" + PATH + "/loginCuratore", method = RequestMethod.POST)
+    public ResponseEntity<Object> loginCuratore(@Valid @Email String email, @Valid String password) {
+        this.accountService.loginCuratore(email, password);
+        return new ResponseEntity<>("Login avvenuto con successo.", HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/" + PATH + "/loginGestore", method = RequestMethod.POST)
+    public ResponseEntity<Object> loginGestore(@Valid @Email String email, @Valid String password) {
+        this.accountService.loginGestore(email, password);
+        return new ResponseEntity<>("Login avvenuto con successo.", HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/" + PATH + "/logout", method = RequestMethod.DELETE)
+    public ResponseEntity<Object> logout() {
+        this.accountService.logout();
+        return new ResponseEntity<>("Logout effettuato correttamente.", HttpStatus.OK);
+    }
+
     //--------------------------- GET ---------------------------
 
     @RequestMapping(value = "/" + PATH + "/getUtente/{id}", method = RequestMethod.GET)
@@ -111,7 +129,7 @@ public class AccountController {
     }
 
     @RequestMapping(value = "/" + PATH + "/getAzienda/{id}", method = RequestMethod.GET)
-    public ResponseEntity<Object> getAzienda(@PathVariable("id") int id) {
+    public ResponseEntity<Object> gerAzienda(@PathVariable("id") int id) {
         var dto = this.accountService.getAzienda(id);
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
@@ -131,26 +149,25 @@ public class AccountController {
     //--------------------------- GET_ALL ---------------------------
 
     @RequestMapping(value = "/" + PATH + "/getAllUtenti", method = RequestMethod.GET)
-    public ResponseEntity<List<UtenteDTO>> getAllUtenti() {
+    public ResponseEntity<Object> getAllUtenti() {
         var dtoList = this.accountService.getAllUtenti();
         return new ResponseEntity<>(dtoList, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/" + PATH + "/getAllAziende", method = RequestMethod.GET)
-    public ResponseEntity<List<AziendaDTO>> getAllAziende() {
+    public ResponseEntity<Object> getAllAziende() {
         var dtoList = this.accountService.getAllAziende();
         return new ResponseEntity<>(dtoList, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/" + PATH + "/getAllCuratori", method = RequestMethod.GET)
-    public ResponseEntity<List<UtenteDTO>> getAllCuratori() {
+    public ResponseEntity<Object> getAllCuratori() {
         var dtoList = this.accountService.getAllCuratori();
         return new ResponseEntity<>(dtoList, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/" + PATH + "/getAllUtenti", method = RequestMethod.GET)
-    public ResponseEntity<List<UtenteDTO>> getAllGestori() {
+    @RequestMapping(value = "/" + PATH + "/getAllGestori", method = RequestMethod.GET)
+    public ResponseEntity<Object> getAllGestori() {
         var dtoList = this.accountService.getAllGestori();
         return new ResponseEntity<>(dtoList, HttpStatus.OK);
-    }
-}
+    }}

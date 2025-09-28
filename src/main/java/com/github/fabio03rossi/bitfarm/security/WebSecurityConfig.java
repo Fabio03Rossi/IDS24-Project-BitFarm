@@ -23,10 +23,6 @@ import java.util.Collections;
 @EnableWebSecurity
 public class WebSecurityConfig {
 
-    // TODO: Riorganizzare correttamente richieste e permessi
-
-    // TODO: Definire la parte di autorizzazione
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -34,9 +30,12 @@ public class WebSecurityConfig {
                         // Accettazione
                         .requestMatchers("/moderazione/**").hasAnyAuthority("CURATORE", "GESTORE")
                         // Account
-                        .requestMatchers("/account/creaUtente").permitAll()
-                        .requestMatchers("/account/creaAzienda").permitAll()
+                        .requestMatchers("/account/creaUtente").not().authenticated()
+                        .requestMatchers("/account/creaAzienda").not().authenticated()
+                        .requestMatchers("/account/loginUtente").not().authenticated()
+                        .requestMatchers("/account/loginAzienda").not().authenticated()
                         .requestMatchers("/account/creaCuratore").hasAnyAuthority("GESTORE")
+                        .requestMatchers("/account/loginCuratore").not().authenticated()
                         .requestMatchers("/account/modificaUtente/**").hasAnyAuthority("UTENTE", "GESTORE")
                         .requestMatchers("/account/modificaAzienda/**").hasAnyAuthority("AZIENDA", "GESTORE")
                         .requestMatchers("/account/modificaCuratore/**").hasAnyAuthority("CURATORE", "GESTORE")
@@ -46,12 +45,14 @@ public class WebSecurityConfig {
                         // Acquisto
                         .requestMatchers("/acquisti/**").hasAnyAuthority("UTENTE", "AZIENDA", "CURATORE")
                         // Contenuti
-                        .requestMatchers("/contenuti/**").hasAnyAuthority("AZIENDA")
-                        .requestMatchers("/contenuti/get**").hasAnyAuthority("UTENTE", "AZIENDA", "CURATORE", "GESTORE")
+                        .requestMatchers("/contenuti/crea**").hasAnyAuthority("AZIENDA")
+                        .requestMatchers("/contenuti/modifica**").hasAnyAuthority("AZIENDA", "GESTORE")
+                        .requestMatchers("/contenuti/elimina**/**").hasAnyAuthority("AZIENDA", "GESTORE")
+                        .requestMatchers("/contenuti/get**").permitAll()
                         // Mappa
                         .requestMatchers("/mappa/**").permitAll()
                         // Verifica
-                        .requestMatchers("/verifiche/**").hasAnyAuthority("GESTORE")
+                        .requestMatchers("/verifiche/**").hasAuthority("GESTORE")
                         // Ordini
                         .requestMatchers("/ordini/**").hasAnyAuthority("UTENTE", "AZIENDA", "CURATORE", "GESTORE")
 

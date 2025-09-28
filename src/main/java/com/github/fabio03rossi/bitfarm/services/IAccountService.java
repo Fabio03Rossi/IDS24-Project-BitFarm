@@ -1,9 +1,5 @@
 package com.github.fabio03rossi.bitfarm.services;
 
-import com.github.fabio03rossi.bitfarm.account.Azienda;
-import com.github.fabio03rossi.bitfarm.account.Curatore;
-import com.github.fabio03rossi.bitfarm.account.GestoreDellaPiattaforma;
-import com.github.fabio03rossi.bitfarm.account.Utente;
 import com.github.fabio03rossi.bitfarm.dto.AziendaDTO;
 import com.github.fabio03rossi.bitfarm.dto.UtenteDTO;
 
@@ -54,4 +50,9 @@ public interface IAccountService {
 
     boolean loginAzienda(String nome, String password);
 
+    boolean loginCuratore(String email, String password);
+
+    boolean loginGestore(String email, String password);
+
+    void logout();
 }

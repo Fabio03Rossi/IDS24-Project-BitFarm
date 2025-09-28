@@ -143,7 +143,8 @@ public class DBManager
                 "nome TEXT NOT NULL," +
                 "data_creazione DATETIME NOT NULL," +
                 "email TEXT NOT NULL UNIQUE," +
-                "password TEXT NOT NULL)";
+                "password TEXT NOT NULL," +
+                "indirizzo TEXT NOT NULL)";
 
         String gestorePiattaformaQuery = "CRATE TABLE IF NOT EXISTS gestore_piattaforma(" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -367,7 +368,7 @@ public class DBManager
     }
 
     private List<IArticolo> getListaArticoli(String sql) {
-        List<IArticolo> listaArticoli = null;
+        List<IArticolo> listaArticoli = new ArrayList<>();
 
         try (ResultSet rs = conn.createStatement().executeQuery(sql)) {
             // Per ogni articolo associato cerco i valori dell'articolo nella tabella articoli
@@ -389,7 +390,7 @@ public class DBManager
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, id);
             try (ResultSet rs = pstmt.executeQuery()) {
-                if(rs.wasNull()) throw new DatiNonTrovatiException("Non è stato trovato alcun risultato.");
+                //if(rs.wasNull()) throw new DatiNonTrovatiException("Non è stato trovato alcun risultato.");
                 if (rs.next()) {
                     // Leggi il tipo dall'attributo "tipo_articolo"
                     String tipoArticolo = rs.getString("tipologia");
@@ -403,13 +404,13 @@ public class DBManager
                     } else if (Objects.equals(tipoArticolo, "pacchetto")) {
                         articolo = new Pacchetto(nome, descrizione, prezzo, certificazioni);
                     }
+                    articolo.setId(id);
                 }
             }
         } catch (SQLException ex) {
             log.error("DbManager: Errore durante l'accesso al database: " + ex.getMessage());
             throw new DatiNonTrovatiException("Errore di lettura dei dati.");
         }
-        articolo.setId(id);
         return articolo;
     }
 
@@ -606,7 +607,7 @@ public class DBManager
                     listaEventi.add(evento);
                 }
             } catch (SQLException e) {
-                throw new RuntimeException(e);
+                throw new DatiNonTrovatiException("Errore nell'ottenimento degli eventi.");
             }
 
         return listaEventi;
@@ -925,12 +926,12 @@ public class DBManager
     }
 
     public List<Azienda> getAllRichiesteAziende() {
-        String sql = "SELECT * FROM aziende WHERE accettata IS true";
+        String sql = "SELECT * FROM aziende WHERE accettata IS false";
         return this.getListaAziende(sql);
     }
 
     public List<Azienda> getAllAziendeAccettate() {
-        String sql = "SELECT * FROM aziende WHERE accettata IS false";
+        String sql = "SELECT * FROM aziende WHERE accettata IS true";
         return this.getListaAziende(sql);
     }
 
@@ -957,7 +958,7 @@ public class DBManager
                 listaAziende.add(azienda);
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatiNonTrovatiException("Errore di lettura dei dati.");
         }
 
         return listaAziende;
@@ -1100,7 +1101,6 @@ public class DBManager
         // Esegue la query e ottiene il set di risultati
         try (ResultSet rs = conn.createStatement().executeQuery(sql)) {
             if (rs.next()) {
-
                 String nome = rs.getString("nome");
                 String email = rs.getString("email");
                 String password = rs.getString("password");
@@ -1108,7 +1108,7 @@ public class DBManager
                 int id = rs.getInt("id");
 
                 Curatore curatore = new Curatore(email, password, nome, indirizzo);
-                curatore.setId(rs.getInt("id"));
+                curatore.setId(id);
                 listaCuratori.add(curatore);
             }
         } catch (SQLException e) {

@@ -8,6 +8,8 @@ public class Curatore extends Account{
 
     public Curatore(String email, String password, String nome, String indirizzo) {
         super(email, password);
+        this.nome = nome;
+        this.indirizzo = indirizzo;
     }
 
     public String getNome() {

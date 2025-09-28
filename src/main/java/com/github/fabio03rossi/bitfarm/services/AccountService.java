@@ -189,14 +189,14 @@ public class AccountService implements IAccountService {
     public void modificaGestoreDellaPiattaforma(int id, UtenteDTO dto) {
     }
 
-    //-------------------------------------- ELIMININA --------------------------------------
+    //-------------------------------------- ELIMINA --------------------------------------
 
     @Override
     public void eliminaUtente(int id) {
         Sessione sessione = Sessione.getInstance();
-        if (sessione.getAccount() instanceof GestoreDellaPiattaforma) {
-            db.cancellaGestoreDellaPiattaforma(id);
-            log.info("Account gestoreDellaPiattaforma eliminato");
+        if (sessione.getAccount() instanceof Utente) {
+            this.db.cancellaUtente(id);
+            log.info("Account utente eliminato");
         } else {
             log.warn("Non disponi dei permessi necessari");
             throw new AccessoNegatoException();
@@ -206,9 +206,9 @@ public class AccountService implements IAccountService {
     @Override
     public void eliminaAzienda(int id) {
         Sessione sessione = Sessione.getInstance();
-        if (sessione.getAccount() instanceof GestoreDellaPiattaforma) {
-            db.cancellaGestoreDellaPiattaforma(id);
-            log.info("Account gestoreDellaPiattaforma eliminato");
+        if (sessione.getAccount() instanceof Azienda) {
+            this.db.cancellaAzienda(id);
+            log.info("Account azienda eliminato");
         } else {
             log.warn("Non disponi dei permessi necessari");
             throw new AccessoNegatoException();
@@ -218,9 +218,9 @@ public class AccountService implements IAccountService {
     @Override
     public void eliminaCuratore(int id) {
         Sessione sessione = Sessione.getInstance();
-        if (sessione.getAccount() instanceof GestoreDellaPiattaforma) {
-            db.cancellaGestoreDellaPiattaforma(id);
-            log.info("Account gestoreDellaPiattaforma eliminato");
+        if (sessione.getAccount() instanceof Curatore) {
+            this.db.cancellaCuratore(id);
+            log.info("Account curatore eliminato");
         } else {
             log.warn("Non disponi dei permessi necessari");
             throw new AccessoNegatoException();
@@ -231,7 +231,7 @@ public class AccountService implements IAccountService {
     public void eliminaGestoreDellaPiattaforma(int id) {
         Sessione sessione = Sessione.getInstance();
         if (sessione.getAccount() instanceof GestoreDellaPiattaforma) {
-            db.cancellaGestoreDellaPiattaforma(id);
+            this.db.cancellaGestoreDellaPiattaforma(id);
             log.info("Account gestoreDellaPiattaforma eliminato");
         } else {
             log.warn("Non disponi dei permessi necessari");
@@ -255,9 +255,40 @@ public class AccountService implements IAccountService {
     @Override
     public boolean loginAzienda(String email, String password) {
         Sessione sessione = Sessione.getInstance();
-        Account account = db.getAzienda(email);
-        sessione.login(account);
+        Account account = this.db.getAzienda(email);
+        if (account.getPassword().equals(password)) {
+            sessione.login(account);
+            log.info("Loggato come {}", account.getEmail());
+        }
         return true;
+    }
+
+    @Override
+    public boolean loginCuratore(String email, String password) {
+        Sessione sessione = Sessione.getInstance();
+        Account account = this.db.getCuratore(email);
+        if (account.getPassword().equals(password)) {
+            sessione.login(account);
+            log.info("Loggato come {}", account.getEmail());
+        }
+        return true;
+    }
+
+    @Override
+    public boolean loginGestore(String email, String password) {
+        Sessione sessione = Sessione.getInstance();
+        Account account = this.db.getGestoreDellaPiattaforma(email);
+        if (account.getPassword().equals(password)) {
+            sessione.login(account);
+            log.info("Loggato come {}", account.getEmail());
+        }
+        return true;
+    }
+
+    @Override
+    public void logout() {
+        Sessione sessione = Sessione.getInstance();
+        sessione.logout();
     }
 }
 
