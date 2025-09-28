@@ -262,7 +262,6 @@ public class DBManager
         if(articolo instanceof Pacchetto pacchetto) {
             pacchetto.setListaProdotti(listaProdotti);
         }
-
         return articolo;
     }
 
@@ -639,6 +638,9 @@ public class DBManager
             log.error("DbManager: Errore durante l'accesso al database: {}", ex.getMessage(), ex);
             throw new DatiNonTrovatiException("Errore di lettura dei dati.");
         }
+        if (utente == null) {
+            throw new DatiNonTrovatiException("Nessun utente registrato con questa email: " + email);
+        }
         return utente;
     }
     
@@ -666,6 +668,9 @@ public class DBManager
         } catch (SQLException ex) {
             log.error("DbManager: Errore durante l'accesso al database: " + ex.getMessage(), ex);
             throw new DatiNonTrovatiException("Errore di lettura dei dati.");
+        }
+        if (utente == null) {
+            throw new DatiNonTrovatiException("Nessun utente registrato con questo id: " + id);
         }
         return utente;
     }
@@ -786,6 +791,9 @@ public class DBManager
             log.error("DbManager: Errore durante l'accesso al database: " + ex.getMessage(), ex);
             throw new DatiNonTrovatiException("Errore di lettura dei dati.");
         }
+        if (azienda == null) {
+            throw new DatiNonTrovatiException("Nessun account aziendale registrato con questo id: " + id);
+        }
         return azienda;
     }
 
@@ -818,6 +826,9 @@ public class DBManager
             }
         } catch (SQLException ex) {
             log.error("DbManager: Errore durante l'accesso al database: {}", ex.getMessage(), ex);
+        }
+        if (azienda == null) {
+            throw new DatiNonTrovatiException("Nessun account aziendale registrato con questa email: " + email);
         }
         return azienda;
     }
@@ -970,6 +981,9 @@ public class DBManager
             log.error("DbManager: Errore durante il recupero del curatore: {}", ex.getMessage(), ex);
             throw new DatiNonTrovatiException("Errore di lettura dei dati.");
         }
+        if (curatore == null) {
+            throw new DatiNonTrovatiException("Nessun curatore registrato con questa email: " + email);
+        }
         return curatore;
     }
 
@@ -997,6 +1011,9 @@ public class DBManager
         } catch (SQLException ex) {
             log.error("DbManager: Errore durante il recupero del curatore: {}", ex.getMessage(), ex);
             throw new DatiNonTrovatiException("Errore di lettura dei dati.");
+        }
+        if (curatore == null) {
+            throw new DatiNonTrovatiException("Nessun curatore registrato con questo id: " + id);
         }
         return curatore;
     }
@@ -1119,6 +1136,9 @@ public class DBManager
             log.error("DbManager: Errore durante il recupero del gestore della piattaforma: {}", ex.getMessage(), ex);
             throw new DatiNonTrovatiException("Errore di lettura dei dati.");
         }
+        if (gestore == null) {
+            throw new DatiNonTrovatiException("Nessun gestore registrato con questa email: " + email);
+        }
         return gestore;
     }
 
@@ -1146,6 +1166,9 @@ public class DBManager
         } catch (SQLException ex) {
             log.error("DbManager: Errore durante il recupero del gestore della piattaforma: {}", ex.getMessage(), ex);
             throw new DatiNonTrovatiException("Errore di lettura dei dati.");
+        }
+        if (gestore == null) {
+            throw new DatiNonTrovatiException("Nessun gestore registrato con questo id: " + id);
         }
         return gestore;
     }
@@ -1283,6 +1306,9 @@ public class DBManager
         } catch (SQLException ex) {
             log.error("DBManager: Errore durante il recupero dell'ordine e dei suoi articoli: " + ex.getMessage(), ex);
             throw new DatiNonTrovatiException("Errore di lettura dei dati.");
+        }
+        if (ordine == null) {
+            throw new DatiNonTrovatiException("Nessun ordine trovato con questo id: " + id);
         }
         return ordine;
     }
