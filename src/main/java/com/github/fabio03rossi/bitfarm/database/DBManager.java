@@ -838,7 +838,7 @@ public class DBManager
     }
 
     public void addAzienda(Azienda azienda) {
-        String sql = "INSERT INTO aziende (partita_iva, nome, descrizione, indirizzo, telefono, tipologia, certificazioni, password) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO aziende (partita_iva, nome, descrizione, indirizzo, telefono, tipologia, certificazioni, password, email) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (PreparedStatement pstmt = this.conn.prepareStatement(sql)) {
             // Imposta i valori per i segnaposto (?) in base ai dati dell'oggetto Azienda
@@ -851,6 +851,7 @@ public class DBManager
             pstmt.setString(6, azienda.getTipologia());
             pstmt.setString(7, azienda.getCertificazioni());
             pstmt.setString(8, azienda.getPassword());
+            pstmt.setString(9, azienda.getEmail());
 
             // Esegue la query di inserimento
             pstmt.executeUpdate();
