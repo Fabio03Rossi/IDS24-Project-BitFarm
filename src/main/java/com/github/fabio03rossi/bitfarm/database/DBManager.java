@@ -6,6 +6,8 @@ import com.github.fabio03rossi.bitfarm.account.GestoreDellaPiattaforma;
 import com.github.fabio03rossi.bitfarm.account.Utente;
 import com.github.fabio03rossi.bitfarm.acquisto.Ordine;
 import com.github.fabio03rossi.bitfarm.contenuto.Evento;
+import com.github.fabio03rossi.bitfarm.contenuto.StatoPubblico;
+import com.github.fabio03rossi.bitfarm.contenuto.StatoValidazione;
 import com.github.fabio03rossi.bitfarm.contenuto.articolo.IArticolo;
 import com.github.fabio03rossi.bitfarm.contenuto.articolo.Pacchetto;
 import com.github.fabio03rossi.bitfarm.contenuto.articolo.Prodotto;
@@ -344,8 +346,9 @@ public class DBManager
     public void cancellaArticolo(int id) {
         String sql = "DELETE FROM articoli WHERE id = ?";
         try (PreparedStatement pstmt = this.conn.prepareStatement(sql)) {
-            pstmt.setInt(1, id); // Assumendo che Ordine abbia un getId()
+            pstmt.setInt(1, id);
             log.info("DBManager: Evento cancellato");
+            pstmt.executeUpdate();
         } catch (SQLException e) {
             log.error("DBManager: Errore durante la cancellazione dell'evento: " + e.getMessage());
             throw new DatiNonTrovatiException("Errore di lettura dei dati.");
@@ -390,7 +393,6 @@ public class DBManager
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, id);
             try (ResultSet rs = pstmt.executeQuery()) {
-                //if(rs.wasNull()) throw new DatiNonTrovatiException("Non è stato trovato alcun risultato.");
                 if (rs.next()) {
                     // Leggi il tipo dall'attributo "tipo_articolo"
                     String tipoArticolo = rs.getString("tipologia");
@@ -398,6 +400,7 @@ public class DBManager
                     String descrizione = rs.getString("descrizione");
                     double prezzo = rs.getDouble("prezzo");
                     String certificazioni = rs.getString("certificazioni");
+                    boolean pubblicato = rs.getBoolean("pubblicato");
 
                     if(Objects.equals(tipoArticolo, "prodotto")) {
                         articolo = new Prodotto(nome, descrizione, prezzo, certificazioni);
@@ -405,6 +408,12 @@ public class DBManager
                         articolo = new Pacchetto(nome, descrizione, prezzo, certificazioni);
                     }
                     articolo.setId(id);
+                    if(pubblicato) {
+                        articolo.setStato(new StatoPubblico());
+                    } else {
+                        articolo.setStato(new StatoValidazione());
+                    }
+
                 }
             }
         } catch (SQLException ex) {
@@ -611,7 +620,7 @@ public class DBManager
                     listaEventi.add(evento);
                 }
             } catch (SQLException e) {
-                throw new DatiNonTrovatiException("Errore nell'ottenimento degli eventi.");
+                throw new DatiNonTrovatiException("Errore nell'ottenimento degli eventi." + e.getMessage());
             }
 
         return listaEventi;

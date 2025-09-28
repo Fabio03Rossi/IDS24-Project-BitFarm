@@ -100,4 +100,16 @@ public class ContenutiController {
         var evento = this.eventoService.getAllEventi();
         return new ResponseEntity<>(evento, HttpStatus.OK);
     }
+
+    @RequestMapping(value = "/" + PATH + "/getArticoliAccettati", method = RequestMethod.GET)
+    public ResponseEntity<Object> getArticoliAccettati() {
+        var articolo = this.articoloService.getArticoliAccettati();
+        return new ResponseEntity<>(articolo, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/" + PATH + "/getEventiAccettati", method = RequestMethod.GET)
+    public ResponseEntity<Object> getEventiAccettati() {
+        var evento = this.eventoService.getEventiAccettati();
+        return new ResponseEntity<>(evento, HttpStatus.OK);
+    }
 }

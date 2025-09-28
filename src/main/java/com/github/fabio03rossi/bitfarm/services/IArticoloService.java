@@ -23,4 +23,6 @@ public interface IArticoloService {
     IArticolo getArticolo(int id);
 
     List<IArticolo> getAllArticoli();
+
+    List<IArticolo> getArticoliAccettati();
 }

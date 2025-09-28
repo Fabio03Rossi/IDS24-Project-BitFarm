@@ -8,7 +8,6 @@ import com.github.fabio03rossi.bitfarm.database.DBManager;
 import com.github.fabio03rossi.bitfarm.dto.PacchettoDTO;
 import com.github.fabio03rossi.bitfarm.dto.ProdottoDTO;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -80,5 +79,10 @@ public class ArticoloService implements IArticoloService {
     public List<IArticolo> getAllArticoli() {
         List<IArticolo> lista = db.getAllArticoli();
         return lista;
+    }
+
+    @Override
+    public List<IArticolo> getArticoliAccettati() {
+        return this.db.getAllArticoliAccettati();
     }
 }

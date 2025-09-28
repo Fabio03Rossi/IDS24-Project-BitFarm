@@ -16,4 +16,6 @@ public interface IEventoService {
     Evento getEvento(int id);
 
     List<Evento> getAllEventi();
+
+    List<Evento> getEventiAccettati();
 }

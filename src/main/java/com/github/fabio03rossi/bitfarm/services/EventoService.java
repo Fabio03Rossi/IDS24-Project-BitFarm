@@ -5,7 +5,6 @@ import com.github.fabio03rossi.bitfarm.contenuto.StatoValidazione;
 import com.github.fabio03rossi.bitfarm.database.DBManager;
 import com.github.fabio03rossi.bitfarm.dto.EventoDTO;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -43,5 +42,10 @@ public class EventoService implements IEventoService {
     @Override
     public List<Evento> getAllEventi() {
         return this.db.getAllEventi();
+    }
+
+    @Override
+    public List<Evento> getEventiAccettati() {
+        return this.db.getAllEventiAccettati();
     }
 }
