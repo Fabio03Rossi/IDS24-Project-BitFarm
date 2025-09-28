@@ -55,6 +55,7 @@ public class ArticoloService implements IArticoloService {
     public void modificaArticolo(PacchettoDTO dto, int id) {
         try {
             IArticolo articolo = new Pacchetto(dto.nome(), dto.descrizione(), dto.prezzo(), dto.certificazioni());
+            articolo.setId(id);
             this.db.updateArticolo(articolo);
         } catch (Exception ex) {
             log.warn("C'è stato un problema nell'aggiornamento del pacchetto.");
@@ -69,11 +70,15 @@ public class ArticoloService implements IArticoloService {
 
     @Override
     public IArticolo getArticolo(int id) {
-        return this.db.getArticolo(id);
+        IArticolo articolo = this.db.getArticolo(id);
+        articolo.setId(id);
+        return articolo;
+
     }
 
     @Override
     public List<IArticolo> getAllArticoli() {
-        return this.db.getAllArticoli();
+        List<IArticolo> lista = db.getAllArticoli();
+        return lista;
     }
 }

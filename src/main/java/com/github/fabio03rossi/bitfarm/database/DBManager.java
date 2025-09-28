@@ -409,6 +409,7 @@ public class DBManager
             log.error("DbManager: Errore durante l'accesso al database: " + ex.getMessage());
             throw new DatiNonTrovatiException("Errore di lettura dei dati.");
         }
+        articolo.setId(id);
         return articolo;
     }
 
