@@ -4,7 +4,6 @@ import com.github.fabio03rossi.bitfarm.account.Azienda;
 import com.github.fabio03rossi.bitfarm.account.Curatore;
 import com.github.fabio03rossi.bitfarm.account.GestoreDellaPiattaforma;
 import com.github.fabio03rossi.bitfarm.account.Utente;
-import com.github.fabio03rossi.bitfarm.acquisto.Carrello;
 import com.github.fabio03rossi.bitfarm.acquisto.Ordine;
 import com.github.fabio03rossi.bitfarm.contenuto.Evento;
 import com.github.fabio03rossi.bitfarm.contenuto.articolo.IArticolo;
@@ -136,7 +135,8 @@ public class DBManager
                 "partita_iva TEXT NOT NULL," +
                 "certificazioni TEXT," +
                 "email TEXT," +
-                "password TEXT NOT NULL)";
+                "password TEXT NOT NULL," +
+                "accettata BOOLEAN DEFAULT false)";
 
         String curatoriTableQuery = "CREATE TABLE IF NOT EXISTS curatori(" +
         "id INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -353,8 +353,22 @@ public class DBManager
     }
 
     public List<IArticolo> getAllArticoli() {
-        List<IArticolo> listaArticoli = null;
         String sql = "SELECT id FROM articoli";
+        return this.getListaArticoli(sql);
+    }
+
+    public List<IArticolo> getAllRichiesteArticoli(){
+        String sql = "SELECT id FROM articoli WHERE pubblicato IS false";
+        return this.getListaArticoli(sql);
+    }
+
+    public List<IArticolo> getAllArticoliAccettati(){
+        String sql = "SELECT id FROM articoli WHERE pubblicato IS true";
+        return this.getListaArticoli(sql);
+    }
+
+    private List<IArticolo> getListaArticoli(String sql) {
+        List<IArticolo> listaArticoli = null;
 
         try (ResultSet rs = conn.createStatement().executeQuery(sql)) {
             // Per ogni articolo associato cerco i valori dell'articolo nella tabella articoli
@@ -562,6 +576,20 @@ public class DBManager
 
     public List<Evento> getAllEventi() {
         String sql = "SELECT * FROM eventi";
+        return this.getListaEventi(sql);
+    }
+
+    public List<Evento> getAllRichiesteEventi() {
+        String sql = "SELECT * FROM eventi WHERE pubblicato IS false";
+        return this.getListaEventi(sql);
+    }
+
+    public List<Evento> getAllEventiAccettati() {
+        String sql = "SELECT * FROM eventi WHERE pubblicato IS true";
+        return this.getListaEventi(sql);
+    }
+
+    private List<Evento> getListaEventi(String sql) {
         List<Evento> listaEventi = new ArrayList<>();
             // Esegue la query e ottiene il set di risultati
             try (ResultSet rs = conn.createStatement().executeQuery(sql)) {
@@ -700,7 +728,7 @@ public class DBManager
         }
     }
 
-    public List<Utente> getListaUtenti() {
+    private List<Utente> getListaUtenti() {
         String sql = "SELECT * FROM utenti";
         List<Utente> listaUtenti = new ArrayList<>();
         // Esegue la query e ottiene il set di risultati
@@ -854,8 +882,40 @@ public class DBManager
         }
     }
 
-    public List<Azienda> getAllAziende() {
+    public void rifiutaAzienda(int id) {
+        this.cancellaAzienda(id);
+    }
+
+    public void accettaAzienda(int id) throws SQLException {
+        String sql = "UPDATE aziende SET accettata = ? WHERE id = ?";
+        try (PreparedStatement pstmt = this.conn.prepareStatement(sql)) {
+            pstmt.setBoolean(1, true);
+            pstmt.setInt(2, id);
+            int rowsAffected = pstmt.executeUpdate();
+            if (rowsAffected > 0) {
+                log.info("DBManager: Azienda " + id + " aggiunta con successo!");
+            } else {
+                log.warn("DBManager: Nessuna azienda trovata con ID " + id);
+            }
+        }
+    }
+
+    public List<Azienda> getAllAziende(Azienda azienda) {
         String sql = "SELECT * FROM aziende";
+        return this.getListaAziende(sql);
+    }
+
+    public List<Azienda> getAllRichiesteAziende(Azienda azienda) {
+        String sql = "SELECT * FROM aziende WHERE accettata IS true";
+        return this.getListaAziende(sql);
+    }
+
+    public List<Azienda> getAllAziendeAccettate(Azienda azienda) {
+        String sql = "SELECT * FROM aziende WHERE accettata IS false";
+        return this.getListaAziende(sql);
+    }
+
+    private List<Azienda> getListaAziende(String sql) {
         List<Azienda> listaAziende = new ArrayList<>();
         // Esegue la query e ottiene il set di risultati
         try (ResultSet rs = conn.createStatement().executeQuery(sql)) {

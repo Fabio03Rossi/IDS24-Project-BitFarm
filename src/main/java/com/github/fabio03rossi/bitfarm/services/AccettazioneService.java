@@ -21,7 +21,7 @@ public class AccettazioneService implements IAccettazioneService {
     @Override
     public List<IContenuto> getAllRichieste()
     {
-        List<? extends IContenuto> articoli = this.db.getAllArticoli();
+        List<? extends IContenuto> articoli = this.db.getListaArticoli();
         List<? extends IContenuto> eventi = this.db.getAllEventi();
 
         return Stream.concat(articoli.stream(), eventi.stream()).toList();
