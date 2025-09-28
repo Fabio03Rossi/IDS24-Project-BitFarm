@@ -560,7 +560,7 @@ public class DBManager
         }
     }
 
-    public List<Evento> getListaEventi() {
+    public List<Evento> getAllEventi() {
         String sql = "SELECT * FROM eventi";
         List<Evento> listaEventi = new ArrayList<>();
             // Esegue la query e ottiene il set di risultati
@@ -854,7 +854,7 @@ public class DBManager
         }
     }
 
-    public List<Azienda> getListaAziende() {
+    public List<Azienda> getAllAziende() {
         String sql = "SELECT * FROM aziende";
         List<Azienda> listaAziende = new ArrayList<>();
         // Esegue la query e ottiene il set di risultati
@@ -1009,7 +1009,7 @@ public class DBManager
         }
     }
 
-    public List<Curatore> getListaCuratori() {
+    public List<Curatore> getAllCuratori() {
         String sql = "SELECT * FROM curatori";
         List<Curatore> listaCuratori = new ArrayList<>();
         // Esegue la query e ottiene il set di risultati
@@ -1158,7 +1158,7 @@ public class DBManager
         }
     }
 
-    public List<GestoreDellaPiattaforma> getListaGestori() {
+    public List<GestoreDellaPiattaforma> getAllGestori() {
         String sql = "SELECT * FROM gestore_piattaforma";
         List<GestoreDellaPiattaforma> listaGestori = new ArrayList<>();
         // Esegue la query e ottiene il set di risultati
@@ -1374,7 +1374,7 @@ public class DBManager
         }
     }
 
-    public List<Ordine> getListaOrdini() {
+    public List<Ordine> getAllOrdini() {
         String sql = "SELECT id FROM ordini";
         List<Ordine> listaOrdini = new ArrayList<>();
         // Esegue la query e ottiene il set di risultati

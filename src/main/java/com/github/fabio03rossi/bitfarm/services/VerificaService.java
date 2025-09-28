@@ -18,8 +18,7 @@ public class VerificaService implements IVerificaService {
 
     @Override
     public List<? extends Azienda> getAllRichieste() {
-        List<? extends Azienda> aziende = List.of();
-        return aziende;
+        return this.db.getAllAziende();
     }
 
 

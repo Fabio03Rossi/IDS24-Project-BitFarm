@@ -4,7 +4,7 @@ import com.github.fabio03rossi.bitfarm.enums.EStatoContenuto;
 
 import java.util.Date;
 
-public abstract class Contenuto {
+public abstract class Contenuto implements IContenuto {
     private Integer id;
     private Date dataCreazione;
 

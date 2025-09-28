@@ -1,6 +1,8 @@
 package com.github.fabio03rossi.bitfarm.contenuto.articolo;
 
-public interface IArticolo {
+import com.github.fabio03rossi.bitfarm.contenuto.IContenuto;
+
+public interface IArticolo extends IContenuto {
     public String getNome();
     public void setNome(String nome);
     public double getPrezzo();

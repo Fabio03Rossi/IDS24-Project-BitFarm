@@ -1,6 +1,6 @@
 package com.github.fabio03rossi.bitfarm.services;
 
-import com.github.fabio03rossi.bitfarm.contenuto.Contenuto;
+import com.github.fabio03rossi.bitfarm.contenuto.IContenuto;
 import com.github.fabio03rossi.bitfarm.database.DBManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,14 +18,11 @@ public class AccettazioneService implements IAccettazioneService {
         db = DBManager.getInstance();
     }
 
-    //TODO: Aggiungere riferimenti al db per le liste
     @Override
-    public List<Contenuto> getAllRichieste()
+    public List<IContenuto> getAllRichieste()
     {
-        List<? extends Contenuto> articoli = List.of();
-        List<? extends Contenuto> eventi = List.of();
-
-
+        List<? extends IContenuto> articoli = this.db.getAllArticoli();
+        List<? extends IContenuto> eventi = this.db.getAllEventi();
 
         return Stream.concat(articoli.stream(), eventi.stream()).toList();
     }
