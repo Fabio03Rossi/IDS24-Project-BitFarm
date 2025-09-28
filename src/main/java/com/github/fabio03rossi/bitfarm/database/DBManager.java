@@ -411,6 +411,10 @@ public class DBManager
             log.error("DbManager: Errore durante l'accesso al database: " + ex.getMessage());
             throw new DatiNonTrovatiException("Errore di lettura dei dati.");
         }
+        if(articolo == null) {
+            throw new DatiNonTrovatiException("DBManager: Nessun articolo trovato");
+        }
+        articolo.setId(id);
         return articolo;
     }
 
