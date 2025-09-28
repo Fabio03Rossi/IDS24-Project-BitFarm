@@ -58,8 +58,8 @@ public class AcquistoController {
         return new ResponseEntity<>("Carrello svuotato correttamente.", HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/" + PATH + "/acquista", method = RequestMethod.POST)
-    public ResponseEntity<Object> acquista(@Valid @RequestBody UtenteDTO utenteDTO, @Valid @RequestBody String pagamentoService) {
+    @RequestMapping(value = "/" + PATH + "/acquista/{pagamentoService}", method = RequestMethod.POST)
+    public ResponseEntity<Object> acquista(@Valid @RequestBody UtenteDTO utenteDTO, @Valid @PathVariable("pagamentoService") String pagamentoService) {
         if(sessione.isLogged()) {
             IPagamentoService servizio = new PagamentoService();
             Account account = sessione.getAccount();

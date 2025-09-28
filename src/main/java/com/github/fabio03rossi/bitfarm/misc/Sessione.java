@@ -1,7 +1,7 @@
 package com.github.fabio03rossi.bitfarm.misc;
+
 import com.github.fabio03rossi.bitfarm.account.Account;
 import com.github.fabio03rossi.bitfarm.acquisto.Carrello;
-import com.github.fabio03rossi.bitfarm.database.DBManager;
 import com.github.fabio03rossi.bitfarm.services.IAccountService;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;

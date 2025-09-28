@@ -1,6 +1,5 @@
 package com.github.fabio03rossi.bitfarm.services;
 
-import com.github.fabio03rossi.bitfarm.acquisto.Carrello;
 import com.github.fabio03rossi.bitfarm.contenuto.Contenuto;
 
 import java.util.List;

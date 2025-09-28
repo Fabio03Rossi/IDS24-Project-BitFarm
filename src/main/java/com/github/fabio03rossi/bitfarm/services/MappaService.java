@@ -11,18 +11,9 @@ public class MappaService implements IMappaService {
     private static final org.slf4j.Logger log = LoggerFactory.getLogger(MappaService.class);
     private final DBManager db = DBManager.getInstance();
 
-    //TODO: Ottenere le posizioni di tutti i venditori
+    //TODO: Ottenere le posizioni
     @Override
-    public List<String> getAllIndirizziAziende() {
-        List<String> indirizzi = List.of();
-
-        return indirizzi;
-    }
-
-    //TODO: Ottenere le posizioni di tutti gli eventi
-
-    @Override
-    public List<String> getAllIndirizziEventi() {
+    public List<String> getAllIndirizzi() {
         List<String> indirizzi = List.of();
 
         return indirizzi;

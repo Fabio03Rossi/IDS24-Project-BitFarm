@@ -86,4 +86,9 @@ public class AccountController {
         return new ResponseEntity<>("Curatore eliminato.", HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/" + PATH + "/getAzienda/{id}", method = RequestMethod.GET)
+    public ResponseEntity<Object> getAzienda(@PathVariable("id") int id) {
+        var azienda = this.accountService.getAzienda(id);
+        return new ResponseEntity<>(azienda, HttpStatus.OK);
+    }
 }

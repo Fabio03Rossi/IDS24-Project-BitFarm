@@ -1,5 +1,6 @@
 package com.github.fabio03rossi.bitfarm.services;
 
+import com.github.fabio03rossi.bitfarm.account.Azienda;
 import com.github.fabio03rossi.bitfarm.dto.AziendaDTO;
 import com.github.fabio03rossi.bitfarm.dto.UtenteDTO;
 
@@ -31,4 +32,6 @@ public interface IAccountService {
     boolean loginAccount(String email, String password);
 
     boolean loginAzienda(String nome, String password);
+
+    Azienda getAzienda(int id);
 }

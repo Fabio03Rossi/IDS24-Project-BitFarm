@@ -6,7 +6,6 @@ import com.github.fabio03rossi.bitfarm.database.DBManager;
 import com.github.fabio03rossi.bitfarm.dto.EventoDTO;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 
 @Component
 public class EventoService implements IEventoService {

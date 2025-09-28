@@ -1,8 +1,10 @@
 package com.github.fabio03rossi.bitfarm.services;
 
-import com.github.fabio03rossi.bitfarm.account.*;
+import com.github.fabio03rossi.bitfarm.account.Account;
+import com.github.fabio03rossi.bitfarm.account.Azienda;
+import com.github.fabio03rossi.bitfarm.account.GestoreDellaPiattaforma;
+import com.github.fabio03rossi.bitfarm.account.Utente;
 import com.github.fabio03rossi.bitfarm.database.DBManager;
-
 import com.github.fabio03rossi.bitfarm.dto.AziendaDTO;
 import com.github.fabio03rossi.bitfarm.dto.UtenteDTO;
 import com.github.fabio03rossi.bitfarm.misc.Sessione;
@@ -179,6 +181,11 @@ public class AccountService implements IAccountService {
         Account account = db.getAzienda(email);
         sessione.login(account);
         return true;
+    }
+
+    @Override
+    public Azienda getAzienda(int id) {
+        return this.db.getAzienda(id);
     }
 }
 

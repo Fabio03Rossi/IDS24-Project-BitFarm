@@ -1,8 +1,5 @@
 package com.github.fabio03rossi.bitfarm.account;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
-
 import java.time.Instant;
 import java.util.Date;
 

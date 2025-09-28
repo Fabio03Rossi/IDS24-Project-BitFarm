@@ -1,6 +1,5 @@
 package com.github.fabio03rossi.bitfarm.services;
 
-import com.github.fabio03rossi.bitfarm.contenuto.articolo.IArticolo;
 import com.github.fabio03rossi.bitfarm.dto.PacchettoDTO;
 import com.github.fabio03rossi.bitfarm.dto.ProdottoDTO;
 

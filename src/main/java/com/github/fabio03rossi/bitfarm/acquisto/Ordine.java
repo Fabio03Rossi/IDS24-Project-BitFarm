@@ -1,10 +1,5 @@
 package com.github.fabio03rossi.bitfarm.acquisto;
 
-import com.github.fabio03rossi.bitfarm.contenuto.articolo.IArticolo;
-import com.github.fabio03rossi.bitfarm.services.IPagamentoService;
-
-import java.util.List;
-
 public class Ordine {
     private int id;
     private String indirizzo;
