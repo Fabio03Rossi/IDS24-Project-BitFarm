@@ -30,6 +30,7 @@ import java.util.Objects;
 
 public class DBManager
 {
+    // TODO: Rimuovere singole query specifiche
     private static final Logger log = LoggerFactory.getLogger(DBManager.class);
     /**
      * La classe si occupa di gestire il database
