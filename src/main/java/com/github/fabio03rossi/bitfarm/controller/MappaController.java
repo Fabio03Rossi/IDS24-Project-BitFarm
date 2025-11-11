@@ -21,7 +21,7 @@ public class MappaController {
         this.mappaService = mappaService;
     }
 
-    @RequestMapping(value = "/" + PATH + "/svuotaCarrello", method = RequestMethod.GET)
+    @RequestMapping(value = "/" + PATH + "/getAllIndirizzi", method = RequestMethod.GET)
     public ResponseEntity<Object> getAllIndirizzi() {
         var indirizzi = this.mappaService.getAllIndirizzi();
         return new ResponseEntity<>(indirizzi, HttpStatus.OK);
