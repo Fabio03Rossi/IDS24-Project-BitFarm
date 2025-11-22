@@ -1,0 +1,3993 @@
+{
+	"info": {
+		"_postman_id": "7ef7b410-bb3d-44a0-bc36-b1372eb134e5",
+		"name": "BitFarm Definition",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "49218148",
+		"_collection_link": "https://fabiross096-8536346.postman.co/workspace/Fabio-Rossi's-Workspace~8fd4390b-859e-4bd7-8386-8a71bdc03cf2/collection/49218148-7ef7b410-bb3d-44a0-bc36-b1372eb134e5?action=share&source=collection_link&creator=49218148"
+	},
+	"item": [
+		{
+			"name": "verifiche",
+			"item": [
+				{
+					"name": "rifiuta Registrazione Azienda",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/verifiche/rifiutaRegistrazioneAzienda/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"verifiche",
+								"rifiutaRegistrazioneAzienda",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "3262",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/verifiche/rifiutaRegistrazioneAzienda/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"verifiche",
+										"rifiutaRegistrazioneAzienda",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "3262",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "{}"
+						}
+					]
+				},
+				{
+					"name": "accetta Registrazione Azienda",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/verifiche/accettaRegistrazioneAzienda/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"verifiche",
+								"accettaRegistrazioneAzienda",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/verifiche/accettaRegistrazioneAzienda/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"verifiche",
+										"accettaRegistrazioneAzienda",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "3262",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "{}"
+						}
+					]
+				},
+				{
+					"name": "get All Richieste Aziende",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "gestore",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "gestore",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/verifiche/getAllRichiesteAziende",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"verifiche",
+								"getAllRichiesteAziende"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/verifiche/getAllRichiesteAziende",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"verifiche",
+										"getAllRichiesteAziende"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "{}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "moderazione",
+			"item": [
+				{
+					"name": "rifiuta Evento",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/moderazione/rifiutaEvento/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"moderazione",
+								"rifiutaEvento",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "3262",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/moderazione/rifiutaEvento/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"moderazione",
+										"rifiutaEvento",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "3262",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "{}"
+						}
+					]
+				},
+				{
+					"name": "rifiuta Articolo",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/moderazione/rifiutaArticolo/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"moderazione",
+								"rifiutaArticolo",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "3262",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/moderazione/rifiutaArticolo/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"moderazione",
+										"rifiutaArticolo",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "3262",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "{}"
+						}
+					]
+				},
+				{
+					"name": "accetta Evento",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/moderazione/accettaEvento/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"moderazione",
+								"accettaEvento",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "3262",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/moderazione/accettaEvento/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"moderazione",
+										"accettaEvento",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "3262",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "{}"
+						}
+					]
+				},
+				{
+					"name": "accetta Articolo",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/moderazione/accettaArticolo/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"moderazione",
+								"accettaArticolo",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "3262",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/moderazione/accettaArticolo/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"moderazione",
+										"accettaArticolo",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "3262",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "{}"
+						}
+					]
+				},
+				{
+					"name": "get All Richieste Accettazioni",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/moderazione/getAllRichiesteAccettazioni",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"moderazione",
+								"getAllRichiesteAccettazioni"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/moderazione/getAllRichiesteAccettazioni",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"moderazione",
+										"getAllRichiesteAccettazioni"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "{}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "account",
+			"item": [
+				{
+					"name": "modifica Utente",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"indirizzo\": \"string\",\n  \"nickname\": \"string\",\n  \"password\": \"st\",\n  \"email\": \"q6AjR7BzLM2A@HBmyTfWtNWpqKNZEnnrPcLmO.xvi\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/account/modificaUtente/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"account",
+								"modificaUtente",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "3262",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"indirizzo\": \"string\",\n  \"nickname\": \"string\",\n  \"password\": \"st\",\n  \"email\": \"q6AjR7BzLM2A@HBmyTfWtNWpqKNZEnnrPcLmO.xvi\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/account/modificaUtente/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"account",
+										"modificaUtente",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "3262",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "{}"
+						}
+					]
+				},
+				{
+					"name": "modifica Curatore",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"indirizzo\": \"string\",\n  \"nickname\": \"string\",\n  \"password\": \"st\",\n  \"email\": \"q6AjR7BzLM2A@HBmyTfWtNWpqKNZEnnrPcLmO.xvi\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/account/modificaCuratore/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"account",
+								"modificaCuratore",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"indirizzo\": \"string\",\n  \"nickname\": \"string\",\n  \"password\": \"st\",\n  \"email\": \"q6AjR7BzLM2A@HBmyTfWtNWpqKNZEnnrPcLmO.xvi\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/account/modificaCuratore/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"account",
+										"modificaCuratore",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "3262",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "{}"
+						}
+					]
+				},
+				{
+					"name": "modifica Azienda",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"certificazioni\": \"string\",\n  \"descrizione\": \"string\",\n  \"indirizzo\": \"string\",\n  \"nome\": \"string\",\n  \"partitaIVA\": \"string\",\n  \"password\": \"string\",\n  \"telefono\": \"string\",\n  \"tipologia\": \"string\",\n  \"email\": \"X1Iy5n4P@OlWwlPBNuvlRkuiclLYAUXLWnFmwC.znhq\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/account/modificaAzienda/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"account",
+								"modificaAzienda",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "3262",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"certificazioni\": \"string\",\n  \"descrizione\": \"string\",\n  \"indirizzo\": \"string\",\n  \"nome\": \"string\",\n  \"partitaIVA\": \"string\",\n  \"password\": \"string\",\n  \"telefono\": \"string\",\n  \"tipologia\": \"string\",\n  \"email\": \"X1Iy5n4P@OlWwlPBNuvlRkuiclLYAUXLWnFmwC.znhq\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/account/modificaAzienda/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"account",
+										"modificaAzienda",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "3262",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "{}"
+						}
+					]
+				},
+				{
+					"name": "crea Gestore Della Piattaforma",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"indirizzo\": \"string\",\n  \"nickname\": \"string\",\n  \"password\": \"st\",\n  \"email\": \"q6AjR7BzLM2A@HBmyTfWtNWpqKNZEnnrPcLmO.xvi\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/account/creaGestoreDellaPiattaforma",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"account",
+								"creaGestoreDellaPiattaforma"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"indirizzo\": \"string\",\n  \"nickname\": \"string\",\n  \"password\": \"st\",\n  \"email\": \"q6AjR7BzLM2A@HBmyTfWtNWpqKNZEnnrPcLmO.xvi\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/account/creaGestoreDellaPiattaforma",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"account",
+										"creaGestoreDellaPiattaforma"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "{}"
+						}
+					]
+				},
+				{
+					"name": "login Utente",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/account/loginUtente?email=qbSZjBtc-GI@RxogTp.ukdz&password=string",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"account",
+								"loginUtente"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "qbSZjBtc-GI@RxogTp.ukdz",
+									"description": "(Required) "
+								},
+								{
+									"key": "password",
+									"value": "string",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/account/loginUtente?email=qbSZjBtc-GI@RxogTp.ukdz&password=string",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"account",
+										"loginUtente"
+									],
+									"query": [
+										{
+											"key": "email",
+											"value": "qbSZjBtc-GI@RxogTp.ukdz"
+										},
+										{
+											"key": "password",
+											"value": "string"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "{}"
+						}
+					]
+				},
+				{
+					"name": "login Azienda",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/account/loginAzienda?email=azienda@gmail.com&password=string",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"account",
+								"loginAzienda"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "azienda@gmail.com",
+									"description": "(Required) "
+								},
+								{
+									"key": "password",
+									"value": "string",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/account/loginAzienda?email=qbSZjBtc-GI@RxogTp.ukdz&password=string",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"account",
+										"loginAzienda"
+									],
+									"query": [
+										{
+											"key": "email",
+											"value": "qbSZjBtc-GI@RxogTp.ukdz"
+										},
+										{
+											"key": "password",
+											"value": "string"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "{}"
+						}
+					]
+				},
+				{
+					"name": "crea Utente",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"indirizzo\": \"string\",\n  \"nickname\": \"string\",\n  \"password\": \"st\",\n  \"email\": \"q6AjR7BzLM2A@HBmyTfWtNWpqKNZEnnrPcLmO.xvi\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/account/creaUtente",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"account",
+								"creaUtente"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"indirizzo\": \"string\",\n  \"nickname\": \"string\",\n  \"password\": \"st\",\n  \"email\": \"q6AjR7BzLM2A@HBmyTfWtNWpqKNZEnnrPcLmO.xvi\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/account/creaUtente",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"account",
+										"creaUtente"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "{}"
+						}
+					]
+				},
+				{
+					"name": "crea Curatore",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "gestore",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "gestore",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"indirizzo\": \"string12\",\n  \"nickname\": \"string12\",\n  \"password\": \"st12\",\n  \"email\": \"email12212@gmail.xvi\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/account/creaCuratore",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"account",
+								"creaCuratore"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"indirizzo\": \"string\",\n  \"nickname\": \"string\",\n  \"password\": \"st\",\n  \"email\": \"q6AjR7BzLM2A@HBmyTfWtNWpqKNZEnnrPcLmO.xvi\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/account/creaCuratore",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"account",
+										"creaCuratore"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "{}"
+						}
+					]
+				},
+				{
+					"name": "crea Azienda",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"certificazioni\": \"string\",\n  \"descrizione\": \"string\",\n  \"indirizzo\": \"string\",\n  \"nome\": \"string\",\n  \"partitaIVA\": \"string\",\n  \"password\": \"string\",\n  \"telefono\": \"string\",\n  \"tipologia\": \"string\",\n  \"email\": \"azienda@gmail.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/account/creaAzienda",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"account",
+								"creaAzienda"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"certificazioni\": \"string\",\n  \"descrizione\": \"string\",\n  \"indirizzo\": \"string\",\n  \"nome\": \"string\",\n  \"partitaIVA\": \"string\",\n  \"password\": \"string\",\n  \"telefono\": \"string\",\n  \"tipologia\": \"string\",\n  \"email\": \"X1Iy5n4P@OlWwlPBNuvlRkuiclLYAUXLWnFmwC.znhq\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/account/creaAzienda",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"account",
+										"creaAzienda"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "{}"
+						}
+					]
+				},
+				{
+					"name": "get Utente",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/account/getUtente/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"account",
+								"getUtente",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "3262",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/account/getUtente/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"account",
+										"getUtente",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "3262",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "{}"
+						}
+					]
+				},
+				{
+					"name": "get Gestore",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/account/getGestore/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"account",
+								"getGestore",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "3262",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/account/getGestore/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"account",
+										"getGestore",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "3262",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "{}"
+						}
+					]
+				},
+				{
+					"name": "get Curatore",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/account/getCuratore/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"account",
+								"getCuratore",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/account/getCuratore/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"account",
+										"getCuratore",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "3262",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "{}"
+						}
+					]
+				},
+				{
+					"name": "ger Azienda",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/account/getAzienda/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"account",
+								"getAzienda",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/account/getAzienda/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"account",
+										"getAzienda",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "3262",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "{}"
+						}
+					]
+				},
+				{
+					"name": "get All Utenti",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "gestore",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "gestore",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/account/getAllUtenti",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"account",
+								"getAllUtenti"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/account/getAllUtenti",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"account",
+										"getAllUtenti"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "[\n  {\n    \"indirizzo\": \"string\",\n    \"nickname\": \"string\",\n    \"password\": \"string\",\n    \"email\": \"vXX@ouQeZEVbPBM.gtpr\"\n  },\n  {\n    \"indirizzo\": \"string\",\n    \"nickname\": \"string\",\n    \"password\": \"string\",\n    \"email\": \"vyuSAJF@imkYlZeYhrodyBGvjelznAkzla.eekx\"\n  }\n]"
+						}
+					]
+				},
+				{
+					"name": "get All Gestori",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/account/getAllGestori",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"account",
+								"getAllGestori"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/account/getAllGestori",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"account",
+										"getAllGestori"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "[\n  {\n    \"indirizzo\": \"string\",\n    \"nickname\": \"string\",\n    \"password\": \"string\",\n    \"email\": \"vXX@ouQeZEVbPBM.gtpr\"\n  },\n  {\n    \"indirizzo\": \"string\",\n    \"nickname\": \"string\",\n    \"password\": \"string\",\n    \"email\": \"vyuSAJF@imkYlZeYhrodyBGvjelznAkzla.eekx\"\n  }\n]"
+						}
+					]
+				},
+				{
+					"name": "get All Curatori",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/account/getAllCuratori",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"account",
+								"getAllCuratori"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/account/getAllCuratori",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"account",
+										"getAllCuratori"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "[\n  {\n    \"indirizzo\": \"string\",\n    \"nickname\": \"string\",\n    \"password\": \"string\",\n    \"email\": \"vXX@ouQeZEVbPBM.gtpr\"\n  },\n  {\n    \"indirizzo\": \"string\",\n    \"nickname\": \"string\",\n    \"password\": \"string\",\n    \"email\": \"vyuSAJF@imkYlZeYhrodyBGvjelznAkzla.eekx\"\n  }\n]"
+						}
+					]
+				},
+				{
+					"name": "get All Aziende",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "gestore",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "gestore",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/account/getAllAziende",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"account",
+								"getAllAziende"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/account/getAllAziende",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"account",
+										"getAllAziende"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "[\n  {\n    \"certificazioni\": \"string\",\n    \"descrizione\": \"string\",\n    \"indirizzo\": \"string\",\n    \"nome\": \"string\",\n    \"partitaIVA\": \"string\",\n    \"password\": \"string\",\n    \"telefono\": \"st\",\n    \"tipologia\": \"string\",\n    \"email\": \"fvns8V@mEWQLApchvCwIORT.fuye\"\n  },\n  {\n    \"certificazioni\": \"string\",\n    \"descrizione\": \"string\",\n    \"indirizzo\": \"string\",\n    \"nome\": \"string\",\n    \"partitaIVA\": \"string\",\n    \"password\": \"string\",\n    \"telefono\": \"string\",\n    \"tipologia\": \"string\",\n    \"email\": \"phe85A5BWLovf3i@WGFvUhKNW.le\"\n  }\n]"
+						}
+					]
+				},
+				{
+					"name": "logout",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/account/logout",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"account",
+								"logout"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/account/logout",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"account",
+										"logout"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "{}"
+						}
+					]
+				},
+				{
+					"name": "elimina Utente",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/account/eliminaUtente/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"account",
+								"eliminaUtente",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "3262",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/account/eliminaUtente/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"account",
+										"eliminaUtente",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "3262",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "{}"
+						}
+					]
+				},
+				{
+					"name": "elimina Curatore",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/account/eliminaCuratore/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"account",
+								"eliminaCuratore",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "3262",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/account/eliminaCuratore/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"account",
+										"eliminaCuratore",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "3262",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "{}"
+						}
+					]
+				},
+				{
+					"name": "elimina Azienda",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "gestore",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "gestore",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/account/eliminaAzienda/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"account",
+								"eliminaAzienda",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/account/eliminaAzienda/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"account",
+										"eliminaAzienda",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "3262",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "{}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "contenuti",
+			"item": [
+				{
+					"name": "modifica Pacchetto",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"certificazioni\": \"string\",\n  \"descrizione\": \"string\",\n  \"nome\": \"string\",\n  \"prezzo\": 3706.7856866649417\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/contenuti/modificaPacchetto/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"contenuti",
+								"modificaPacchetto",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"certificazioni\": \"string\",\n  \"descrizione\": \"string\",\n  \"nome\": \"string\",\n  \"prezzo\": 3706.7856866649417\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/contenuti/modificaPacchetto/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"contenuti",
+										"modificaPacchetto",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "3262",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "{}"
+						}
+					]
+				},
+				{
+					"name": "modifica Evento",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"data\": \"2016-04-12T04:05:58.308Z\",\n  \"descrizione\": \"strin\",\n  \"nome\": \"string\",\n  \"posizione\": \"string\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/contenuti/modificaEvento/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"contenuti",
+								"modificaEvento",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"data\": \"2016-04-12T04:05:58.308Z\",\n  \"descrizione\": \"strin\",\n  \"nome\": \"string\",\n  \"posizione\": \"string\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/contenuti/modificaEvento/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"contenuti",
+										"modificaEvento",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "3262",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "{}"
+						}
+					]
+				},
+				{
+					"name": "modifica Articolo",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "azienda",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "azienda",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"certificazioni\": \"string\",\n  \"descrizione\": \"string\",\n  \"nome\": \"string\",\n  \"prezzo\": 3706.7856866649417\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/contenuti/modificaArticolo/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"contenuti",
+								"modificaArticolo",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"certificazioni\": \"string\",\n  \"descrizione\": \"string\",\n  \"nome\": \"string\",\n  \"prezzo\": 3706.7856866649417\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/contenuti/modificaArticolo/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"contenuti",
+										"modificaArticolo",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "3262",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "{}"
+						}
+					]
+				},
+				{
+					"name": "crea Pacchetto",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"certificazioni\": \"string\",\n  \"descrizione\": \"string\",\n  \"nome\": \"string\",\n  \"prezzo\": 3706.7856866649417\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/contenuti/creaPacchetto",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"contenuti",
+								"creaPacchetto"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"certificazioni\": \"string\",\n  \"descrizione\": \"string\",\n  \"nome\": \"string\",\n  \"prezzo\": 3706.7856866649417\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/contenuti/creaPacchetto",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"contenuti",
+										"creaPacchetto"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "{}"
+						}
+					]
+				},
+				{
+					"name": "crea Evento",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"data\": \"2016-04-12T04:05:58.308Z\",\n  \"descrizione\": \"strin\",\n  \"nome\": \"string\",\n  \"posizione\": \"string\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/contenuti/creaEvento",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"contenuti",
+								"creaEvento"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"data\": \"2016-04-12T04:05:58.308Z\",\n  \"descrizione\": \"strin\",\n  \"nome\": \"string\",\n  \"posizione\": \"string\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/contenuti/creaEvento",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"contenuti",
+										"creaEvento"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "{}"
+						}
+					]
+				},
+				{
+					"name": "crea Articolo",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"certificazioni\": \"string\",\n  \"descrizione\": \"string\",\n  \"nome\": \"string\",\n  \"prezzo\": 3706.7856866649417\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/contenuti/creaArticolo",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"contenuti",
+								"creaArticolo"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"certificazioni\": \"string\",\n  \"descrizione\": \"string\",\n  \"nome\": \"string\",\n  \"prezzo\": 3706.7856866649417\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/contenuti/creaArticolo",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"contenuti",
+										"creaArticolo"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "{}"
+						}
+					]
+				},
+				{
+					"name": "get Articolo",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/contenuti/getArticolo/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"contenuti",
+								"getArticolo",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/contenuti/getArticolo/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"contenuti",
+										"getArticolo",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "3262",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "{}"
+						}
+					]
+				},
+				{
+					"name": "get All Eventi",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/contenuti/getAllEventi",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"contenuti",
+								"getAllEventi"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/contenuti/getAllEventi",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"contenuti",
+										"getAllEventi"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "{}"
+						}
+					]
+				},
+				{
+					"name": "get All Articoli",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/contenuti/getAllArticoli",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"contenuti",
+								"getAllArticoli"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/contenuti/getAllArticoli",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"contenuti",
+										"getAllArticoli"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "{}"
+						}
+					]
+				},
+				{
+					"name": "elimina Pacchetto",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/contenuti/eliminaPacchetto/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"contenuti",
+								"eliminaPacchetto",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "3262",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/contenuti/eliminaPacchetto/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"contenuti",
+										"eliminaPacchetto",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "3262",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "{}"
+						}
+					]
+				},
+				{
+					"name": "elimina Evento",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/contenuti/eliminaEvento/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"contenuti",
+								"eliminaEvento",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "3262",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/contenuti/eliminaEvento/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"contenuti",
+										"eliminaEvento",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "3262",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "{}"
+						}
+					]
+				},
+				{
+					"name": "elimina Articolo",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/contenuti/eliminaArticolo/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"contenuti",
+								"eliminaArticolo",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "3262",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/contenuti/eliminaArticolo/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"contenuti",
+										"eliminaArticolo",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "3262",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "{}"
+						}
+					]
+				}
+			],
+			"auth": {
+				"type": "basic",
+				"basic": [
+					{
+						"key": "password",
+						"value": "azienda",
+						"type": "string"
+					},
+					{
+						"key": "username",
+						"value": "azienda",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "acquisti",
+			"item": [
+				{
+					"name": "aggiungi Al Carrello",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"certificazioni\": \"string\",\n  \"descrizione\": \"string\",\n  \"nome\": \"string\",\n  \"prezzo\": 3706.7856866649417\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/acquisti/aggiungiAlCarrello/:quantita",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"acquisti",
+								"aggiungiAlCarrello",
+								":quantita"
+							],
+							"variable": [
+								{
+									"key": "quantita",
+									"value": "3262",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"certificazioni\": \"string\",\n  \"descrizione\": \"string\",\n  \"nome\": \"string\",\n  \"prezzo\": 3706.7856866649417\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/acquisti/aggiungiAlCarrello/:quantita",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"acquisti",
+										"aggiungiAlCarrello",
+										":quantita"
+									],
+									"variable": [
+										{
+											"key": "quantita",
+											"value": "3262",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "{}"
+						}
+					]
+				},
+				{
+					"name": "acquista",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"indirizzo\": \"string\",\n  \"nickname\": \"string\",\n  \"password\": \"st\",\n  \"email\": \"q6AjR7BzLM2A@HBmyTfWtNWpqKNZEnnrPcLmO.xvi\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/acquisti/acquista/:pagamentoService",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"acquisti",
+								"acquista",
+								":pagamentoService"
+							],
+							"variable": [
+								{
+									"key": "pagamentoService",
+									"value": "string",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"indirizzo\": \"string\",\n  \"nickname\": \"string\",\n  \"password\": \"st\",\n  \"email\": \"q6AjR7BzLM2A@HBmyTfWtNWpqKNZEnnrPcLmO.xvi\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/acquisti/acquista/:pagamentoService",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"acquisti",
+										"acquista",
+										":pagamentoService"
+									],
+									"variable": [
+										{
+											"key": "pagamentoService",
+											"value": "string",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "{}"
+						}
+					]
+				},
+				{
+					"name": "get Articoli Carrello",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/acquisti/getArticoliCarrello",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"acquisti",
+								"getArticoliCarrello"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/acquisti/getArticoliCarrello",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"acquisti",
+										"getArticoliCarrello"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "{}"
+						}
+					]
+				},
+				{
+					"name": "svuota Carrello",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/acquisti/svuotaCarrello",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"acquisti",
+								"svuotaCarrello"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/acquisti/svuotaCarrello",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"acquisti",
+										"svuotaCarrello"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "{}"
+						}
+					]
+				},
+				{
+					"name": "aggiungi Al Carrello 1",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"certificazioni\": \"string\",\n  \"descrizione\": \"string\",\n  \"nome\": \"string\",\n  \"prezzo\": 3706.7856866649417\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/acquisti/rimuoviDalCarrello",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"acquisti",
+								"rimuoviDalCarrello"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"certificazioni\": \"string\",\n  \"descrizione\": \"string\",\n  \"nome\": \"string\",\n  \"prezzo\": 3706.7856866649417\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/acquisti/rimuoviDalCarrello",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"acquisti",
+										"rimuoviDalCarrello"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "{}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "ordini",
+			"item": [
+				{
+					"name": "get Ordine",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/ordini/getOrdine/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"ordini",
+								"getOrdine",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "3262",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/ordini/getOrdine/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"ordini",
+										"getOrdine",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "3262",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "{}"
+						}
+					]
+				},
+				{
+					"name": "cancella Ordine",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/ordini/cancellaOrdine/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"ordini",
+								"cancellaOrdine",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "3262",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/ordini/cancellaOrdine/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"ordini",
+										"cancellaOrdine",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "3262",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "{}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "mappa",
+			"item": [
+				{
+					"name": "get All Indirizzi",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/mappa/svuotaCarrello",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"mappa",
+								"svuotaCarrello"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/mappa/svuotaCarrello",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"mappa",
+										"svuotaCarrello"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "{}"
+						}
+					]
+				},
+				{
+					"name": "get Indirizzo Evento",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/mappa/getIndirizzoEvento/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"mappa",
+								"getIndirizzoEvento",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "3262",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/mappa/getIndirizzoEvento/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"mappa",
+										"getIndirizzoEvento",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "3262",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "{}"
+						}
+					]
+				},
+				{
+					"name": "get Indirizzo Azienda",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/mappa/getIndirizzoAzienda/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"mappa",
+								"getIndirizzoAzienda",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "3262",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/mappa/getIndirizzoAzienda/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"mappa",
+										"getIndirizzoAzienda",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "3262",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "{}"
+						}
+					]
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "password",
+				"value": "gestore",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "gestore",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:9090"
+		}
+	]
+}
