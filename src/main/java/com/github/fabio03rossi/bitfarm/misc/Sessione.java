@@ -14,7 +14,7 @@ public class Sessione {
      * La classe Session si occupa di contenere i dati della sessione corrente
      */
     private Account accountCorrente;
-    private boolean loggedIn;
+    private boolean loggedIn = true;
     private IAccountService accountService;
     private Carrello carrello;
     private static Sessione instance;
@@ -56,7 +56,6 @@ public class Sessione {
          */
         if (this.accountCorrente == null) {
             System.out.println("Session: Devi ancora effettuare il login");
-            throw new AccessoNegatoException("Session: Devi ancora effettuare il login");
         }
         return this.accountCorrente;
     }

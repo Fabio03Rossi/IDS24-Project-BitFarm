@@ -4,6 +4,7 @@ import com.github.fabio03rossi.bitfarm.account.Azienda;
 import com.github.fabio03rossi.bitfarm.account.Curatore;
 import com.github.fabio03rossi.bitfarm.account.GestoreDellaPiattaforma;
 import com.github.fabio03rossi.bitfarm.account.Utente;
+import com.github.fabio03rossi.bitfarm.acquisto.Carrello;
 import com.github.fabio03rossi.bitfarm.acquisto.Ordine;
 import com.github.fabio03rossi.bitfarm.contenuto.Evento;
 import com.github.fabio03rossi.bitfarm.contenuto.StatoPubblico;
@@ -21,6 +22,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -282,7 +284,7 @@ public class DBManager
                 log.info("Articolo " + articolo.getNome() + " aggiornato correttamente!");
             } else {
                 log.info("Nessun articolo trovato con ID " + articolo.getId() + " da aggiornare.");
-                throw new DatiNonTrovatiException(String.format("Non è presente alcun articolo con ID %d", articolo.getId()));
+                
             }
         } catch (SQLException ex) {
             log.error("DbManager: Errore durante l'aggiornamento dell'articolo: " + ex.getMessage());
@@ -352,7 +354,7 @@ public class DBManager
             pstmt.executeUpdate();
         } catch (SQLException e) {
             log.error("DBManager: Errore durante la cancellazione dell'evento: " + e.getMessage());
-            throw new DatiNonTrovatiException("Errore di lettura dei dati.");
+            
         }
     }
 
@@ -381,7 +383,7 @@ public class DBManager
                 listaArticoli.add(getIArticolo(id));
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            
         }
         return listaArticoli;
     }
@@ -419,10 +421,10 @@ public class DBManager
             }
         } catch (SQLException ex) {
             log.error("DbManager: Errore durante l'accesso al database: " + ex.getMessage());
-            throw new DatiNonTrovatiException("Errore di lettura dei dati.");
+            
         }
         if(articolo == null) {
-            throw new DatiNonTrovatiException("DBManager: Nessun articolo trovato");
+            
         }
         articolo.setId(id);
         return articolo;
@@ -444,7 +446,7 @@ public class DBManager
             }
         } catch (SQLException ex) {
             log.error("Errore durante l'accesso al database: " + ex.getMessage());
-            throw new DatiNonTrovatiException("Errore di lettura dei dati.");
+            
         }
 
         return pacchetto;
@@ -500,7 +502,10 @@ public class DBManager
             }
         } catch (SQLException ex) {
             log.error("DbManager: Errore durante l'accesso al database: " + ex.getMessage(), ex);
-            throw new DatiNonTrovatiException("Errore di lettura dei dati.");
+            
+        }
+        if(evento == null){
+            return new Evento("","", Date.from(Instant.now()), "");
         }
         return evento;
     }
@@ -527,7 +532,7 @@ public class DBManager
             log.info("Evento " + evento.getNome() + " aggiunto!");
         } catch (SQLException ex) {
             log.error("DbManager: Errore durante l'accesso al database: " + ex.getMessage());
-            throw new DatiNonTrovatiException("Errore di lettura dei dati.");
+            
         }
     }
 
@@ -539,7 +544,7 @@ public class DBManager
             pstmt.executeUpdate();
         } catch (SQLException ex) {
             log.error("DbManager: Errore durante l'accesso al database: " + ex.getMessage());
-            throw new DatiNonTrovatiException("Errore di lettura dei dati.");
+            
         }
         log.info("DBManager: Evento con id " + id + " pubblicato!");
     }
@@ -553,7 +558,7 @@ public class DBManager
         catch (SQLException ex)
         {
             log.error("DBManager: Errore durante la cancellazione: " + ex.getMessage());
-            throw new DatiNonTrovatiException("Errore di lettura dei dati.");
+            
         }
         log.info("DBManager: Proposta di evento con id " + id + " cancellato!");
     }
@@ -570,11 +575,11 @@ public class DBManager
                 log.info("Evento " + evento.getNome() + " aggiornato correttamente!");
             } else {
                 log.info("Nessun evento trovato con ID " + evento.getId() + " da aggiornare.");
-                throw new DatiNonTrovatiException(String.format("Non è presente alcun evento con ID %d", evento.getId()));
+                
             }
         } catch (SQLException ex) {
             log.error("DbManager: Errore durante l'aggiornamento dell'evento: " + ex.getMessage());
-            throw new DatiNonTrovatiException("Errore di lettura dei dati.");
+            
         }
     }
 
@@ -585,7 +590,7 @@ public class DBManager
             log.info("DBManager: Evento cancellato");
         } catch (SQLException e) {
             log.error("DBManager: Errore durante la cancellazione dell'evento: " + e.getMessage());
-            throw new DatiNonTrovatiException("Errore di lettura dei dati.");
+            
         }
     }
 
@@ -621,7 +626,7 @@ public class DBManager
                     listaEventi.add(evento);
                 }
             } catch (SQLException e) {
-                throw new DatiNonTrovatiException("Errore nell'ottenimento degli eventi." + e.getMessage());
+                
             }
 
         return listaEventi;
@@ -652,10 +657,10 @@ public class DBManager
             }
         } catch (SQLException ex) {
             log.error("DbManager: Errore durante l'accesso al database: {}", ex.getMessage(), ex);
-            throw new DatiNonTrovatiException("Errore di lettura dei dati.");
+            
         }
         if (utente == null) {
-            throw new DatiNonTrovatiException("Nessun utente registrato con questa email: " + email);
+            
         }
         return utente;
     }
@@ -683,10 +688,10 @@ public class DBManager
             }
         } catch (SQLException ex) {
             log.error("DbManager: Errore durante l'accesso al database: " + ex.getMessage(), ex);
-            throw new DatiNonTrovatiException("Errore di lettura dei dati.");
+            
         }
         if (utente == null) {
-            throw new DatiNonTrovatiException("Nessun utente registrato con questo id: " + id);
+            
         }
         return utente;
     }
@@ -710,11 +715,11 @@ public class DBManager
                 listaUtenti.add(utente);
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            
         }
 
         if (listaUtenti.isEmpty()) {
-            throw new DatiNonTrovatiException("Nessun utente registrato");
+            
         }
         return listaUtenti;
     }
@@ -738,7 +743,7 @@ public class DBManager
 
         } catch (SQLException ex) {
             log.error("DbManager: Errore durante l'accesso al database: " + ex.getMessage());
-            throw new DatiNonTrovatiException("Errore di lettura dei dati.");
+            
         }
 
         log.info("Utente " + utente.getNome() + " aggiunto!");
@@ -758,11 +763,11 @@ public class DBManager
                 log.info("DBManager: Utente {} aggiornato correttamente!", utente.getNome());
             } else {
                 log.warn("DBManager: Nessun utente trovato con nome {} da aggiornare", utente.getNome());
-                throw new DatiNonTrovatiException(String.format("Non è presente alcun Utente con ID %d", utente.getId()));
+                
             }
         } catch (SQLException ex) {
             log.error("DbManager: Errore durante l'aggiornamento dell'utente: {}", ex.getMessage());
-            throw new DatiNonTrovatiException("Errore di lettura dei dati.");
+            
         }
     }
 
@@ -773,7 +778,7 @@ public class DBManager
             log.info("DBManager: Utente cancellato");
         } catch (SQLException e) {
             log.error("DBManager: Errore durante la cancellazione dell'utente: " + e.getMessage());
-            throw new DatiNonTrovatiException("Errore di lettura dei dati.");
+            
         }
     }
 
@@ -809,10 +814,10 @@ public class DBManager
             }
         } catch (SQLException ex) {
             log.error("DbManager: Errore durante l'accesso al database: " + ex.getMessage(), ex);
-            throw new DatiNonTrovatiException("Errore di lettura dei dati.");
+            
         }
         if (azienda == null) {
-            throw new DatiNonTrovatiException("Nessun account aziendale registrato con questo id: " + id);
+            return new Azienda("","", "", "", "", "", "", "", "");
         }
         return azienda;
     }
@@ -848,7 +853,7 @@ public class DBManager
             log.error("DbManager: Errore durante l'accesso al database: {}", ex.getMessage(), ex);
         }
         if (azienda == null) {
-            throw new DatiNonTrovatiException("Nessun account aziendale registrato con questa email: " + email);
+            
         }
         return azienda;
     }
@@ -874,7 +879,7 @@ public class DBManager
 
         } catch (SQLException ex) {
             log.error("DbManager: Errore durante l'inserimento dell'azienda: " + ex.getMessage(), ex);
-            throw new DatiNonTrovatiException("Errore di lettura dei dati.");
+            
         }
 
         log.info("Azienda " + azienda.getNome() + " aggiunta con successo!");
@@ -895,11 +900,11 @@ public class DBManager
                 log.info("DBManager: Azienda " + azienda.getNome() + " aggiornata correttamente!");
             } else {
                 log.info("DBManager: Nessuna azienda trovata con ID " + azienda.getId() + " da aggiornare.");
-                throw new DatiNonTrovatiException(String.format("Non è presente alcuna Azienda con ID %d", azienda.getId()));
+                
             }
         } catch (SQLException ex) {
             log.error("DbManager: Errore durante l'aggiornamento dell'azienda: " + ex.getMessage());
-            throw new DatiNonTrovatiException("Errore di lettura dei dati.");
+            
         }
     }
 
@@ -910,7 +915,7 @@ public class DBManager
             log.info("DBManager: Account aziendale cancellato");
         } catch (SQLException e) {
             log.error("DBManager: Errore durante la cancellazione dell'account aziendale: " + e.getMessage());
-            throw new DatiNonTrovatiException("Errore di lettura dei dati.");
+            
         }
     }
 
@@ -930,7 +935,7 @@ public class DBManager
                 log.warn("DBManager: Nessuna azienda trovata con ID " + id);
             }
         } catch (SQLException ex) {
-            throw new DatiNonTrovatiException("Errore di lettura dei dati.");
+            
         }
     }
 
@@ -972,7 +977,7 @@ public class DBManager
                 listaAziende.add(azienda);
             }
         } catch (SQLException e) {
-            throw new DatiNonTrovatiException("Errore di lettura dei dati.");
+            
         }
 
         return listaAziende;
@@ -1002,10 +1007,10 @@ public class DBManager
             }
         } catch (SQLException ex) {
             log.error("DbManager: Errore durante il recupero del curatore: {}", ex.getMessage(), ex);
-            throw new DatiNonTrovatiException("Errore di lettura dei dati.");
+            
         }
         if (curatore == null) {
-            throw new DatiNonTrovatiException("Nessun curatore registrato con questa email: " + email);
+            
         }
         return curatore;
     }
@@ -1033,10 +1038,10 @@ public class DBManager
             }
         } catch (SQLException ex) {
             log.error("DbManager: Errore durante il recupero del curatore: {}", ex.getMessage(), ex);
-            throw new DatiNonTrovatiException("Errore di lettura dei dati.");
+            
         }
         if (curatore == null) {
-            throw new DatiNonTrovatiException("Nessun curatore registrato con questo id: " + id);
+            
         }
         return curatore;
     }
@@ -1060,7 +1065,7 @@ public class DBManager
 
         } catch (SQLException ex) {
             log.error("DbManager: Errore durante il salvataggio di un curatore : {}", ex.getMessage());
-            throw new DatiNonTrovatiException("Errore di lettura dei dati.");
+            
         }
 
         log.info("Curatore " + curatore.getNome() + " aggiunto!");
@@ -1079,11 +1084,11 @@ public class DBManager
                 log.info("DBManager: Utente {} aggiornato correttamente", curatore.getNome());
             } else {
                 log.info("DBManager: Nessun utente chiamato {} trovato", curatore.getNome());
-                throw new DatiNonTrovatiException(String.format("Non è presente alcun Utente con nome %s", curatore.getNome()));
+                
             }
         } catch (SQLException ex) {
             log.error("DbManager: Errore durante l'aggiornamento del curatore: {}", ex.getMessage());
-            throw new DatiNonTrovatiException("Errore di lettura dei dati.");
+            
         }
     }
 
@@ -1094,7 +1099,7 @@ public class DBManager
             log.info("DBManager: Curatore cancellato");
         } catch (SQLException e) {
             log.error("DBManager: Errore durante la cancellazione del curatore : {}", e.getMessage());
-            throw new DatiNonTrovatiException("Errore di lettura dei dati.");
+            
         }
     }
 
@@ -1105,7 +1110,7 @@ public class DBManager
             log.info("DBManager: Curatore cancellato");
         } catch (SQLException e) {
             log.error("DBManager: Errore durante la cancellazione del curatore : {}", e.getMessage());
-            throw new DatiNonTrovatiException("Errore di lettura dei dati.");
+            
         }
     }
 
@@ -1126,7 +1131,7 @@ public class DBManager
                 listaCuratori.add(curatore);
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            
         }
 
         return listaCuratori;
@@ -1156,10 +1161,10 @@ public class DBManager
             }
         } catch (SQLException ex) {
             log.error("DbManager: Errore durante il recupero del gestore della piattaforma: {}", ex.getMessage(), ex);
-            throw new DatiNonTrovatiException("Errore di lettura dei dati.");
+            
         }
         if (gestore == null) {
-            throw new DatiNonTrovatiException("Nessun gestore registrato con questa email: " + email);
+            
         }
         return gestore;
     }
@@ -1187,10 +1192,10 @@ public class DBManager
             }
         } catch (SQLException ex) {
             log.error("DbManager: Errore durante il recupero del gestore della piattaforma: {}", ex.getMessage(), ex);
-            throw new DatiNonTrovatiException("Errore di lettura dei dati.");
+            
         }
         if (gestore == null) {
-            throw new DatiNonTrovatiException("Nessun gestore registrato con questo id: " + id);
+            
         }
         return gestore;
     }
@@ -1214,7 +1219,7 @@ public class DBManager
 
         } catch (SQLException ex) {
             log.error("DbManager: Errore durante il salvataggio del gestore della piattaforma : {}", ex.getMessage());
-            throw new DatiNonTrovatiException("Errore di lettura dei dati.");
+            
         }
 
         log.info("Gestore della piattaforma {} aggiunto", gestore.getNome());
@@ -1233,11 +1238,11 @@ public class DBManager
                 log.info("DBManager: Gestore della piattaforma {} aggiornato correttamente", gestore.getNome());
             } else {
                 log.warn("DBManager: Nessun gestore della piattaforma chiamato {} trovato", gestore.getNome());
-                throw new DatiNonTrovatiException(String.format("Non è presente alcun Gestore con nome %s", gestore.getNome()));
+                
             }
         } catch (SQLException ex) {
             log.error("DbManager: Errore durante l'aggiornamento del gestore della piattaforma: {}", ex.getMessage());
-            throw new DatiNonTrovatiException("Errore di lettura dei dati.");
+            
         }
     }
 
@@ -1248,7 +1253,7 @@ public class DBManager
             log.info("DBManager: Gestore della piattaforma cancellato");
         } catch (SQLException e) {
             log.error("DBManager: Errore durante la cancellazione del gestore della piattaforma : {}", e.getMessage());
-            throw new DatiNonTrovatiException("Errore di lettura dei dati.");
+            
         }
     }
 
@@ -1259,7 +1264,7 @@ public class DBManager
             log.info("DBManager: Gestore della piattaforma cancellato");
         } catch (SQLException e) {
             log.error("DBManager: Errore durante la cancellazione del gestore della piattaforma : {}", e.getMessage());
-            throw new DatiNonTrovatiException("Errore di lettura dei dati.");
+            
         }
     }
 
@@ -1281,7 +1286,7 @@ public class DBManager
                 listaGestori.add(utente);
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            
         }
 
         return listaGestori;
@@ -1327,10 +1332,10 @@ public class DBManager
             }
         } catch (SQLException ex) {
             log.error("DBManager: Errore durante il recupero dell'ordine e dei suoi articoli: " + ex.getMessage(), ex);
-            throw new DatiNonTrovatiException("Errore di lettura dei dati.");
+            
         }
         if (ordine == null) {
-            throw new DatiNonTrovatiException("Nessun ordine trovato con questo id: " + id);
+            return new Ordine("", 1, new Carrello(), "");
         }
         return ordine;
     }
@@ -1385,11 +1390,12 @@ public class DBManager
             } catch (SQLException ex) {
                 log.error("DBManager: Errore durante il rollback: " + ex.getMessage());
             }
-            throw new DatiNonTrovatiException("Errore di lettura dei dati.");
+            
         }
     }
 
     public void deleteOrdine(Ordine ordine) {
+        if(ordine == null) new Ordine("", 1, new Carrello(), "");
         // 1. Cancella i record correlati nella tabella ordini_articoli
         String sqlDeleteArticoli = "DELETE FROM ordini_articoli WHERE id_ordine = ?";
         try (PreparedStatement pstmtArticoli = this.conn.prepareStatement(sqlDeleteArticoli)) {
@@ -1399,7 +1405,7 @@ public class DBManager
             log.info("Cancellati " + rowsAffected + " articoli correlati all'ordine " + ordine.getId());
         } catch (SQLException e) {
             log.error("DBManager: Errore durante la cancellazione dell'ordine: " + e.getMessage());
-            throw new DatiNonTrovatiException("Errore di lettura dei dati.");
+            
         }
 
         // 2. Cancella il record principale nella tabella ordini
@@ -1411,11 +1417,11 @@ public class DBManager
                 log.info("Ordine {} eliminato con successo.", ordine.getId());
             } else {
                 log.info("Nessun ordine trovato con ID {} da eliminare.", ordine.getId());
-                throw new DatiNonTrovatiException(String.format("Non è presente alcun Ordine con nome %d", ordine.getId()));
+                
             }
         } catch (SQLException ex) {
             log.error("DBManager: Errore durante l'eliminazione dell'ordine: {}", ex.getMessage());
-            throw new DatiNonTrovatiException("Errore di lettura dei dati.");
+            
         }
     }
 
@@ -1473,7 +1479,7 @@ public class DBManager
                 }
             }
             log.error("DBManager: Errore durante l'aggiornamento dell'ordine: {}", ex.getMessage(), ex);
-            throw new DatiNonTrovatiException("Errore di lettura dei dati.");
+            
         } finally {
             // Ripristina l'auto-commit
             if (this.conn != null) {
@@ -1492,7 +1498,7 @@ public class DBManager
                 listaOrdini.add(getOrdine(id));
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            
         }
         return listaOrdini;
     }

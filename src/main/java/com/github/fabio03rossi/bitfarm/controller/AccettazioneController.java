@@ -41,12 +41,12 @@ public class AccettazioneController {
     @RequestMapping(value = "/" + PATH + "/rifiutaArticolo/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Object> rifiutaArticolo(@PathVariable("id") int id) {
         this.accettazioneService.rifiutaArticolo(id);
-        return new ResponseEntity<>("Evento accettato correttamente.", HttpStatus.OK);
+        return new ResponseEntity<>("Articolo rifiutato correttamente.", HttpStatus.OK);
     }
 
     @RequestMapping(value = "/" + PATH + "/rifiutaEvento/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Object> rifiutaEvento(@PathVariable("id") int id) {
         this.accettazioneService.rifiutaEvento(id);
-        return new ResponseEntity<>("Evento accettato correttamente.", HttpStatus.OK);
+        return new ResponseEntity<>("Evento rifiutato correttamente.", HttpStatus.OK);
     }
 }

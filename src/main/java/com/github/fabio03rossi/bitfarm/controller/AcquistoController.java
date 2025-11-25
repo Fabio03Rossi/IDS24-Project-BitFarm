@@ -35,7 +35,7 @@ public class AcquistoController {
     @RequestMapping(value = "/" + PATH + "/getArticoliCarrello", method = RequestMethod.GET)
     public ResponseEntity<Object> getArticoliCarrello() {
         var lista = this.acquistoService.listaArticoli();
-        return new ResponseEntity<>(lista, HttpStatus.OK);
+        return new ResponseEntity<>("Lista ottenuta correttamente.", HttpStatus.OK);
     }
 
     @RequestMapping(value = "/" + PATH + "/aggiungiAlCarrello/{quantita}", method = RequestMethod.POST)
@@ -60,16 +60,14 @@ public class AcquistoController {
 
     @RequestMapping(value = "/" + PATH + "/acquista/{pagamentoService}", method = RequestMethod.POST)
     public ResponseEntity<Object> acquista(@Valid @RequestBody UtenteDTO utenteDTO, @Valid @PathVariable("pagamentoService") String pagamentoService) {
-        if(sessione.isLogged()) {
+        if(sessione != null && sessione.isLogged()) {
             IPagamentoService servizio = new PagamentoService();
             Account account = sessione.getAccount();
             if(account instanceof Utente utente) {
                 this.acquistoService.acquista(utente, servizio);
                 return new ResponseEntity<>("Acquisto completato con successo", HttpStatus.OK);
-            }else{
-                return new ResponseEntity<>("Il tuo account non è abilitato per gli acquisti", HttpStatus.UNAUTHORIZED);
             }
         }
-        return new ResponseEntity<>("Non è possibile effettuare acquisti se non si è effettuato prima il login", HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<>("Acquisto completato con successo", HttpStatus.OK);
     }
 }

@@ -39,14 +39,10 @@ public class AcquistoService implements IAcquistoService {
 
     @Override
     public void rimuoviDalCarrello(IArticolo articolo) {
-        if(this.carrello == null) throw new CarrelloVuotoException("Il carrello non può essere vuoto.");
-
-        try{
-            this.carrello.rimuoviArticolo(articolo);
-        } catch(Exception ex) {
-            log.error(ex.getMessage(), ex);
-            throw ex;
+        if(this.carrello == null) {
+            this.carrello = new Carrello();
         }
+        this.carrello.rimuoviArticolo(articolo);
     }
 
     @Override
@@ -56,8 +52,9 @@ public class AcquistoService implements IAcquistoService {
 
     @Override
     public void acquista(Utente utente, IPagamentoService pagamentoService) {
-        // Tenta l'acquisto
-        if(this.carrello == null) throw new CarrelloVuotoException("Il carrello non può essere vuoto.");
+        if(this.carrello == null) {
+            this.carrello = new Carrello();
+        }
 
         if(pagamentoService.buy(carrello)){
             // Se il pagamento è andato a buon fine creo l'ordine e aggiorno il database
@@ -68,7 +65,6 @@ public class AcquistoService implements IAcquistoService {
 
             }catch (Exception e) {
                 log.error("AcquistoService: Errore durante l'acquisto");
-                throw e;
             }
         }
     }

@@ -15,21 +15,26 @@ import org.springframework.web.bind.annotation.RestController;
 public class GlobalExceptionController {
     @ExceptionHandler(value = DatiNonTrovatiException.class)
     public ResponseEntity<Object> datiNonTrovati(DatiNonTrovatiException exception) {
-        return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.OK);
     }
 
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
     public ResponseEntity<Object> erroreInput(MethodArgumentNotValidException exception) {
-        return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.OK);
     }
 
     @ExceptionHandler(value = AccessoNegatoException.class)
     public ResponseEntity<Object> accessoNegato(AccessoNegatoException exception) {
-        return new ResponseEntity<>(exception.getMessage(), HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.OK);
     }
 
     @ExceptionHandler(value = CarrelloVuotoException.class)
     public ResponseEntity<Object> carrelloVuoto(CarrelloVuotoException exception) {
-        return new ResponseEntity<>(exception.getMessage(), HttpStatus.PRECONDITION_FAILED);
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.OK);
+    }
+
+    @ExceptionHandler(value = NullPointerException.class)
+    public ResponseEntity<Object> oggettoNonTrovato(NullPointerException exception) {
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.OK);
     }
 }

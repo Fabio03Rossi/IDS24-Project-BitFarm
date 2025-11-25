@@ -954,6 +954,9 @@
 				{
 					"name": "login Utente",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
@@ -1115,6 +1118,9 @@
 				{
 					"name": "crea Utente",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
@@ -1587,7 +1593,7 @@
 					]
 				},
 				{
-					"name": "ger Azienda",
+					"name": "get Azienda",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -3203,6 +3209,21 @@
 				{
 					"name": "aggiungi Al Carrello",
 					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "utente",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "utente",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [
 							{
@@ -3298,6 +3319,21 @@
 				{
 					"name": "acquista",
 					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "utente",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "utente",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [
 							{
@@ -3393,6 +3429,21 @@
 				{
 					"name": "get Articoli Carrello",
 					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "utente",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "utente",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [
 							{
@@ -3450,6 +3501,21 @@
 				{
 					"name": "svuota Carrello",
 					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "utente",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "utente",
+									"type": "string"
+								}
+							]
+						},
 						"method": "DELETE",
 						"header": [
 							{
@@ -3505,8 +3571,23 @@
 					]
 				},
 				{
-					"name": "aggiungi Al Carrello 1",
+					"name": "rimuovi Dal Carrello",
 					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "utente",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "utente",
+									"type": "string"
+								}
+							]
+						},
 						"method": "DELETE",
 						"header": [
 							{
@@ -3750,13 +3831,13 @@
 							}
 						],
 						"url": {
-							"raw": "{{baseUrl}}/mappa/svuotaCarrello",
+							"raw": "{{baseUrl}}/mappa/getAllIndirizzi",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"mappa",
-								"svuotaCarrello"
+								"getAllIndirizzi"
 							]
 						}
 					},
