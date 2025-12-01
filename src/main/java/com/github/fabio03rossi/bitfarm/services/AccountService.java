@@ -58,26 +58,25 @@ public class AccountService implements IAccountService {
     @Override
     public UtenteDTO getUtente(int id) {
         Utente utente = this.db.getUtente(id);
-
-        return utente.toDTO();
+        return utente == null ? null : utente.toDTO();
     }
 
     @Override
     public AziendaDTO getAzienda(int id) {
         Azienda azienda = this.db.getAzienda(id);
-        return azienda.toDTO();
+        return azienda == null ? null : azienda.toDTO();
     }
 
     @Override
     public UtenteDTO getCuratore(int id) {
         Curatore curatore = this.db.getCuratore(id);
-        return curatore.toDTO();
+        return curatore == null ? null : curatore.toDTO();
     }
 
     @Override
     public UtenteDTO getGestoreDellaPiattaforma(int id) {
         GestoreDellaPiattaforma gestore = this.db.getGestoreDellaPiattaforma(id);
-        return gestore.toDTO();
+        return gestore == null ? null : gestore.toDTO();
     }
 
     //-------------------------------------- GET_ALL --------------------------------------
@@ -129,7 +128,7 @@ public class AccountService implements IAccountService {
         try {
             Sessione sessione = Sessione.getInstance();
             Account azienda = sessione.getAccount();
-            if (azienda != null && (azienda instanceof GestoreDellaPiattaforma || azienda.getId() == id)) {
+            if (azienda != null && (azienda instanceof Azienda || azienda.getId() == id)) {
                 Azienda az = new Azienda(dto.partitaIVA(), dto.nome(), dto.email(), dto.password(), dto.descrizione(), dto.indirizzo(), dto.telefono(), dto.tipologia(), dto.certificazioni());
                 az.setId(id);
                 this.db.updateAzienda(az);
@@ -194,50 +193,26 @@ public class AccountService implements IAccountService {
 
     @Override
     public void eliminaUtente(int id) {
-        Sessione sessione = Sessione.getInstance();
-        if (sessione.getAccount() instanceof Utente) {
-            this.db.cancellaUtente(id);
-            log.info("Account utente eliminato");
-        } else {
-            log.warn("Non disponi dei permessi necessari");
-            throw new AccessoNegatoException();
-        }
+        this.db.cancellaUtente(id);
+        log.info("Account utente eliminato");
     }
 
     @Override
     public void eliminaAzienda(int id) {
-        Sessione sessione = Sessione.getInstance();
-        if (sessione.getAccount() instanceof Azienda) {
-            this.db.cancellaAzienda(id);
-            log.info("Account azienda eliminato");
-        } else {
-            log.warn("Non disponi dei permessi necessari");
-            throw new AccessoNegatoException();
-        }
+        this.db.cancellaAzienda(id);
+        log.info("Account azienda eliminato");
     }
 
     @Override
     public void eliminaCuratore(int id) {
-        Sessione sessione = Sessione.getInstance();
-        if (sessione.getAccount() instanceof Curatore) {
-            this.db.cancellaCuratore(id);
-            log.info("Account curatore eliminato");
-        } else {
-            log.warn("Non disponi dei permessi necessari");
-            throw new AccessoNegatoException();
-        }
+        this.db.cancellaCuratore(id);
+        log.info("Account curatore eliminato");
     }
 
     @Override
     public void eliminaGestoreDellaPiattaforma(int id) {
-        Sessione sessione = Sessione.getInstance();
-        if (sessione.getAccount() instanceof GestoreDellaPiattaforma) {
-            this.db.cancellaGestoreDellaPiattaforma(id);
-            log.info("Account gestoreDellaPiattaforma eliminato");
-        } else {
-            log.warn("Non disponi dei permessi necessari");
-            throw new AccessoNegatoException();
-        }
+        this.db.cancellaGestoreDellaPiattaforma(id);
+        log.info("Account gestoreDellaPiattaforma eliminato");
     }
 
     //-------------------------------------- ALTRO --------------------------------------

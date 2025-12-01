@@ -125,24 +125,28 @@ public class AccountController {
     @RequestMapping(value = "/" + PATH + "/getUtente/{id}", method = RequestMethod.GET)
     public ResponseEntity<Object> getUtente(@PathVariable("id") int id) {
         var dto = this.accountService.getUtente(id);
+        if(dto == null) return new ResponseEntity<>(dto, HttpStatus.NOT_FOUND);
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/" + PATH + "/getAzienda/{id}", method = RequestMethod.GET)
     public ResponseEntity<Object> gerAzienda(@PathVariable("id") int id) {
         var dto = this.accountService.getAzienda(id);
+        if(dto == null) return new ResponseEntity<>(dto, HttpStatus.NOT_FOUND);
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/" + PATH + "/getCuratore/{id}", method = RequestMethod.GET)
     public ResponseEntity<Object> getCuratore(@PathVariable("id") int id) {
         var dto = this.accountService.getCuratore(id);
+        if(dto == null) return new ResponseEntity<>(dto, HttpStatus.NOT_FOUND);
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/" + PATH + "/getGestore/{id}", method = RequestMethod.GET)
     public ResponseEntity<Object> getGestore(@PathVariable("id") int id) {
         var dto = this.accountService.getGestoreDellaPiattaforma(id);
+        if(dto == null) return new ResponseEntity<>(dto, HttpStatus.NOT_FOUND);
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 

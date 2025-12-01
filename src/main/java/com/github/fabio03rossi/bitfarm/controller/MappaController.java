@@ -24,18 +24,18 @@ public class MappaController {
     @RequestMapping(value = "/" + PATH + "/getAllIndirizzi", method = RequestMethod.GET)
     public ResponseEntity<Object> getAllIndirizzi() {
         var indirizzi = this.mappaService.getAllIndirizzi();
-        return new ResponseEntity<>("Indirizzi ottenuti correttamente.", HttpStatus.OK);
+        return new ResponseEntity<>(indirizzi, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/" + PATH + "/getIndirizzoAzienda/{id}", method = RequestMethod.GET)
     public ResponseEntity<Object> getIndirizzoAzienda(@Valid @PathVariable("id") int id) {
         var indirizzi = this.mappaService.getIndirizzoAzienda(id);
-        return new ResponseEntity<>("Indirizzo ottenuto correttamente.", HttpStatus.OK);
+        return new ResponseEntity<>(indirizzi, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/" + PATH + "/getIndirizzoEvento/{id}", method = RequestMethod.GET)
     public ResponseEntity<Object> getIndirizzoEvento(@Valid @PathVariable("id") int id) {
         var indirizzi = this.mappaService.getIndirizzoEvento(id);
-        return new ResponseEntity<>("Indirizzo ottenuto correttamente.", HttpStatus.OK);
+        return new ResponseEntity<>(indirizzi, HttpStatus.OK);
     }
 }

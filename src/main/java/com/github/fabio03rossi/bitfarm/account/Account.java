@@ -8,7 +8,7 @@ public abstract class Account {
     private final Date dataCreazione;
     private String email;
     private String password;
-    private int id = -1;
+    protected int id = -1;
 
     public Account(String email, String password) {
         this.dataCreazione = Date.from(Instant.now());

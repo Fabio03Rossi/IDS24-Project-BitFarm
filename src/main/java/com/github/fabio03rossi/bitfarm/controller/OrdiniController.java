@@ -24,7 +24,7 @@ public class OrdiniController {
     @RequestMapping(value = "/" + PATH + "/getOrdine/{id}", method = RequestMethod.GET)
     public ResponseEntity<Object> getOrdine(@PathVariable("id") int id) {
         var ordine = this.ordiniService.getOrdine(id);
-        return new ResponseEntity<>("Ordine ottenuto correttamente.", HttpStatus.OK);
+        return new ResponseEntity<>(ordine, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/" + PATH + "/cancellaOrdine/{id}", method = RequestMethod.DELETE)

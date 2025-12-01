@@ -45,6 +45,6 @@ public class Utente extends Account {
     }
 
     public UtenteDTO toDTO(){
-        return new UtenteDTO(nome, getEmail(), getPassword(), indirizzo);
+        return new UtenteDTO(id, nome, getEmail(), getPassword(), indirizzo);
     }
 }

@@ -8,6 +8,8 @@ public class GestoreDellaPiattaforma extends Account {
 
     public GestoreDellaPiattaforma(String email, String password, String nome, String indirizzo) {
         super(email, password);
+        this.nome = nome;
+        this.indirizzo = indirizzo;
     }
 
     public String getNome() {
@@ -27,6 +29,6 @@ public class GestoreDellaPiattaforma extends Account {
     }
 
     public UtenteDTO toDTO(){
-        return new UtenteDTO(nome, getEmail(), getPassword(), indirizzo);
+        return new UtenteDTO(id, nome, getEmail(), getPassword(), indirizzo);
     }
 }

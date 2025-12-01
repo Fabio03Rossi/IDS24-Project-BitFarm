@@ -151,12 +151,13 @@ public class DBManager
                 "password TEXT NOT NULL," +
                 "indirizzo TEXT NOT NULL)";
 
-        String gestorePiattaformaQuery = "CRATE TABLE IF NOT EXISTS gestore_piattaforma(" +
+        String gestorePiattaformaQuery = "CREATE TABLE IF NOT EXISTS gestore_piattaforma(" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "nome TEXT NOT NULL," +
                 "data_creazione DATETIME NOT NULL," +
                 "email TEXT NOT NULL UNIQUE," +
-                "password TEXT NOT NULL)";
+                "password TEXT NOT NULL," +
+                "indirizzo TEXT NOT NULL)";
 
 
 
@@ -421,12 +422,7 @@ public class DBManager
             }
         } catch (SQLException ex) {
             log.error("DbManager: Errore durante l'accesso al database: " + ex.getMessage());
-            
         }
-        if(articolo == null) {
-            
-        }
-        articolo.setId(id);
         return articolo;
     }
 
@@ -492,7 +488,7 @@ public class DBManager
 
                     String nome = rs.getString("nome");
                     String descrizione = rs.getString("descrizione");
-                    Date data = rs.getDate("data");
+                    Date data = rs.getDate("data_creazione");
                     String numeroPartecipanti = rs.getString("numero_partecipanti");
                     String posizione = rs.getString("posizione");
 
@@ -617,7 +613,7 @@ public class DBManager
 
                     String nome = rs.getString("nome");
                     String descrizione = rs.getString("descrizione");
-                    Date data = rs.getDate("data");
+                    Date data = rs.getDate("data_creazione");
                     String numeroPartecipanti = rs.getString("numero_partecipanti");
                     String posizione = rs.getString("posizione");
 
@@ -626,7 +622,7 @@ public class DBManager
                     listaEventi.add(evento);
                 }
             } catch (SQLException e) {
-                
+                log.error("DBManager: Errore durante l'ottenimento degli eventi: " + e.getMessage());
             }
 
         return listaEventi;
@@ -659,9 +655,6 @@ public class DBManager
             log.error("DbManager: Errore durante l'accesso al database: {}", ex.getMessage(), ex);
             
         }
-        if (utente == null) {
-            
-        }
         return utente;
     }
     
@@ -690,9 +683,6 @@ public class DBManager
             log.error("DbManager: Errore durante l'accesso al database: " + ex.getMessage(), ex);
             
         }
-        if (utente == null) {
-            
-        }
         return utente;
     }
 
@@ -715,11 +705,7 @@ public class DBManager
                 listaUtenti.add(utente);
             }
         } catch (SQLException e) {
-            
-        }
-
-        if (listaUtenti.isEmpty()) {
-            
+            log.error("DBManager: Errore durante la cancellazione dell'utente: " + e.getMessage());
         }
         return listaUtenti;
     }
@@ -1093,7 +1079,7 @@ public class DBManager
     }
 
     public void cancellaCuratore(int id) {
-        String sql = "DELETE FROM curatore WHERE id = ?";
+        String sql = "DELETE FROM curatori WHERE id = ?";
         try (PreparedStatement pstmt = this.conn.prepareStatement(sql)) {
             pstmt.setInt(1, id); // Assumendo che Ordine abbia un getId()
             log.info("DBManager: Curatore cancellato");

@@ -91,25 +91,31 @@ public class ContenutiController {
 
     @RequestMapping(value = "/" + PATH + "/getAllArticoli", method = RequestMethod.GET)
     public ResponseEntity<Object> getAllArticoli() {
-        var articolo = this.articoloService.getAllArticoli();
-        return new ResponseEntity<>(articolo, HttpStatus.OK);
+        var articoli = this.articoloService.getAllArticoli();
+        return new ResponseEntity<>(articoli, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/" + PATH + "/getEvento/{id}", method = RequestMethod.GET)
+    public ResponseEntity<Object> getEvento(@PathVariable("id") int id) {
+        var evento = this.eventoService.getEvento(id);
+        return new ResponseEntity<>(evento, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/" + PATH + "/getAllEventi", method = RequestMethod.GET)
     public ResponseEntity<Object> getAllEventi() {
-        var evento = this.eventoService.getAllEventi();
-        return new ResponseEntity<>(evento, HttpStatus.OK);
+        var eventi = this.eventoService.getAllEventi();
+        return new ResponseEntity<>(eventi, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/" + PATH + "/getArticoliAccettati", method = RequestMethod.GET)
     public ResponseEntity<Object> getArticoliAccettati() {
-        var articolo = this.articoloService.getArticoliAccettati();
-        return new ResponseEntity<>(articolo, HttpStatus.OK);
+        var articoli = this.articoloService.getArticoliAccettati();
+        return new ResponseEntity<>(articoli, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/" + PATH + "/getEventiAccettati", method = RequestMethod.GET)
     public ResponseEntity<Object> getEventiAccettati() {
-        var evento = this.eventoService.getEventiAccettati();
-        return new ResponseEntity<>(evento, HttpStatus.OK);
+        var eventi = this.eventoService.getEventiAccettati();
+        return new ResponseEntity<>(eventi, HttpStatus.OK);
     }
 }

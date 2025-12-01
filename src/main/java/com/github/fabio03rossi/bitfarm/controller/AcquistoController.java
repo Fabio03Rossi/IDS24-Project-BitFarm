@@ -35,7 +35,7 @@ public class AcquistoController {
     @RequestMapping(value = "/" + PATH + "/getArticoliCarrello", method = RequestMethod.GET)
     public ResponseEntity<Object> getArticoliCarrello() {
         var lista = this.acquistoService.listaArticoli();
-        return new ResponseEntity<>("Lista ottenuta correttamente.", HttpStatus.OK);
+        return new ResponseEntity<>(lista, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/" + PATH + "/aggiungiAlCarrello/{quantita}", method = RequestMethod.POST)
