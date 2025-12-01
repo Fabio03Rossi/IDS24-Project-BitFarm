@@ -1,5 +1,7 @@
 package com.github.fabio03rossi.bitfarm.contenuto.articolo;
 
+import com.github.fabio03rossi.bitfarm.dto.ProdottoDTO;
+
 public class Prodotto extends AbstractArticolo {
     private int id = -1;
     private String nome;
@@ -71,10 +73,12 @@ public class Prodotto extends AbstractArticolo {
 
     }
 
-
     public void setPrice(Double price) {
         this.prezzo = price;
     }
 
+    public ProdottoDTO toDTO() {
+        return new ProdottoDTO(nome, descrizione, prezzo, certs);
+    }
 
 }
