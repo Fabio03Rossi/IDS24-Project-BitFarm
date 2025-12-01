@@ -1,5 +1,7 @@
 package com.github.fabio03rossi.bitfarm.contenuto.articolo;
 
+import com.github.fabio03rossi.bitfarm.dto.PacchettoDTO;
+
 import java.util.HashMap;
 
 public class Pacchetto extends AbstractArticolo implements IArticoloComposto {
@@ -91,5 +93,9 @@ public class Pacchetto extends AbstractArticolo implements IArticoloComposto {
         @Override
         public HashMap<IArticolo, Integer> getListaProdotti() {
                 return listaProdotti;
+        }
+
+        public PacchettoDTO toDTO(){
+                return new PacchettoDTO(nome, description, price, certificazioni);
         }
 }
