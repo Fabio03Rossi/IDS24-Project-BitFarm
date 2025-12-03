@@ -4,6 +4,9 @@ Branch principale **final**:
 - File Visual Paradigm contenente i modelli di tutte le iterazioni: *BitFarm.vpp*;
 - File di codice relativi all'applicativo in: *src*.
 
+- Versione Visual Paradigm: 17.3 01/12/25
+- Versione Java: 23
+
 
 ## Iterazione 1
 Nella prima iterazione è stata effettuata un'approfondita analisi della richiesta, svolgendo una prima analisi dei requisiti.
@@ -24,6 +27,4 @@ Si è analizzato ulteriormente il flusso di sviluppo per confermare la corretta 
 Inoltre sono state riscontrate molte criticità all'interno del codice.
 
 ## Iterazione 4
-
-
-## Iterazione 5
+Nella quarta ed ultima iterazione, sono stati corretti gli accorgimenti notati in sede d'esame dettagliando al meglio il diagramma degli Use Case. Sono state inoltre apportate modifiche correttive al codice per alcune funzionalità non correttamente gestite. Infine sono stati modificati e ritoccati tutti gli altri diagrammi per essere in linea con alcune direttive specificate.
